@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa42ceb4932dc104495c5bcd87346b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.Flammable
-  profile: {fileID: 0}
+  profile: {fileID: 11400000, guid: 09cc27535183d9243aedae696815892f, type: 2}
   igniteOnStart: 0
   steamInterval: 0.3
 --- !u!1 &173893704
@@ -329,7 +329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa42ceb4932dc104495c5bcd87346b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.Flammable
-  profile: {fileID: 0}
+  profile: {fileID: 11400000, guid: b6e90997cede4e043a8e5c04415a3ec3, type: 2}
   igniteOnStart: 0
   steamInterval: 0.3
 --- !u!1 &230631200
@@ -5397,7 +5397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa42ceb4932dc104495c5bcd87346b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.Flammable
-  profile: {fileID: 0}
+  profile: {fileID: 11400000, guid: a6b841388db2dab44b21082153c67381, type: 2}
   igniteOnStart: 0
   steamInterval: 0.3
 --- !u!1 &400870833
@@ -11015,7 +11015,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa42ceb4932dc104495c5bcd87346b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.Flammable
-  profile: {fileID: 0}
+  profile: {fileID: 11400000, guid: a6b841388db2dab44b21082153c67381, type: 2}
   igniteOnStart: 0
   steamInterval: 0.3
 --- !u!1 &646256783
@@ -17016,7 +17016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa42ceb4932dc104495c5bcd87346b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.Flammable
-  profile: {fileID: 0}
+  profile: {fileID: 11400000, guid: 533f2caa193329e459f8be2e5a041e5d, type: 2}
   igniteOnStart: 0
   steamInterval: 0.3
 --- !u!1 &1050828287
@@ -17293,7 +17293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa42ceb4932dc104495c5bcd87346b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.Flammable
-  profile: {fileID: 0}
+  profile: {fileID: 11400000, guid: 09cc27535183d9243aedae696815892f, type: 2}
   igniteOnStart: 0
   steamInterval: 0.3
 --- !u!1 &1116858022
@@ -23177,7 +23177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa42ceb4932dc104495c5bcd87346b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.Flammable
-  profile: {fileID: 0}
+  profile: {fileID: 11400000, guid: 533f2caa193329e459f8be2e5a041e5d, type: 2}
   igniteOnStart: 0
   steamInterval: 0.3
 --- !u!1 &1542972460
@@ -23377,7 +23377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa42ceb4932dc104495c5bcd87346b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.Flammable
-  profile: {fileID: 0}
+  profile: {fileID: 11400000, guid: 09cc27535183d9243aedae696815892f, type: 2}
   igniteOnStart: 0
   steamInterval: 0.3
 --- !u!1 &1652452200
@@ -23565,7 +23565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa42ceb4932dc104495c5bcd87346b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.Flammable
-  profile: {fileID: 0}
+  profile: {fileID: 11400000, guid: a6b841388db2dab44b21082153c67381, type: 2}
   igniteOnStart: 0
   steamInterval: 0.3
 --- !u!1 &1726724568
@@ -23843,7 +23843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa42ceb4932dc104495c5bcd87346b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.Flammable
-  profile: {fileID: 0}
+  profile: {fileID: 11400000, guid: 09cc27535183d9243aedae696815892f, type: 2}
   igniteOnStart: 0
   steamInterval: 0.3
 --- !u!1 &1764711345
@@ -24601,7 +24601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa42ceb4932dc104495c5bcd87346b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.Flammable
-  profile: {fileID: 0}
+  profile: {fileID: 11400000, guid: b6e90997cede4e043a8e5c04415a3ec3, type: 2}
   igniteOnStart: 0
   steamInterval: 0.3
 --- !u!1 &1897875013
@@ -24910,7 +24910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa42ceb4932dc104495c5bcd87346b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.Flammable
-  profile: {fileID: 0}
+  profile: {fileID: 11400000, guid: b6e90997cede4e043a8e5c04415a3ec3, type: 2}
   igniteOnStart: 1
   steamInterval: 0.3
 --- !u!1 &2018878545

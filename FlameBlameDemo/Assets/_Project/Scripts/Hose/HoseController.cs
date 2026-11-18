@@ -30,6 +30,7 @@ namespace FlameBlame.Hose
 
         IHoseInput input;
         HoseSimulation sim;
+        PhysicsHoseCollision collision;
         HosePressure pressure;
         HoseHoldState hold;
 
@@ -49,7 +50,9 @@ namespace FlameBlame.Hose
         public void Initialize(IHoseInput hoseInput)
         {
             input = hoseInput;
-            sim = new HoseSimulation(segments, segmentLength, new PhysicsHoseCollision(collisionMask))
+            collision?.Dispose();
+            collision = new PhysicsHoseCollision(collisionMask);
+            sim = new HoseSimulation(segments, segmentLength, collision)
             {
                 Iterations = iterations, Gravity = gravity, Damping = damping, Radius = radius
             };
@@ -59,6 +62,11 @@ namespace FlameBlame.Hose
                 BasePressure = basePressure, MinFactor = minPressureFactor, KinksForFullChoke = kinksForFullChoke
             };
             hold = new HoseHoldState();
+        }
+
+        void OnDestroy()
+        {
+            collision?.Dispose();
         }
 
         void Update()

@@ -19,7 +19,7 @@ namespace FlameBlame.EditorTools
         const string Root = "Assets/_Project";
         const string ScenePath = Root + "/Scenes/Main.unity";
 
-        static int layerPlayer, layerHose, layerInteractable;
+        static int layerPlayer, layerHose, layerInteractable, layerFloor;
         static LayerMask worldMask;
 
         // ---------------------------------------------------------------- entry
@@ -32,11 +32,13 @@ namespace FlameBlame.EditorTools
             EnsureLayer(layers, 8, "Player");
             EnsureLayer(layers, 9, "Hose");
             EnsureLayer(layers, 10, "Interactable");
+            EnsureLayer(layers, 11, "Floor");
             tagManager.ApplyModifiedProperties();
 
             layerPlayer = LayerMask.NameToLayer("Player");
             layerHose = LayerMask.NameToLayer("Hose");
             layerInteractable = LayerMask.NameToLayer("Interactable");
+            layerFloor = LayerMask.NameToLayer("Floor");
             worldMask = ~((1 << layerPlayer) | (1 << layerHose));
         }
 
@@ -252,6 +254,7 @@ namespace FlameBlame.EditorTools
 
         static void MakeFlammable(GameObject go, FireMaterialProfile profile, bool igniteOnStart = false)
         {
+            SetLayerRecursive(go, layerInteractable);
             var f = go.AddComponent<Flammable>();
             var so = new SerializedObject(f);
             so.FindProperty("profile").objectReferenceValue = profile;
@@ -275,7 +278,7 @@ namespace FlameBlame.EditorTools
         static void BuildRoom(Mats m)
         {
             var room = new GameObject("Room").transform;
-            var floor = Box("Floor", room, new Vector3(0f, -0.1f, 0f), new Vector3(12f, 0.2f, 10f), m.Floor);
+            var floor = Box("Floor", room, new Vector3(0f, -0.1f, 0f), new Vector3(12f, 0.2f, 10f), m.Floor, layerFloor);
             floor.AddComponent<WaterSurface>();
             Box("Wall_N", room, new Vector3(0f, 1.6f, 5.1f), new Vector3(12.4f, 3.2f, 0.2f), m.Wall);
             Box("Wall_S", room, new Vector3(0f, 1.6f, -5.1f), new Vector3(12.4f, 3.2f, 0.2f), m.Wall);
@@ -428,7 +431,7 @@ namespace FlameBlame.EditorTools
             var hose = go.AddComponent<HoseController>();
             SetRef(hose, "anchor", anchor);
             SetRef(hose, "handPoint", hand);
-            SetMask(hose, "collisionMask", worldMask);
+            SetMask(hose, "collisionMask", (1 << layerFloor) | (1 << layerInteractable));
             go.AddComponent<HoseRenderer>();
             SetRef(go.GetComponent<HoseRenderer>(), "nozzleModel", nozzle);
             return go;
@@ -595,7 +598,7 @@ namespace FlameBlame.EditorTools
             var so = new SerializedObject(target);
             var prop = so.FindProperty(field);
             if (prop == null) { Debug.LogError($"[FlameBlame] {target.GetType().Name} has no field '{field}'"); return; }
-            prop.FindPropertyRelative("m_Bits").intValue = mask.value;
+            prop.intValue = mask.value;
             so.ApplyModifiedPropertiesWithoutUndo();
         }
     }

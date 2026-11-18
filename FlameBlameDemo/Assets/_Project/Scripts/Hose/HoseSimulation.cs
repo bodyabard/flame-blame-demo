@@ -34,9 +34,32 @@ namespace FlameBlame.Hose
 
         public void Reset(Vector3 start, Vector3 direction)
         {
+            Vector3 forward = Vector3.ProjectOnPlane(direction, Vector3.up).normalized;
+            if (forward.sqrMagnitude < 0.001f) forward = Vector3.right;
+            Vector3 sideways = Vector3.Cross(forward, Vector3.up);
+            float angle = 0f;
+            Vector3 Spiral(float t)
+            {
+                float r = 0.45f + 0.03f * t;
+                return start + forward * (r * Mathf.Sin(t))
+                    + sideways * (0.45f - r * Mathf.Cos(t));
+            }
             for (int i = 0; i < Segments; i++)
             {
-                p[i] = start + direction * SegmentLength * i;
+                if (i > 0)
+                {
+                    // Choose the next angle by chord length, keeping the chain
+                    // relaxed at spawn instead of stretching it across the room.
+                    float low = angle, high = angle + Mathf.PI;
+                    for (int search = 0; search < 20; search++)
+                    {
+                        float mid = (low + high) * 0.5f;
+                        if (Vector3.Distance(p[i - 1], Spiral(mid)) < SegmentLength) low = mid;
+                        else high = mid;
+                    }
+                    angle = (low + high) * 0.5f;
+                }
+                p[i] = Spiral(angle);
                 prev[i] = p[i];
             }
         }
@@ -48,6 +71,11 @@ namespace FlameBlame.Hose
 
             for (int i = 1; i < n; i++)
             {
+                if (endPinned && i == n - 1)
+                {
+                    p[i] = prev[i] = hand;
+                    continue;
+                }
                 Vector3 v = (p[i] - prev[i]) * Damping;
                 prev[i] = p[i];
                 p[i] += v + Vector3.up * Gravity * dt * dt;
@@ -75,7 +103,10 @@ namespace FlameBlame.Hose
                 }
 
                 if (collision != null)
-                    for (int i = 1; i < n; i++) p[i] = collision.Resolve(p[i], Radius);
+                    for (int i = 1; i < n - (endPinned ? 1 : 0); i++)
+                        p[i] = collision is IHoseMotionCollisionResolver motion
+                            ? motion.ResolveMotion(prev[i], p[i], Radius)
+                            : collision.Resolve(p[i], Radius);
             }
         }
 

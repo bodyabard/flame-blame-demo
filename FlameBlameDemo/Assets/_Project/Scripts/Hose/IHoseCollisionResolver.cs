@@ -7,4 +7,9 @@ namespace FlameBlame.Hose
     {
         Vector3 Resolve(Vector3 point, float radius);
     }
+
+    public interface IHoseMotionCollisionResolver : IHoseCollisionResolver
+    {
+        Vector3 ResolveMotion(Vector3 from, Vector3 to, float radius);
+    }
 }

@@ -37,7 +37,6 @@ namespace FlameBlame.Fire
             node.Dirty = true;
             ActiveCount++;
             events?.RaiseFireIgnited(node);
-            events?.RaiseDamageDealt(node.Profile.damageOnIgnite);
             return true;
         }
 
@@ -105,7 +104,23 @@ namespace FlameBlame.Fire
             n.FuelLeft = 0f;
             ActiveCount--;
             events?.RaiseFireBurnedOut(n);
-            events?.RaiseDamageDealt(n.Profile.damageOnBurnOut);
+        }
+
+        public bool NearestBurning(Vector3 position, float radius, out Vector3 nearest, out float distance)
+        {
+            nearest = default;
+            distance = radius;
+            bool found = false;
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                if (!nodes[i].IsBurning) continue;
+                float d = Vector3.Distance(position, nodes[i].Position);
+                if (d >= distance) continue;
+                distance = d;
+                nearest = nodes[i].Position;
+                found = true;
+            }
+            return found;
         }
     }
 }

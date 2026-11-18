@@ -21,6 +21,7 @@ namespace FlameBlame.Fire
         Color[] baseColors;
         MaterialPropertyBlock block;
         float nextSteamTime;
+        Vector3 localNodePosition;
 
         public FireNode Node => node;
 
@@ -41,9 +42,15 @@ namespace FlameBlame.Fire
             }
 
             node = new FireNode(profile, b.center, this);
+            localNodePosition = transform.InverseTransformPoint(b.center);
             node.VisualChanged += ApplyVisuals;
             fire.Register(node);
             if (igniteOnStart) fire.Ignite(node);
+        }
+
+        public void SyncPosition()
+        {
+            if (node != null) node.Position = transform.TransformPoint(localNodePosition);
         }
 
         void OnDestroy()

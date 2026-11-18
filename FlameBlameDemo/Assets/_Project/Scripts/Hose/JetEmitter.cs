@@ -8,7 +8,7 @@ namespace FlameBlame.Hose
         [SerializeField] ParticleSystem jet;
         [SerializeField] float lifetime = 1f;
         [SerializeField] float gravityModifier = 0.5f;
-        [SerializeField] int maxParticles = 600;      // jet budget; total scene budget is 1000
+        [SerializeField] int maxParticles = 400;      // total scene budget is 1000
 
         public void Initialize(LayerMask collidesWith)
         {

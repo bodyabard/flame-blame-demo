@@ -63,6 +63,7 @@ namespace FlameBlame.EditorTools
             var jetObj = BuildJet(mats);
             var fx = BuildEffects(mats);
             BuildBootstrap(player, hoseObj, jetObj, fx, nozzle, cam);
+            PhaseTwoBuilder.UpgradeOpenScene();
 
             EditorSceneManager.SaveScene(scene, ScenePath);
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };

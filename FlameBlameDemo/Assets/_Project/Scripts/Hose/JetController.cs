@@ -32,6 +32,13 @@ namespace FlameBlame.Hose
 
         public bool ValveOpen => valveOpen;
 
+        public void StopFlow()
+        {
+            valveOpen = false;
+            hose.WaterFlowing = false;
+            emitter.SetState(hose.NozzlePosition, hose.NozzleDirection, 0f, 0f);
+        }
+
         public void Initialize(IHoseInput hoseInput, IGameEvents gameEvents)
         {
             input = hoseInput;

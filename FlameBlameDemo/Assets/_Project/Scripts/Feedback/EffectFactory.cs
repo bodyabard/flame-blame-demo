@@ -4,7 +4,7 @@ using UnityEngine.Pool;
 
 namespace FlameBlame.Feedback
 {
-    public enum EffectKind { Flame = 0, Steam = 1, Splash = 2 }
+    public enum EffectKind { Flame = 0, Steam = 1, Splash = 2, Spark = 3 }
 
     /// Factory + Object Pool for particle effects. Templates are inactive scene objects; no Instantiate in hot paths.
     public sealed class EffectFactory
@@ -16,21 +16,27 @@ namespace FlameBlame.Feedback
             public float ReleaseAt;
         }
 
-        const int PoolCount = 3;
+        const int PoolCount = 4;
 
         readonly ObjectPool<ParticleSystem>[] pools = new ObjectPool<ParticleSystem>[PoolCount];
         readonly float[] lifespans = new float[PoolCount];
-        readonly List<Timed> timed = new List<Timed>(32);
+        readonly List<Timed> timed = new List<Timed>(64);
 
         public EffectFactory(Transform root, ParticleSystem flame, ParticleSystem steam, ParticleSystem splash,
-            int flameMax = 24, int steamMax = 16, int splashMax = 24)
+            ParticleSystem spark = null, int flameMax = 16, int steamMax = 6, int splashMax = 8, int sparkMax = 4)
         {
+            flameMax = Mathf.Clamp(flameMax, 1, 16);
+            steamMax = Mathf.Clamp(steamMax, 1, 6);
+            splashMax = Mathf.Clamp(splashMax, 1, 8);
+            sparkMax = Mathf.Clamp(sparkMax, 1, 4);
             pools[(int)EffectKind.Flame] = MakePool(root, flame, flameMax);
             pools[(int)EffectKind.Steam] = MakePool(root, steam, steamMax);
             pools[(int)EffectKind.Splash] = MakePool(root, splash, splashMax);
+            if (spark != null) pools[(int)EffectKind.Spark] = MakePool(root, spark, sparkMax);
             lifespans[(int)EffectKind.Flame] = 0f;
             lifespans[(int)EffectKind.Steam] = Lifespan(steam);
             lifespans[(int)EffectKind.Splash] = Lifespan(splash);
+            if (spark != null) lifespans[(int)EffectKind.Spark] = Lifespan(spark);
         }
 
         static float Lifespan(ParticleSystem ps)
@@ -63,6 +69,7 @@ namespace FlameBlame.Feedback
         /// Spawn a looping effect (flame). Caller must Release it.
         public ParticleSystem Spawn(EffectKind kind, Vector3 position, float scale = 1f)
         {
+            if (pools[(int)kind] == null || pools[(int)kind].CountInactive == 0) return null;
             var ps = pools[(int)kind].Get();
             ps.transform.SetPositionAndRotation(position, Quaternion.identity);
             ps.transform.localScale = Vector3.one * scale;
@@ -74,10 +81,11 @@ namespace FlameBlame.Feedback
         public void SpawnOneShot(EffectKind kind, Vector3 position, float scale = 1f)
         {
             var ps = Spawn(kind, position, scale);
+            if (ps == null) return;
             timed.Add(new Timed { Ps = ps, Kind = kind, ReleaseAt = Time.time + lifespans[(int)kind] });
         }
 
-        public void Release(EffectKind kind, ParticleSystem ps) { pools[(int)kind].Release(ps); }
+        public void Release(EffectKind kind, ParticleSystem ps) { if (ps != null) pools[(int)kind].Release(ps); }
 
         public void Tick(float now)
         {

@@ -3,6 +3,9 @@ using FlameBlame.Fire;
 using FlameBlame.Hose;
 using FlameBlame.Player;
 using FlameBlame.Water;
+using FlameBlame.Electric;
+using FlameBlame.Npc;
+using FlameBlame.UI;
 using UnityEngine;
 
 namespace FlameBlame.Core
@@ -29,20 +32,39 @@ namespace FlameBlame.Core
 
         [Header("Fire")]
         [SerializeField] int maxActiveFires = 16;
+        [SerializeField] ChaosSettings chaosSettings;
+        [SerializeField] ScorePresenter scorePresenter;
+        [SerializeField] ParticleSystem sparkTemplate;
 
         GameEvents events;
         FireSystem fire;
         EffectFactory effects;
         PuddleFactory puddles;
         EffectsPresenter presenter;
+        ElectricitySystem electricity;
+        DamageLedger ledger;
+        GameStateMachine game;
+        PlayerShockReceiver playerShock;
+        HoseImpactSystem hoseImpacts;
+        NpcActor[] npcs;
+        SparkCable[] cables;
+        Flammable[] flammables;
 
         void Awake()
         {
+            Time.timeScale = 1f;
             events = new GameEvents();
-            fire = new FireSystem(events, maxActiveFires);
-            effects = new EffectFactory(effectsRoot, flameTemplate, steamTemplate, splashTemplate);
-            puddles = new PuddleFactory(effectsRoot, puddleTemplate);
+            ledger = new DamageLedger(events);
+            game = new GameStateMachine(chaosSettings.roundSeconds, chaosSettings.damageLimit,
+                chaosSettings.minimumRoundSeconds, chaosSettings.firesOutDelay);
+            game.Changed += OnPhase;
+            electricity = new ElectricitySystem();
+            fire = new FireSystem(events, Mathf.Clamp(maxActiveFires, 1, Mathf.Clamp(chaosSettings.flamePoolSize, 1, 16)));
+            effects = new EffectFactory(effectsRoot, flameTemplate, steamTemplate, splashTemplate, sparkTemplate,
+                chaosSettings.flamePoolSize, chaosSettings.steamPoolSize, chaosSettings.splashPoolSize, chaosSettings.sparkPoolSize);
+            puddles = new PuddleFactory(effectsRoot, puddleTemplate, electricity, chaosSettings.maxPuddles, chaosSettings.evaporationSeconds);
             presenter = new EffectsPresenter(events, effects, puddles);
+            scorePresenter.Initialize(ledger, game, events);
 
             hose.Initialize(input);
             hoseRenderer.Initialize(hose);
@@ -50,22 +72,63 @@ namespace FlameBlame.Core
             playerLook.Initialize(input);
             playerMotor.Initialize(input, hose, events);
             cameraFeedback.Initialize(playerLook, events);
+            playerShock = new PlayerShockReceiver(playerMotor.transform, events, chaosSettings);
+            hoseImpacts = new HoseImpactSystem(hose.Points, chaosSettings);
+            npcs = FindObjectsByType<NpcActor>(FindObjectsSortMode.None);
+            cables = FindObjectsByType<SparkCable>(FindObjectsSortMode.None);
+            for (int i = 0; i < npcs.Length; i++) npcs[i].Initialize(events);
+            for (int i = 0; i < cables.Length; i++) electricity.Register(cables[i]);
+            foreach (var property in FindObjectsByType<PropertyDamage>(FindObjectsSortMode.None)) property.Initialize(events);
 
             foreach (var surface in FindObjectsByType<WaterSurface>(FindObjectsSortMode.None))
                 surface.Initialize(events);
-            foreach (var flammable in FindObjectsByType<Flammable>(FindObjectsSortMode.None))
+            flammables = FindObjectsByType<Flammable>(FindObjectsSortMode.None);
+            foreach (var flammable in flammables)
                 flammable.Initialize(fire, events);
         }
 
         void Update()
         {
+            if (game.Phase != GamePhase.Playing) return;
+            for (int i = 0; i < flammables.Length; i++) flammables[i].SyncPosition();
             fire.Tick(Time.deltaTime);
             effects.Tick(Time.time);
+            puddles.Tick(Time.time);
+            electricity.Tick();
+            for (int i = 0; i < cables.Length; i++) cables[i].Tick(Time.time, effects);
+            playerShock.Tick(electricity);
+            presenter.Tick();
+            game.Tick(Time.deltaTime, fire.ActiveCount, ledger.Total);
+        }
+
+        void FixedUpdate()
+        {
+            if (game == null || game.Phase != GamePhase.Playing) return;
+            for (int i = 0; i < npcs.Length; i++) npcs[i].Tick(Time.fixedDeltaTime, fire, electricity, chaosSettings);
+            hoseImpacts.Tick(hose.Points, Time.fixedDeltaTime);
+        }
+
+        void OnPhase(GamePhase phase)
+        {
+            if (phase != GamePhase.Result) return;
+            ledger.Closed = true;
+            input.enabled = false;
+            hose.enabled = false;
+            jet.enabled = false;
+            jet.StopFlow();
+            playerLook.enabled = false;
+            playerMotor.enabled = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            Time.timeScale = 0f;
         }
 
         void OnDestroy()
         {
             presenter?.Dispose();
+            ledger?.Dispose();
+            if (game != null) game.Changed -= OnPhase;
+            Time.timeScale = 1f;
         }
     }
 }

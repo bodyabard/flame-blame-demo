@@ -14,6 +14,7 @@ namespace FlameBlame.Water
         IGameEvents events;
         float accumulated;
         Vector3 lastPuddle = new Vector3(1e6f, 0f, 1e6f);
+        float lastPuddleTime;
 
         public void Initialize(IGameEvents gameEvents) { events = gameEvents; }
 
@@ -22,9 +23,10 @@ namespace FlameBlame.Water
             if (events == null || normal.y < minNormalY) return;
             accumulated += amount;
             if (accumulated < puddleThreshold) return;
-            if ((point - lastPuddle).sqrMagnitude < minSpacing * minSpacing) return;
+            if ((point - lastPuddle).sqrMagnitude < minSpacing * minSpacing && Time.time - lastPuddleTime < 1f) return;
             accumulated = 0f;
             lastPuddle = point;
+            lastPuddleTime = Time.time;
             events.RaisePuddleCreated(point, puddleDiameter);
         }
     }

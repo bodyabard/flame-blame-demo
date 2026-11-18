@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afaa3832372af8f4dabeac011733a236, type: 3}
+  m_Name: ChaosSettings
+  m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Core.ChaosSettings
+  roundSeconds: 105
+  damageLimit: 10000
+  minimumRoundSeconds: 12
+  firesOutDelay: 3
+  maxPuddles: 24
+  evaporationSeconds: 22
+  shockCooldown: 2
+  shockStrength: 5
+  npcShockDamage: 180
+  playerShockDamage: 80
+  hoseHitRadius: 0.16
+  hoseHitMinimumSpeed: 2.5
+  hoseHitImpulse: 0.8
+  flamePoolSize: 16
+  steamPoolSize: 6
+  splashPoolSize: 8
+  sparkPoolSize: 4

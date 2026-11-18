@@ -10,6 +10,8 @@ namespace FlameBlame.Core
         public event Action<FireNode> FireExtinguished;
         public event Action<FireNode> FireBurnedOut;
         public event Action<int> DamageDealt;
+        public event Action<DamageReport> DamageReported;
+        public event Action PlayerShocked;
         public event Action<Vector3> NpcShocked;
         public event Action<Vector3, float> PuddleCreated;
         public event Action<Vector3> SteamCreated;
@@ -21,6 +23,13 @@ namespace FlameBlame.Core
         public void RaiseFireExtinguished(FireNode node) => FireExtinguished?.Invoke(node);
         public void RaiseFireBurnedOut(FireNode node) => FireBurnedOut?.Invoke(node);
         public void RaiseDamageDealt(int amount) => DamageDealt?.Invoke(amount);
+        public void RaiseDamageReported(DamageReport report)
+        {
+            if (report.Amount <= 0) return;
+            RaiseDamageDealt(report.Amount);
+            DamageReported?.Invoke(report);
+        }
+        public void RaisePlayerShocked() => PlayerShocked?.Invoke();
         public void RaiseNpcShocked(Vector3 position) => NpcShocked?.Invoke(position);
         public void RaisePuddleCreated(Vector3 position, float diameter) => PuddleCreated?.Invoke(position, diameter);
         public void RaiseSteamCreated(Vector3 position) => SteamCreated?.Invoke(position);

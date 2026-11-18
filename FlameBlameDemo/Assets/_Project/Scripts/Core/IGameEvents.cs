@@ -11,6 +11,8 @@ namespace FlameBlame.Core
         event Action<FireNode> FireExtinguished;
         event Action<FireNode> FireBurnedOut;
         event Action<int> DamageDealt;
+        event Action<DamageReport> DamageReported;
+        event Action PlayerShocked;
         event Action<Vector3> NpcShocked;
         event Action<Vector3, float> PuddleCreated;      // position, diameter
         event Action<Vector3> SteamCreated;              // position
@@ -22,6 +24,8 @@ namespace FlameBlame.Core
         void RaiseFireExtinguished(FireNode node);
         void RaiseFireBurnedOut(FireNode node);
         void RaiseDamageDealt(int amount);
+        void RaiseDamageReported(DamageReport report);
+        void RaisePlayerShocked();
         void RaiseNpcShocked(Vector3 position);
         void RaisePuddleCreated(Vector3 position, float diameter);
         void RaiseSteamCreated(Vector3 position);

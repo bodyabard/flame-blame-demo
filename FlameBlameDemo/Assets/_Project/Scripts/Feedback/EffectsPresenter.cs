@@ -29,6 +29,7 @@ namespace FlameBlame.Feedback
             events.SteamCreated += OnSteam;
             events.WaterImpact += OnWaterImpact;
             events.PuddleCreated += OnPuddle;
+            events.NpcShocked += OnShock;
         }
 
         public void Dispose()
@@ -39,12 +40,21 @@ namespace FlameBlame.Feedback
             events.SteamCreated -= OnSteam;
             events.WaterImpact -= OnWaterImpact;
             events.PuddleCreated -= OnPuddle;
+            events.NpcShocked -= OnShock;
+            foreach (var flame in flames) effects.Release(EffectKind.Flame, flame.Value);
+            flames.Clear();
         }
 
         void OnIgnited(FireNode node)
         {
             if (flames.ContainsKey(node)) return;
-            flames[node] = effects.Spawn(EffectKind.Flame, node.Position, node.Profile.flameScale);
+            var flame = effects.Spawn(EffectKind.Flame, node.Position, node.Profile.flameScale);
+            if (flame != null) flames[node] = flame;
+        }
+
+        public void Tick()
+        {
+            foreach (var flame in flames) flame.Value.transform.position = flame.Key.Position;
         }
 
         void OnExtinguished(FireNode node)
@@ -63,6 +73,7 @@ namespace FlameBlame.Feedback
         }
 
         void OnSteam(Vector3 point) { effects.SpawnOneShot(EffectKind.Steam, point); }
+        void OnShock(Vector3 point) { effects.SpawnOneShot(EffectKind.Spark, point); }
 
         void OnWaterImpact(Vector3 point, Vector3 normal)
         {

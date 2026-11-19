@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37b196cb5d6e6a240992ac3389f5de7d, type: 3}
+  m_Name: VisualTuning
+  m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Feedback.VisualTuning
+  wall: {r: 0.32, g: 0.48, b: 0.39, a: 1}
+  wood: {r: 0.55, g: 0.25, b: 0.1, a: 1}
+  fabric: {r: 0.12, g: 0.43, b: 0.49, a: 1}
+  curtain: {r: 0.9, g: 0.24, b: 0.12, a: 1}
+  foliage: {r: 0.26, g: 0.55, b: 0.12, a: 1}
+  sun: {r: 1, g: 0.69, b: 0.38, a: 1}
+  fill: {r: 0.55, g: 0.71, b: 1, a: 1}
+  sunIntensity: 1.8
+  fillIntensity: 0.65
+  bloom: 0.45
+  saturation: 12
+  vignette: 0.22
+  flame: {r: 1, g: 0.36, b: 0.025, a: 1}
+  core: {r: 1, g: 0.9, b: 0.35, a: 1}
+  smoke: {r: 0.17, g: 0.14, b: 0.18, a: 0.5}
+  flameSpeed: 1.1
+  smokeSpeed: 0.45
+  flameSize: 0.35

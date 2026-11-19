@@ -9,3 +9,22 @@
 Add every external asset here (name, source, license, where used).
 
 Phase 2 adds no external character models, animations, textures or audio. Capsule reactions are procedural. Imported resources retain their Unity package GUIDs and the font's OFL notice.
+
+## Phase 3 — scene review
+
+| Name | Source | License | Used in |
+|------|--------|---------|---------|
+| Furniture Kit 2.0 | https://kenney.nl/assets/furniture-kit (official signed download, 2026-11-19) | CC0; original `Art/KenneyFurniture/License.txt` retained | `loungeSofaLong.fbx`, `loungeChair.fbx` used by Build Scene; other pack models available for dressing |
+| Visual furnishings, flower, watering can details, curtains, layered particles | Project Editor authoring | Project-generated | Prefabs/Visuals; Main scene |
+
+No HDRI or noisy surface textures are needed for the clean sunset palette. Current NPCs remain procedural; no Mixamo asset has been imported. Audio and font selection belong to the second review section of phase 3.
+
+### Optional import pipeline after scene review
+1. Quaternius **Ultimate House Interior Pack** — https://quaternius.com/packs/ultimatehomeinterior.html — official page labels CC0; optional alternative, not imported.
+2. Kenney **Food Kit** — https://kenney.nl/assets/food-kit — optional small props; verify and preserve download license before importing.
+3. Poly Haven HDRIs / ambientCG surfaces — optional only if the flat material style needs them; retain each asset's CC0 notice on import.
+4. Kenney audio / Freesound CC0 clips — audio pass pending; accept only individual clips with verified CC0 licenses.
+
+### ÇÐÎÁÈ ÂÐÓ×ÍÓ
+1. Optional: sign into **Mixamo**, choose **Y Bot**, then **Idle**, **Running**, **Dying**, export FBX for Unity (animations Without Skin after the character). Review Adobe terms before redistribution. These are optional animation candidates, not imported or required by the current procedural NPCs.
+2. No Asset Store package or login is required for the scene review.

@@ -22,6 +22,8 @@ namespace FlameBlame.Core
         [SerializeField] PlayerLook playerLook;
         [SerializeField] PlayerMotor playerMotor;
         [SerializeField] CameraFeedback cameraFeedback;
+        [SerializeField] GameAudio gameAudio;
+        [SerializeField] FirstPersonHands hands;
 
         [Header("VFX templates (inactive scene objects)")]
         [SerializeField] Transform effectsRoot;
@@ -54,6 +56,7 @@ namespace FlameBlame.Core
         {
             Time.timeScale = 1f;
             events = new GameEvents();
+            if(gameAudio!=null) gameAudio.Initialize(events);
             ledger = new DamageLedger(events);
             game = new GameStateMachine(chaosSettings.roundSeconds, chaosSettings.damageLimit,
                 chaosSettings.minimumRoundSeconds, chaosSettings.firesOutDelay);
@@ -70,6 +73,7 @@ namespace FlameBlame.Core
             hoseRenderer.Initialize(hose);
             jet.Initialize(input, events);
             playerLook.Initialize(input);
+            if(hands!=null) hands.Initialize(input);
             playerMotor.Initialize(input, hose, events);
             cameraFeedback.Initialize(playerLook, events);
             playerShock = new PlayerShockReceiver(playerMotor.transform, events, chaosSettings);
@@ -112,6 +116,7 @@ namespace FlameBlame.Core
         {
             if (phase != GamePhase.Result) return;
             ledger.Closed = true;
+            if(gameAudio!=null) gameAudio.Finish();
             input.enabled = false;
             hose.enabled = false;
             jet.enabled = false;

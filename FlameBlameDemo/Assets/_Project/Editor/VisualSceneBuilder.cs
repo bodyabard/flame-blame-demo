@@ -30,6 +30,7 @@ namespace FlameBlame.EditorTools
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
             EditorSceneManager.OpenScene(Root + "/Scenes/Main.unity");
             Apply();
+            FeelSceneBuilder.Apply();
             EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
             AssetDatabase.SaveAssets();
             Preview();

@@ -8,6 +8,12 @@ namespace FlameBlame.Feedback
     public class CameraFeedback : MonoBehaviour
     {
         [SerializeField] Transform cam;
+        [SerializeField] VisualTuning tuning;
+        [SerializeField] CharacterController motor;
+        [SerializeField] FlameBlame.Hose.HoseController hose;
+        Camera lens;
+        Vector3 origin;
+        float bob;
         [SerializeField] float shakeMaxAngle = 3f;
         [SerializeField] float shakeDecay = 4f;
         [SerializeField] float kickPerRecoil = 0.5f;   // degrees of pitch per m/s of recoil
@@ -23,6 +29,7 @@ namespace FlameBlame.Feedback
         {
             look = playerLook;
             events = gameEvents;
+            lens = cam.GetComponent<Camera>(); origin = cam.localPosition;
             events.ShakeRequested += OnShake;
             events.RecoilApplied += OnRecoil;
         }
@@ -44,10 +51,17 @@ namespace FlameBlame.Feedback
             shake = Mathf.MoveTowards(shake, 0f, shakeDecay * dt);
             kick = Mathf.Lerp(kick, 0f, kickDecay * dt);
 
-            float t = Time.time * 25f;
-            float sx = (Mathf.PerlinNoise(t, 0f) - 0.5f) * 2f * shake * shakeMaxAngle;
-            float sy = (Mathf.PerlinNoise(0f, t) - 0.5f) * 2f * shake * shakeMaxAngle;
+            float t = Time.time * (tuning != null ? tuning.shakeSpeed : 25f);
+            float angle = tuning != null ? tuning.shakeAngle : shakeMaxAngle;
+            float sx = (Mathf.PerlinNoise(t, 0f) - 0.5f) * 2f * shake * angle;
+            float sy = (Mathf.PerlinNoise(0f, t) - 0.5f) * 2f * shake * angle;
             cam.localRotation = Quaternion.Euler(look.Pitch - kick + sx, sy, 0f);
+            if(tuning == null) return;
+            bool moving = motor != null && motor.isGrounded && Vector3.ProjectOnPlane(motor.velocity,Vector3.up).sqrMagnitude > .1f;
+            bob = Mathf.Lerp(bob,moving ? 1f : 0f,1f-Mathf.Exp(-tuning.fovResponse*dt));
+            cam.localPosition = origin + Vector3.up * (Mathf.Sin(Time.time*tuning.bobSpeed)*tuning.bobHeight*bob);
+            float flow = hose != null && hose.Held && hose.WaterFlowing ? hose.Pressure : 0f;
+            lens.fieldOfView = Mathf.Lerp(lens.fieldOfView,tuning.baseFov+flow*tuning.fovKick,1f-Mathf.Exp(-tuning.fovResponse*dt));
         }
     }
 }

@@ -5,6 +5,19 @@ namespace FlameBlame.Feedback
     [CreateAssetMenu(menuName = "FlameBlame/Visual Tuning")]
     public sealed class VisualTuning : ScriptableObject
     {
+        [Header("Camera and hands")]
+        public float baseFov = 70f, fovKick = 4f, fovResponse = 8f;
+        public float bobHeight = .018f, bobSpeed = 9f, handSway = .006f;
+        public float shakeAngle = 2.2f, shakeSpeed = 25f;
+        public Color sleeve = new Color(.64f,.33f,.12f), glove = new Color(.055f,.07f,.1f);
+        public Color reflectiveStripe = new Color(.93f,1f,.23f);
+        [Header("Expressions and HUD")]
+        public float expressionSpeed = 10f, eyeAlarmScale = 1.35f, wetSeconds = 3f;
+        public Color hudPanel = new Color(.65f,.12f,.045f,.94f), hudAccent = new Color(1f,.62f,.08f);
+        public float gaugeResponse = 8f;
+        [Header("Audio levels")]
+        [Range(0,1)] public float effectsVolume = .55f, voiceVolume = .7f, musicVolume = .12f;
+        public float audioResponse = 5f, soundCooldown = .22f;
         [Header("Palette")]
         public Color wall = new Color(.32f, .48f, .39f);
         public Color wood = new Color(.55f, .25f, .10f);

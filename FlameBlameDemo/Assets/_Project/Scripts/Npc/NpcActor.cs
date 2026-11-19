@@ -11,6 +11,7 @@ namespace FlameBlame.Npc
     {
         [SerializeField] Transform visual;
         [SerializeField] Renderer bodyRenderer;
+        [SerializeField] Transform audience;
         [SerializeField] string displayName = "Сусід";
         [SerializeField] float panicRadius = 3.2f;
         [SerializeField] float charRadius = 0.9f;
@@ -69,7 +70,8 @@ namespace FlameBlame.Npc
             if (visual != null)
             {
                 float wobble = state.State == NpcState.Idle ? 2f : state.State == NpcState.Shocked ? 18f : 9f;
-                visual.localRotation = Quaternion.Euler(0f, 0f, Mathf.Sin(Time.time * 14f) * wobble);
+                Vector3 facing=audience!=null ? audience.position-transform.position : Vector3.forward;
+                visual.localRotation = Quaternion.Euler(0f, Mathf.Atan2(facing.x,facing.z)*Mathf.Rad2Deg, Mathf.Sin(Time.time * 14f) * wobble);
             }
         }
         public void ReceiveWater(Vector3 point, Vector3 normal, float amount)

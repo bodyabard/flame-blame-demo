@@ -21,7 +21,13 @@ namespace FlameBlame.Core
         public float hoseHitRadius = 0.16f;
         public float hoseHitMinimumSpeed = 2.5f;
         public float hoseHitImpulse = 0.8f;
-        [Header("Particle budget: 400 jet + 320 flame + 72 steam + 80 splash + 32 sparks = 904")]
+        [Header("Adaptive visual budget (gameplay remains unchanged)")]
+        public float lowFps = 40f;
+        public float recoverFps = 55f;
+        public float qualitySampleSeconds = 1f;
+        [Range(.1f, 1f)] public float minimumEffectQuality = .35f;
+        public float effectCullDistance = 18f;
+        [Header("Particle ceiling: 240 jet + 16x36 flame + 6x12 steam + 8x10 splash + 4x8 spark = 1000")]
         public int flamePoolSize = 16;
         public int steamPoolSize = 6;
         public int splashPoolSize = 8;

@@ -1,0 +1,21 @@
+﻿{
+    "unity":  "6000.3.24f1",
+    "editMode":  {
+                     "failed":  0,
+                     "total":  19,
+                     "passed":  19
+                 },
+    "browser":  {
+                    "litDrawCalls":  538874,
+                    "remainingWarnings":  "Unity WebGL capability-query INVALID_ENUM warnings and unused debug-shader/audio startup notices; no repeated Lit draw fault after fix",
+                    "loaded":  true,
+                    "resultScreen":  "captured and visually checked",
+                    "jsExceptions":  0,
+                    "drawCalls":  1180267,
+                    "samplerMismatchWarnings":  0,
+                    "name":  "Chrome headless on Windows",
+                    "restart":  "button click captured new round with two NPCs and initial $62 fire damage",
+                    "pointerLock":  "stubbed in headless; native pointer capture and audio balance require manual Chrome review",
+                    "litDrawErrors":  0
+                }
+}

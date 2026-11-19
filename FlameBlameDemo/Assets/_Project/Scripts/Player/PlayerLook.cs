@@ -22,6 +22,11 @@ namespace FlameBlame.Player
         void Update()
         {
             if (input == null) return;
+            if (input.CaptureCursorPressed && Cursor.lockState != CursorLockMode.Locked)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
             Vector2 look = input.Look * sensitivity;
             transform.Rotate(0f, look.x, 0f);
             Pitch = Mathf.Clamp(Pitch - look.y, -pitchLimit, pitchLimit);

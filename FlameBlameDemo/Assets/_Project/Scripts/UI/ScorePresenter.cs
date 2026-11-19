@@ -38,6 +38,8 @@ namespace FlameBlame.UI
             game = state;
             events = gameEvents;
             restart = new RestartSceneCommand();
+            scoreLabel.SetText("ЗБИТКИ  $999999999"); scoreLabel.ForceMeshUpdate(true, true);
+            timerLabel.SetText("ЧАС  999 с"); timerLabel.ForceMeshUpdate(true, true);
             resultPanel.SetActive(false);
             popupTemplate.gameObject.SetActive(false);
             pool = new ObjectPool<Popup>(() =>

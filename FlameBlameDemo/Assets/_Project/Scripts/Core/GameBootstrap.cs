@@ -43,6 +43,7 @@ namespace FlameBlame.Core
         EffectFactory effects;
         PuddleFactory puddles;
         EffectsPresenter presenter;
+        AdaptiveEffectBudget visualBudget;
         ElectricitySystem electricity;
         DamageLedger ledger;
         GameStateMachine game;
@@ -67,6 +68,7 @@ namespace FlameBlame.Core
                 chaosSettings.flamePoolSize, chaosSettings.steamPoolSize, chaosSettings.splashPoolSize, chaosSettings.sparkPoolSize);
             puddles = new PuddleFactory(effectsRoot, puddleTemplate, electricity, chaosSettings.maxPuddles, chaosSettings.evaporationSeconds);
             presenter = new EffectsPresenter(events, effects, puddles);
+            visualBudget = new AdaptiveEffectBudget(chaosSettings, effects, jet, playerLook.transform);
             scorePresenter.Initialize(ledger, game, events);
 
             hose.Initialize(input);
@@ -94,6 +96,7 @@ namespace FlameBlame.Core
         void Update()
         {
             if (game.Phase != GamePhase.Playing) return;
+            visualBudget.Tick(Time.unscaledDeltaTime);
             for (int i = 0; i < flammables.Length; i++) flammables[i].SyncPosition();
             fire.Tick(Time.deltaTime);
             effects.Tick(Time.time);

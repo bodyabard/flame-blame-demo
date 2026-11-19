@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Flame &amp; Blame — скажений брандспойт</title><link rel="icon" href="data:,">
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#211b24;color:#fff1d3;font:17px system-ui,sans-serif;display:grid;min-height:100vh;place-content:center;gap:12px;padding:16px}
+    main{width:min(1280px,calc(100vw - 32px),calc((100dvh - 150px)*16/9));position:relative}canvas{display:block;width:100%;aspect-ratio:16/9;background:#18151d;outline:none}
+    h1{margin:0;font-size:24px;color:#ffad39}p{margin:0;line-height:1.5}button{border:0;padding:14px 24px;background:#e64920;color:white;font:inherit;font-weight:bold;cursor:pointer}
+    #overlay{position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:16px;background:#211b24ee;padding:24px}#status{max-width:650px}footer{max-width:1280px;font-size:14px}progress{width:100%;accent-color:#ffad39}
+  </style>
+</head>
+<body>
+  <h1>Flame &amp; Blame · Скажений брандспойт</h1>
+  <main>
+    <canvas id="unity-canvas" tabindex="0" width="1280" height="720" aria-label="Гра Flame and Blame"></canvas>
+    <div id="overlay"><p id="status">Пожежу можна загасити. Рахунок за ремонт — навряд.</p><progress id="progress" value="0" max="1" hidden></progress><button id="start">Завантажити гру</button></div>
+  </main>
+  <footer>WASD — рух · Миша — огляд · Space — стрибок · ЛКМ — вода · E — кинути / взяти · Esc — звільнити курсор.<br>Після завантаження натисніть у грі, щоб активувати звук і захоплення миші. Збільште гучність до комфортного рівня.</footer>
+  <script>
+    const canvas=document.querySelector('#unity-canvas'),overlay=document.querySelector('#overlay'),status=document.querySelector('#status'),progress=document.querySelector('#progress'),start=document.querySelector('#start');
+    start.addEventListener('click',()=>{
+      start.hidden=true;progress.hidden=false;status.textContent='Завантажуємо кімнату для хаосу…';
+      const script=document.createElement('script');script.src='Build/{{{ LOADER_FILENAME }}}';
+      script.onload=()=>createUnityInstance(canvas,{
+        dataUrl:'Build/{{{ DATA_FILENAME }}}',frameworkUrl:'Build/{{{ FRAMEWORK_FILENAME }}}',codeUrl:'Build/{{{ CODE_FILENAME }}}',
+        streamingAssetsUrl:'StreamingAssets',companyName:'FlameBlame',productName:'Flame & Blame Demo',productVersion:'1.0',
+        matchWebGLToCanvasSize:true,devicePixelRatio:Math.min(window.devicePixelRatio||1,1.5)
+      },value=>progress.value=value).then(()=>{overlay.hidden=true;overlay.style.display='none';canvas.focus();}).catch(fail);
+      script.onerror=()=>fail('Не вдалося завантажити гру. Відкрийте сторінку через HTTP-сервер, а не file://.');document.body.appendChild(script);
+    });
+    function fail(error){status.textContent=String(error);progress.hidden=true;start.textContent='Перезавантажити сторінку';start.hidden=false;start.onclick=()=>location.reload();}
+    canvas.addEventListener('contextmenu',event=>event.preventDefault());
+    canvas.addEventListener('pointerdown',()=>canvas.focus());
+    window.addEventListener('keydown',event=>{if(document.activeElement===canvas && ['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(event.code))event.preventDefault();});
+  </script>
+</body>
+</html>

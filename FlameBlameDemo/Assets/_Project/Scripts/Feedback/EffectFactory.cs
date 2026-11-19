@@ -21,6 +21,17 @@ namespace FlameBlame.Feedback
         readonly ObjectPool<ParticleSystem>[] pools = new ObjectPool<ParticleSystem>[PoolCount];
         readonly float[] lifespans = new float[PoolCount];
         readonly List<Timed> timed = new List<Timed>(64);
+        struct Visual
+        {
+            public ParticleSystem System;
+            public ParticleSystem Root;
+            public ParticleSystemRenderer Renderer;
+            public float Rate;
+        }
+        readonly List<Visual> visuals = new List<Visual>(128);
+        Transform viewer;
+        float cullDistanceSquared = float.PositiveInfinity;
+        float currentQuality = 1f;
 
         public EffectFactory(Transform root, ParticleSystem flame, ParticleSystem steam, ParticleSystem splash,
             ParticleSystem spark = null, int flameMax = 16, int steamMax = 6, int splashMax = 8, int sparkMax = 4)
@@ -29,10 +40,10 @@ namespace FlameBlame.Feedback
             steamMax = Mathf.Clamp(steamMax, 1, 6);
             splashMax = Mathf.Clamp(splashMax, 1, 8);
             sparkMax = Mathf.Clamp(sparkMax, 1, 4);
-            pools[(int)EffectKind.Flame] = MakePool(root, flame, flameMax);
-            pools[(int)EffectKind.Steam] = MakePool(root, steam, steamMax);
-            pools[(int)EffectKind.Splash] = MakePool(root, splash, splashMax);
-            if (spark != null) pools[(int)EffectKind.Spark] = MakePool(root, spark, sparkMax);
+            pools[(int)EffectKind.Flame] = MakePool(root, flame, flameMax, 36);
+            pools[(int)EffectKind.Steam] = MakePool(root, steam, steamMax, 12);
+            pools[(int)EffectKind.Splash] = MakePool(root, splash, splashMax, 10);
+            if (spark != null) pools[(int)EffectKind.Spark] = MakePool(root, spark, sparkMax, 8);
             lifespans[(int)EffectKind.Flame] = 0f;
             lifespans[(int)EffectKind.Steam] = Lifespan(steam);
             lifespans[(int)EffectKind.Splash] = Lifespan(splash);
@@ -45,11 +56,23 @@ namespace FlameBlame.Feedback
             return main.duration + main.startLifetime.constantMax;
         }
 
-        static ObjectPool<ParticleSystem> MakePool(Transform root, ParticleSystem template, int max)
+        ObjectPool<ParticleSystem> MakePool(Transform root, ParticleSystem template, int max, int particleCap)
         {
             template.gameObject.SetActive(false);
             var pool = new ObjectPool<ParticleSystem>(
-                () => Object.Instantiate(template, root),
+                () =>
+                {
+                    var clone = Object.Instantiate(template, root);
+                    int remaining = particleCap;
+                    foreach (var system in clone.GetComponentsInChildren<ParticleSystem>(true))
+                    {
+                        var main = system.main;
+                        int count = Mathf.Min(main.maxParticles, remaining);
+                        main.maxParticles = count; remaining -= count;
+                        visuals.Add(new Visual { System = system, Root = clone, Renderer = system.GetComponent<ParticleSystemRenderer>(), Rate = system.emission.rateOverTimeMultiplier });
+                    }
+                    return clone;
+                },
                 ps => ps.gameObject.SetActive(true),
                 ps =>
                 {
@@ -73,6 +96,15 @@ namespace FlameBlame.Feedback
             var ps = pools[(int)kind].Get();
             ps.transform.SetPositionAndRotation(position, Quaternion.identity);
             ps.transform.localScale = Vector3.one * scale;
+            for (int i = 0; i < visuals.Count; i++)
+            {
+                var visual = visuals[i];
+                if (visual.Root != ps) continue;
+                bool near = viewer == null || (position - viewer.position).sqrMagnitude <= cullDistanceSquared;
+                var emission = visual.System.emission;
+                emission.rateOverTimeMultiplier = visual.Rate * (near ? currentQuality : 0f);
+                if (visual.Renderer != null) visual.Renderer.enabled = near;
+            }
             ps.Play(true);
             return ps;
         }
@@ -80,12 +112,28 @@ namespace FlameBlame.Feedback
         /// Spawn a one-shot effect that returns itself to the pool.
         public void SpawnOneShot(EffectKind kind, Vector3 position, float scale = 1f)
         {
+            if (viewer != null && (position - viewer.position).sqrMagnitude > cullDistanceSquared) return;
             var ps = Spawn(kind, position, scale);
             if (ps == null) return;
             timed.Add(new Timed { Ps = ps, Kind = kind, ReleaseAt = Time.time + lifespans[(int)kind] });
         }
 
         public void Release(EffectKind kind, ParticleSystem ps) { if (ps != null) pools[(int)kind].Release(ps); }
+
+        public void SetVisualBudget(float quality, Transform camera, float distance)
+        {
+            viewer = camera; cullDistanceSquared = distance * distance;
+            currentQuality = Mathf.Clamp01(quality);
+            for (int i = 0; i < visuals.Count; i++)
+            {
+                var visual = visuals[i];
+                if (visual.System == null || !visual.System.gameObject.activeInHierarchy) continue;
+                bool near = camera == null || (visual.System.transform.position - camera.position).sqrMagnitude <= cullDistanceSquared;
+                var emission = visual.System.emission;
+                emission.rateOverTimeMultiplier = visual.Rate * (near ? quality : 0f);
+                if (visual.Renderer != null) visual.Renderer.enabled = near;
+            }
+        }
 
         public void Tick(float now)
         {

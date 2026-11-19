@@ -1,0 +1,10 @@
+{
+    "target": "StandaloneWindows64",
+    "result": "Succeeded",
+    "unity": "6000.3.24f1",
+    "output": "I:\\Work\\flame-blame-demo\\FlameBlameDemo\\Build\\Windows\\FlameBlameDemo.exe",
+    "bytes": 95798443,
+    "seconds": 17.9770452,
+    "errors": 0,
+    "warnings": 0
+}

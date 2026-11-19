@@ -13,11 +13,13 @@ namespace FlameBlame.Fire
         IGameEvents events;
         Flammable flammable;
         bool knocked;
+        string cachedLabel;
         public int RemainingValue { get; private set; }
 
         public void Initialize(IGameEvents gameEvents)
         {
             events = gameEvents;
+            cachedLabel = string.IsNullOrEmpty(displayName) ? name : displayName;
             RemainingValue = propertyValue;
             flammable = GetComponent<Flammable>();
             events.FireIgnited += OnIgnited;
@@ -42,7 +44,7 @@ namespace FlameBlame.Fire
         {
             int loss = Mathf.Min(RemainingValue, Mathf.Max(0, amount));
             RemainingValue -= loss;
-            events.RaiseDamageReported(new DamageReport(string.IsNullOrEmpty(displayName) ? name : displayName, reason, loss));
+            events.RaiseDamageReported(new DamageReport(cachedLabel, reason, loss));
         }
         void OnDestroy()
         {

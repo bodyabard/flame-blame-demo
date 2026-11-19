@@ -31,6 +31,7 @@ namespace FlameBlame.Hose
         float droppedTimer;
 
         public bool ValveOpen => valveOpen;
+        public void SetVisualQuality(float quality) { emitter.SetVisualQuality(quality); }
 
         public void StopFlow()
         {

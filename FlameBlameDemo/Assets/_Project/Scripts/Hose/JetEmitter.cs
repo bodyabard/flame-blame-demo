@@ -9,6 +9,8 @@ namespace FlameBlame.Hose
         [SerializeField] float lifetime = 1f;
         [SerializeField] float gravityModifier = 0.5f;
         [SerializeField] int maxParticles = 400;      // total scene budget is 1000
+        float visualQuality = 1f;
+        public void SetVisualQuality(float quality) { visualQuality = Mathf.Clamp01(quality); }
 
         public void Initialize(LayerMask collidesWith)
         {
@@ -16,7 +18,7 @@ namespace FlameBlame.Hose
             main.simulationSpace = ParticleSystemSimulationSpace.World;
             main.startLifetime = lifetime;
             main.gravityModifier = gravityModifier;
-            main.maxParticles = maxParticles;
+            main.maxParticles = Mathf.Clamp(maxParticles, 1, 240);
             var col = jet.collision;
             col.enabled = true;
             col.type = ParticleSystemCollisionType.World;
@@ -31,7 +33,7 @@ namespace FlameBlame.Hose
             var main = jet.main;
             main.startSpeed = speed;
             var em = jet.emission;
-            em.rateOverTime = rate;
+            em.rateOverTime = rate * visualQuality;
         }
     }
 }

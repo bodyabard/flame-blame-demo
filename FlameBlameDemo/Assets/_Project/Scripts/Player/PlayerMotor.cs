@@ -4,12 +4,13 @@ using UnityEngine;
 
 namespace FlameBlame.Player
 {
-    /// Walking, gravity, recoil impulse and the hose leash.
+    /// Walking, grounded jumping, gravity, recoil impulse and the hose leash.
     [RequireComponent(typeof(CharacterController))]
     public class PlayerMotor : MonoBehaviour
     {
         [SerializeField] float moveSpeed = 3.5f;
         [SerializeField] float gravity = -20f;
+        [SerializeField, Min(0f)] float jumpHeight = 1f;
         [SerializeField] float impulseDamping = 6f;
 
         CharacterController cc;
@@ -43,11 +44,13 @@ namespace FlameBlame.Player
             Vector2 m = input.Move;
             Vector3 move = transform.TransformDirection(new Vector3(m.x, 0f, m.y)) * moveSpeed;
 
-            if (cc.isGrounded && yVel < 0f) yVel = -2f;
+            if (cc.isGrounded && yVel <= 0f)
+                yVel = input.JumpPressed ? Mathf.Sqrt(Mathf.Max(0f, -2f * gravity * jumpHeight)) : -2f;
             yVel += gravity * dt;
 
             impulse = Vector3.Lerp(impulse, Vector3.zero, impulseDamping * dt);
-            cc.Move((move + impulse + Vector3.up * yVel) * dt);
+            CollisionFlags collisions = cc.Move((move + impulse + Vector3.up * yVel) * dt);
+            if ((collisions & CollisionFlags.Above) != 0 && yVel > 0f) yVel = 0f;
 
             if (tether.IsTethered)
             {

@@ -23,7 +23,7 @@ The original four modified material files and IDE changes remain outside the pha
 
 ## ЗРОБИ ВРУЧНУ — ВІХА 3
 
-1. Open `Assets/_Project/Scenes/Main.unity`, press Play. WASD / mouse / left mouse / E; Esc releases the cursor.
+1. Open `Assets/_Project/Scenes/Main.unity`, press Play. WASD / mouse / left mouse / E; Space jumps when grounded, Esc releases the cursor.
 2. Walk while looking around, spray continuously, kink the hose, then drop and retrieve the flowing nozzle. Judge FOV, pitch kick, bob, hand visibility and recoil strength.
 3. Spray NPCs and approach the sparking cable/puddles. Check wetness, eyes/mouth, reactions, pressure display and readable damage popups.
 4. Listen to pressure variation, fire, steam, sparks, comic voice and music. Check balance and repetition; tune the three mixer groups or VisualTuning levels.
@@ -33,3 +33,4 @@ The original four modified material files and IDE changes remain outside the pha
 Known stylistic limits: primitive glove/NPC models, synthetic effects/yelp and short procedural music; smoke is translucent stylized particles rather than volumetric light scattering. No external animation rig or Asset Store login is required.
 
 Latest captured probe: FOV 70.60007 at pressure 0.15 with held nozzle and flowing water; result screenshot `Captures/Game-20261119-184409.png`, gameplay screenshot `Captures/Game-20261119-184407.png`. One repeat initially failed its FOV timing check while the simulation lacked background updates; the temporary probe enabled background execution and its rerun passed. Production background settings were not changed.
+

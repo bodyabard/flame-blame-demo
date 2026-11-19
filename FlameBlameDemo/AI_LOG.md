@@ -10,3 +10,5 @@
 - **Phase 3 / VFX:** Codex extended the existing prewarmed flame template with a core, darkening smoke and embers; fixed the authored aggregate particle capacity at 1000. Scene appearance awaits the prompt's first human review gate.
 - **Phase 3 / feel and characters:** Codex added pressure-driven FOV kick, grounded bob, injected-input arm sway, firefighter sleeves/gloves, and state-driven NPC pupils/mouth/arm poses with wet material response, preserving the gameplay physics and char system.
 - **Phase 3 / HUD and audio:** Codex imported OFL Russo One and CC0 Kenney voice, authored a pressure dial and warm panels, generated original procedural sound/music clips, and connected precreated audio sources to game events through a three-group mixer. Editor compilation, repeated scene builds and a temporary presentation smoke probe checked water reaction, FOV, hands, audio routing, result and restart; subjective feel/audio remain the human milestone.
+
+- **Player / jump:** Codex added Space input through IPlayerInput and a grounded, height-tunable CharacterController jump with ceiling collision handling.

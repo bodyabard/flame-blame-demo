@@ -2,7 +2,7 @@ import { createServer } from 'node:http';
 import { createReadStream, statSync } from 'node:fs';
 import { resolve, extname, sep } from 'node:path';
 
-const root = resolve(process.argv[2] || 'Build/WebGL');
+const root = resolve(process.argv[2] || 'Builds/WebGL');
 const port = Number(process.argv[3] || 8080);
 const types = { '.html':'text/html; charset=utf-8', '.js':'text/javascript', '.wasm':'application/wasm', '.json':'application/json', '.css':'text/css', '.png':'image/png', '.svg':'image/svg+xml' };
 createServer((request, response) => {

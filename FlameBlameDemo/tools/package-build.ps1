@@ -1,7 +1,7 @@
 param([Parameter(Mandatory=$true)][ValidateSet('WebGL','Windows')][string]$Target)
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
-$outputFolder = Join-Path $projectRoot "Build/$Target"
+$outputFolder = Join-Path $projectRoot "Builds/$Target"
 $entry = if ($Target -eq 'WebGL') { Join-Path $outputFolder 'index.html' } else { Join-Path $outputFolder 'FlameBlameDemo.exe' }
 if (-not (Test-Path -LiteralPath $entry)) { throw "Build $Target first; missing $entry" }
 $licenseFolder = Join-Path $outputFolder 'Licenses'
@@ -35,7 +35,7 @@ if ($Target -eq 'WebGL') {
     'From this folder: node serve-webgl.mjs . 8080 ; open http://127.0.0.1:8080 ; click Load then the game canvas.' | Set-Content -Encoding UTF8 (Join-Path $outputFolder 'START.txt')
 }
 else { 'Run FlameBlameDemo.exe with all neighbouring files and folders intact. WASD / Mouse / Space / LMB / E / Esc.' | Set-Content -Encoding UTF8 (Join-Path $outputFolder 'START.txt') }
-$archive = Join-Path $projectRoot "Build/FlameBlame-$Target.zip"
+$archive = Join-Path $projectRoot "Builds/FlameBlame-$Target.zip"
 $files = Get-ChildItem -LiteralPath $outputFolder | Where-Object { $_.Name -notmatch 'DoNotShip|BackUpThisFolder' }
 Compress-Archive -LiteralPath $files.FullName -DestinationPath $archive -Force
 Get-FileHash -LiteralPath $archive -Algorithm SHA256 | Format-List Path,Hash

@@ -7,7 +7,7 @@ if (-not $nodeBinary) {
     $nodeBinary = ($riderNodes | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName
 }
 if (-not $nodeBinary) { throw 'Node.js was not found in PATH or Rider runtimes. Install Node.js, then run this launcher again.' }
-$buildRoot = if (Test-Path -LiteralPath (Join-Path $PSScriptRoot 'index.html')) { $PSScriptRoot } else { Join-Path (Split-Path -Parent $PSScriptRoot) 'Build/WebGL' }
+$buildRoot = if (Test-Path -LiteralPath (Join-Path $PSScriptRoot 'index.html')) { $PSScriptRoot } else { Join-Path (Split-Path -Parent $PSScriptRoot) 'Builds/WebGL' }
 if (-not (Test-Path -LiteralPath (Join-Path $buildRoot 'index.html'))) { throw "WebGL build not found: $buildRoot" }
 Write-Host "Using Node: $nodeBinary"
 Write-Host 'Keep this window open while playing. Press Ctrl+C to stop the server.'

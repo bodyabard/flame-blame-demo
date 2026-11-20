@@ -18,3 +18,5 @@
 - **Phase 4 / WebGL GPU fix:** Codex used Chrome GPU-call instrumentation to trace invisible Lit meshes to an invalid additional-shadow sampler binding, aligned the Mobile URP shadow fallback, and confirmed rendering, a full result/restart cycle and zero Lit draw errors in the browser probe.
 
 - **WebGL / local launch follow-up:** Codex added a double-click Windows launcher resolving Node from PATH or Rider runtimes after the user's shell lacked node, and verified HTTP 200 with the Rider path removed from PATH.
+
+- **Phase 5 / Block A only:** Codex prepared itch.io butler push/pack scripts for bohdanbard/flameblame-demo:html5, aligned outputs to Builds/WebGL and Builds/Windows, and added a fullscreen control. Upload and itch visibility/embed settings remain the user milestone; lighting was not changed.

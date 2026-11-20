@@ -83,7 +83,7 @@ namespace FlameBlame.EditorTools
         public static void BuildWebGL()
         {
             ConfigureWebGL(); Validate();
-            Build(BuildTarget.WebGL, "Build/WebGL");
+            Build(BuildTarget.WebGL, "Builds/WebGL");
         }
         [MenuItem("Tools/FlameBlame/Build Windows")]
         public static void BuildWindows()
@@ -92,7 +92,7 @@ namespace FlameBlame.EditorTools
             PlayerSettings.SetScriptingBackend(NamedBuildTarget.Standalone, ScriptingImplementation.Mono2x);
             PlayerSettings.SetManagedStrippingLevel(NamedBuildTarget.Standalone, ManagedStrippingLevel.Low);
             AssetDatabase.SaveAssets();
-            Build(BuildTarget.StandaloneWindows64, "Build/Windows/FlameBlameDemo.exe");
+            Build(BuildTarget.StandaloneWindows64, "Builds/Windows/FlameBlameDemo.exe");
         }
         static void Build(BuildTarget target, string path)
         {

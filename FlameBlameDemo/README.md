@@ -1,4 +1,4 @@
-﻿# Flame & Blame Demo — скажений брандспойт
+# Flame & Blame Demo — скажений брандспойт
 
 Одна кімната, пожежа і брандспойт, який важко втримати. Вода гасить предмети, штовхає меблі й NPC та залишає калюжі; пошкоджений кабель робить ці калюжі небезпечними. Киньте ввімкнений брандспойт — він почне хльоскати кімнатою, а рахунок за ремонт зростатиме. Це одиночна ігрова демка, а не мережевий кооп.
 
@@ -14,9 +14,9 @@
 node tools/serve-webgl.mjs
 ```
 
-Відкрийте **http://127.0.0.1:8080**, натисніть «Завантажити гру», потім натисніть у canvas для звуку й миші. Сервер читає `Build/WebGL` і не кешує відповіді. Для іншої папки: `node tools/serve-webgl.mjs шлях/до/WebGL 8080`.
+Відкрийте **http://127.0.0.1:8080**, натисніть «Завантажити гру», потім натисніть у canvas для звуку й миші. Сервер читає `Builds/WebGL` і не кешує відповіді. Для іншої папки: `node tools/serve-webgl.mjs шлях/до/WebGL 8080`.
 
-Альтернатива з Python: `python -m http.server 8080 --directory Build/WebGL`. Brotli fallback увімкнено, тому для локального перегляду не потрібні спеціальні заголовки стиснення. Під час розміщення в мережі передавайте папку цілком, зі збереженням назв і структури.
+Альтернатива з Python: `python -m http.server 8080 --directory Builds/WebGL`. Brotli fallback увімкнено, тому для локального перегляду не потрібні спеціальні заголовки стиснення. Під час розміщення в мережі передавайте папку цілком, зі збереженням назв і структури.
 
 **Windows:** розпакуйте весь архів Windows і запустіть `FlameBlameDemo.exe`. Залиште поряд папку `FlameBlameDemo_Data`, UnityPlayer та інші файли дистрибутива.
 
@@ -47,8 +47,8 @@ Unity **6000.3.24f1**, URP. Потрібні відповідні модулі *
 
 - `Tools/FlameBlame/Configure WebGL` — налаштування без побудови.
 - `Tools/FlameBlame/Validate Submission` — перевірка сцени, посилань, частинок і світла.
-- `Tools/FlameBlame/Build WebGL` → `Build/WebGL`.
-- `Tools/FlameBlame/Build Windows` → `Build/Windows/FlameBlameDemo.exe`.
+- `Tools/FlameBlame/Build WebGL` → `Builds/WebGL`.
+- `Tools/FlameBlame/Build Windows` → `Builds/Windows/FlameBlameDemo.exe`.
 
 Batch-приклад (закрийте іншу Unity з цим проєктом):
 
@@ -58,7 +58,7 @@ Batch-приклад (закрийте іншу Unity з цим проєктом
 
 Для Windows замініть метод на `FlameBlame.EditorTools.SubmissionBuild.BuildWindows`. У `Build/report-*.json` записуються результат, розмір, час, помилки й попередження. Не запускайте `Build Scene` перед експортом, якщо бажаєте зберегти ручне налаштування сцени.
 
-Архіви з ліцензіями: `powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/package-build.ps1 -Target WebGL` (або `-Target Windows`). Команда створює `Build/FlameBlame-WebGL.zip` чи `Build/FlameBlame-Windows.zip`; політика PowerShell змінюється лише для цього процесу.
+Архіви з ліцензіями: `powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/package-build.ps1 -Target WebGL` (або `-Target Windows`). Команда створює `Builds/FlameBlame-WebGL.zip` чи `Builds/FlameBlame-Windows.zip`; політика PowerShell змінюється лише для цього процесу.
 
 Ліміт місткості пулів — 1000 частинок; за низької частоти кадрів емісія плавно зменшується, далекі ефекти відсікаються. Це не змінює попадання води, фізику чи поширення вогню. Параметри — `ChaosSettings`, візуал і звук — `VisualTuning` та `Audio/FlameBlame.mixer`.
 

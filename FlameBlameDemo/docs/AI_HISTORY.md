@@ -23,3 +23,9 @@
 
 ### Toon material migration
 Duplicated 23 opaque surface materials from the artist-authored Neighbor_B_Toon template, preserving base hues and copying its steps/feathers with shade brightness ratios. Moved originals with their GUIDs intact into Materials/Originals, stored Toon copies in Materials/Toon, and replaced material references in Main and visual prefabs. Updated editor material paths and runtime char/shock/emission tinting for Unity Toon Shader; transparent water/particles retain their shaders.
+
+### West wall window
+Replaced Wall_W's solid cube with four cube sections around a true opening, retaining its transform and Toon material. Each section has its own box collider; editor automation checks that a ray passes through the opening while the sill remains solid.
+
+### Look transfer (phase 8)
+Analyzed the supplied RestaurantGame3DUnity settings and locker-room reference; added a reversible matte/lighting/grading pass, VisualTuning controls, F2 comparison, fixed-view captures and a one-action restore. Preserved authored Toon shaders, palette colors, key rotation and scene layout.

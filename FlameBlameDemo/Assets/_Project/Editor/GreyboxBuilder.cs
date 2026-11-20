@@ -284,7 +284,8 @@ namespace FlameBlame.EditorTools
             floor.AddComponent<WaterSurface>();
             Box("Wall_N", room, new Vector3(0f, 1.6f, 5.1f), new Vector3(12.4f, 3.2f, 0.2f), m.Wall);
             Box("Wall_S", room, new Vector3(0f, 1.6f, -5.1f), new Vector3(12.4f, 3.2f, 0.2f), m.Wall);
-            Box("Wall_W", room, new Vector3(-6.1f, 1.6f, 0f), new Vector3(0.2f, 3.2f, 10f), m.Wall);
+            var westWall = Box("Wall_W", room, new Vector3(-6.1f, 1.6f, 0f), new Vector3(0.2f, 3.2f, 10f), m.Wall);
+            WindowWallBuilder.Convert(westWall);
             Box("Wall_E", room, new Vector3(6.1f, 1.6f, 0f), new Vector3(0.2f, 3.2f, 10f), m.Wall);
             Box("Ceiling", room, new Vector3(0f, 3.3f, 0f), new Vector3(12.4f, 0.2f, 10.4f), m.Wall);
         }

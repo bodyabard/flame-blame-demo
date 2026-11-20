@@ -44,3 +44,5 @@ The AudioMixer `Audio/FlameBlame.mixer` contains Master with Effects, Voices and
 
 ## Фаза 7
 Нових зовнішніх асетів немає: NPC, руки, двері, цоколь і палітра зібрані з примітивів і матеріалів проєкту (Toon-шейдер користувача). Сторонні моделі лишились ті ж (Kenney Furniture для дивана/крісла).
+
+Налаштування освітлення й post-processing натхненні RestaurantGame3DUnity (Kağan Ayten, MIT); асети не використано. Джерело: https://github.com/KaganAyten/RestaurantGame3DUnity .

@@ -47,6 +47,22 @@ MonoBehaviour:
   bloom: 0.45
   saturation: 12
   vignette: 0.22
+  lookKey: {r: 0.99, g: 0.9, b: 0.71, a: 1}
+  lookKeyIntensity: 1.8
+  lookShadowStrength: 0.75
+  lookAmbientSky: {r: 0.62, g: 0.59, b: 0.51, a: 1}
+  lookAmbientEquator: {r: 0.36, g: 0.34, b: 0.32, a: 1}
+  lookAmbientGround: {r: 0.2, g: 0.22, b: 0.28, a: 1}
+  lookAmbientIntensity: 1
+  lookContrast: 22
+  lookSaturation: 22
+  lookExposure: 0
+  lookShadows: {r: 0.48, g: 0.48, b: 0.53, a: 1}
+  lookHighlights: {r: 0.54, g: 0.51, b: 0.48, a: 1}
+  lookSplitBalance: -20
+  lookBloom: 0.6
+  lookVignette: 0.26
+  lookVignetteSmoothness: 0.4
   flame: {r: 1, g: 0.36, b: 0.025, a: 1}
   core: {r: 1, g: 0.9, b: 0.35, a: 1}
   smoke: {r: 0.17, g: 0.14, b: 0.18, a: 0.5}

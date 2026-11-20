@@ -1,7 +1,7 @@
 {
     "name": "FlameBlame.Runtime",
     "rootNamespace": "FlameBlame",
-    "references": ["Unity.TextMeshPro", "Unity.ugui"],
+    "references": ["Unity.TextMeshPro", "Unity.ugui", "Unity.RenderPipelines.Core.Runtime", "Unity.RenderPipelines.Universal.Runtime"],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

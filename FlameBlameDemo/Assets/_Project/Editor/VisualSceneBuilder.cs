@@ -223,6 +223,11 @@ namespace FlameBlame.EditorTools
         [MenuItem("Tools/FlameBlame/Capture")]
         public static void Capture()
         {
+            if (Object.FindFirstObjectByType<LookComparison>() != null)
+            {
+                LookTransfer.CaptureComparison();
+                return;
+            }
             Directory.CreateDirectory("Captures");
             ScreenCapture.CaptureScreenshot("Captures/Game-"+System.DateTime.Now.ToString("yyyyMMdd-HHmmss")+".png");
             Debug.Log("[FlameBlame] Game view capture requested (requires Play mode).");

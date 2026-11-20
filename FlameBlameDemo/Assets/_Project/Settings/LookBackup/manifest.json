@@ -1,0 +1,285 @@
+﻿{
+    "assets":  [
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Dark.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/95567da63be9f0745825bc1beb589e6b.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Fabric.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/b9b059c5f6d5afd47a34aeb438ec93d7.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Feel_Eye.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/10968c62ab632ef41b83e0eb567fc2c3.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Feel_FoamyWater.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/926aef4fe6ab5b64182e5383703bb848.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Feel_Glove.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/9082e1a5dca97e04cad114539fe14b7a.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Feel_Pupil.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/011924c4ee3ed524989a5971745bf017.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Feel_Reflective.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/5d766eb431ede6b48a5f7b9faf6ef49b.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Feel_Sleeve.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/68581fbdc8a0ba74f81f4190021c5824.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Flame.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/5955b58283074a74e98b0d2e5c23f419.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Floor.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/9a0e4e8057b6195429d90136f0c2145e.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Hose.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/0137236ccce7d16468b52396bc57a995.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Hydrant.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/c9ac3403ff25d8042a12415279029eb6.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/JetWater.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/d94f3a0946b353d439dbafb57dc94261.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Metal.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/3881563e5268a2c428d0daa754e025ea.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Neighbor_A.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/02bd9be0907fd5a4ca31a29a8533ba4a.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Neighbor_B.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/ba232bd2ba1e7e446b436b25c6bc26a1.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Paper.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/2d8a55b4c1369ec4a93c7ba29748bc11.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Puddle.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/ce2dc4b5f58bc1e40ad34b7c87ca1c97.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Splash.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/45a9ff4ee3a3e6e4184d7a96a5f0c633.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Steam.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/1a387dd6896fe3645894843d785e8f40.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Visual_Coral.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/bf29cd0cee6ed104595f42c039b0fcc1.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Visual_Cream.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/8179a81a178cfed4c87ee1cec851f9f0.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Visual_Leaf.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/5af6630a8d74586448f4e0f816fc9498.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Visual_Petal.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/e2e7cc1bbf915dd4492dfbdf435798b4.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Visual_Sage.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/86ea14b6e1a555e47a27546d31fec24c.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Visual_Teal.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/a6a1fe9faea3cd84f9ee7341c2650a42.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Visual_Walnut.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/f033634098bcb154bb6753e02e447f33.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Wall.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/fb1c27a83a6d74048a754c565dc2cd81.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Originals/Wood.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/da7b22553b6e0cb46986cb76196a9fe2.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Dark_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/3bbc4b1478a783942b25036285fa5075.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Env_Ceiling_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/f993bb52fb29c9246a1e69f331b053b6.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Env_Door_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/26309d377e85e8b4ba31a41918facea3.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Env_DoorFrame_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/8298c8ad5479ed4488e410d3a89eca32.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Env_DoorMetal_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/ee7c3f1da4943e044b0656592c111818.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Env_Wainscot_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/205e6385b78e94c4aa01d6ec2b8e070b.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Fabric_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/cbf483474a409c449a9b8013325ea819.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Feel_Eye_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/6c5285f2c17cfcd428f145ac2d41e297.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Feel_Glove_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/cb0da6657f13dfc4a8bf1441689ff93c.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Feel_Pupil_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/0f37e96cabe58cf4c8062b7d8af44e5d.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Feel_Reflective_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/1047c248f67c30b48997f0455d86c3c4.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Feel_Sleeve_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/aa4fbedfeb23b8b448ebea6c69ef73d7.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Floor_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/bf247cbd59f8dba4ca33afae92e81d2a.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Hand_Dirt_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/4c22743cec6ba4c4898d899094c77335.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Hand_Glove_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/acfb7c42bb36f9e46bf0370e31c18f33.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Hand_Sleeve_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/006570036e9188448b54c02f23506be4.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Hose_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/6ecaf2029617d214982612e8990ecd3c.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Hydrant_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/66862892db50fbb449d446083c3902cd.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Metal_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/6f5bb63853785574fa92ed706c2ecd62.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Neighbor_A_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/416a563c8df90e14bb5af654947c6e58.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Neighbor_B_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/08c770aa923779842ac0f4e9a7cb5a6b.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Npc_Boot_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/1aae0ec8958f04449a9b59cedeac6df8.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Npc_Glove_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/9ec50dc6f6936c142a8a59a129051fcf.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Npc_JacketA_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/a1ec7bcf17191624ebd7e61748713508.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Npc_JacketB_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/6a1591d6af93ab04595c33bfb4ab874a.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Npc_Skin_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/745cb3dff2f61a749ac1964432f0d6ad.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Npc_Stripe_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/97b1c24589575a243b297bdf0870a74c.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Paper_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/2a192e5cab596574e8fb08575953ad44.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Visual_Coral_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/ebbc02bac769878468f8e7f990562aa8.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Visual_Cream_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/53a7df4423e5e4c4685fce91a9923955.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Visual_Leaf_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/d6151d1ff25d3b944a14e9c692739efc.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Visual_Petal_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/8fa1b78e1a293e241b204b864f8e4d29.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Visual_Sage_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/7d3a7f84d32123645b970b3b0926009f.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Visual_Teal_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/dd33a58d4417a064abc59db1d58d818a.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Visual_Walnut_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/610d2dcff056b3f4aaca172185c41178.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Wall_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/0adab8a3cbf3b1d4192b19f9dde5ff14.mat"
+                   },
+                   {
+                       "source":  "Assets/_Project/Materials/Toon/Wood_Toon.mat",
+                       "backup":  "Assets/_Project/Settings/LookBackup/cc8e545bb8248fd428dfd66343cfd862.mat"
+                   },
+                   {
+                       "source":  "Assets/Settings/Mobile_RPAsset.asset",
+                       "backup":  "Assets/_Project/Settings/LookBackup/5e6cbd92db86f4b18aec3ed561671858.asset"
+                   },
+                   {
+                       "source":  "Assets/Settings/PC_RPAsset.asset",
+                       "backup":  "Assets/_Project/Settings/LookBackup/4b83569d67af61e458304325a23e5dfd.asset"
+                   },
+                   {
+                       "source":  "Assets/Settings/Mobile_Renderer.asset",
+                       "backup":  "Assets/_Project/Settings/LookBackup/65bc7dbf4170f435aa868c779acfb082.asset"
+                   },
+                   {
+                       "source":  "Assets/Settings/PC_Renderer.asset",
+                       "backup":  "Assets/_Project/Settings/LookBackup/f288ae1f4751b564a96ac7587541f7a2.asset"
+                   }
+               ],
+    "antiAliasing":  8
+}

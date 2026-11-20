@@ -1,0 +1,1 @@
+PASS: Backup/Look switching; key angle preserved; prop base + Toon shades char correctly; NPC char tint works. Editor play smoke completed.

@@ -20,3 +20,6 @@
 - **WebGL / local launch follow-up:** Codex added a double-click Windows launcher resolving Node from PATH or Rider runtimes after the user's shell lacked node, and verified HTTP 200 with the Rider path removed from PATH.
 
 - **Phase 5 / Block A only:** Codex prepared itch.io butler push/pack scripts for bohdanbard/flameblame-demo:html5, aligned outputs to Builds/WebGL and Builds/Windows, and added a fullscreen control. Upload and itch visibility/embed settings remain the user milestone; lighting was not changed.
+
+### Toon material migration
+Duplicated 23 opaque surface materials from the artist-authored Neighbor_B_Toon template, preserving base hues and copying its steps/feathers with shade brightness ratios. Moved originals with their GUIDs intact into Materials/Originals, stored Toon copies in Materials/Toon, and replaced material references in Main and visual prefabs. Updated editor material paths and runtime char/shock/emission tinting for Unity Toon Shader; transparent water/particles retain their shaders.

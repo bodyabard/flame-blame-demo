@@ -19,6 +19,8 @@ namespace FlameBlame.Fire
         FireNode node;
         Renderer[] renderers;
         Color[] baseColors;
+        Color[] firstShades, secondShades;
+        bool[] toonMaterials;
         MaterialPropertyBlock block;
         float nextSteamTime;
         Vector3 localNodePosition;
@@ -31,6 +33,9 @@ namespace FlameBlame.Fire
             events = gameEvents;
             renderers = GetComponentsInChildren<Renderer>();
             baseColors = new Color[renderers.Length];
+            firstShades = new Color[renderers.Length];
+            secondShades = new Color[renderers.Length];
+            toonMaterials = new bool[renderers.Length];
             block = new MaterialPropertyBlock();
 
             Bounds b = new Bounds(transform.position, Vector3.zero);
@@ -39,6 +44,12 @@ namespace FlameBlame.Fire
                 b.Encapsulate(renderers[i].bounds);
                 var mat = renderers[i].sharedMaterial;
                 baseColors[i] = mat != null && mat.HasProperty(BaseColorId) ? mat.GetColor(BaseColorId) : Color.white;
+                toonMaterials[i] = mat != null && mat.HasProperty("_1st_ShadeColor");
+                if (toonMaterials[i])
+                {
+                    firstShades[i] = mat.GetColor("_1st_ShadeColor");
+                    secondShades[i] = mat.GetColor("_2nd_ShadeColor");
+                }
             }
 
             node = new FireNode(profile, b.center, this);
@@ -83,6 +94,12 @@ namespace FlameBlame.Fire
                 renderers[i].GetPropertyBlock(block);
                 block.SetColor(BaseColorId, Color.Lerp(baseColors[i], profile.charColor, charred));
                 block.SetColor(EmissionColorId, emission);
+                if (toonMaterials[i])
+                {
+                    block.SetColor("_1st_ShadeColor", Color.Lerp(firstShades[i], profile.charColor, charred));
+                    block.SetColor("_2nd_ShadeColor", Color.Lerp(secondShades[i], profile.charColor, charred));
+                    block.SetColor("_Emissive_Color", emission);
+                }
                 renderers[i].SetPropertyBlock(block);
             }
         }

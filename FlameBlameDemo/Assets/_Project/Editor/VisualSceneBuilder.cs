@@ -16,7 +16,7 @@ namespace FlameBlame.EditorTools
         const string Root = "Assets/_Project";
         static Material Mat(string name, Color color)
         {
-            string path = Root + "/Materials/Visual_" + name + ".mat";
+            string path = ToonMaterialMigration.OriginalPath("Visual_" + name);
             var mat = AssetDatabase.LoadAssetAtPath<Material>(path);
             if (mat == null) { mat = new Material(Shader.Find("Universal Render Pipeline/Lit")); AssetDatabase.CreateAsset(mat, path); }
             mat.SetColor("_BaseColor", color); mat.SetFloat("_Smoothness", .18f);
@@ -31,6 +31,7 @@ namespace FlameBlame.EditorTools
             EditorSceneManager.OpenScene(Root + "/Scenes/Main.unity");
             Apply();
             FeelSceneBuilder.Apply();
+            ToonMaterialMigration.ReapplyIfConfigured();
             EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
             AssetDatabase.SaveAssets();
             Preview();

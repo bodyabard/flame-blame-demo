@@ -28,6 +28,8 @@ namespace FlameBlame.Npc
         IGameEvents events;
         MaterialPropertyBlock block;
         Color originalColor;
+        Color firstShade, secondShade;
+        bool toonMaterial;
         float exposure, nextShock, nextWashScore;
         public NpcState State => state.State;
 
@@ -37,6 +39,12 @@ namespace FlameBlame.Npc
             body = GetComponent<Rigidbody>();
             block = new MaterialPropertyBlock();
             originalColor = bodyRenderer.sharedMaterial.GetColor("_BaseColor");
+            toonMaterial = bodyRenderer.sharedMaterial.HasProperty("_1st_ShadeColor");
+            if (toonMaterial)
+            {
+                firstShade = bodyRenderer.sharedMaterial.GetColor("_1st_ShadeColor");
+                secondShade = bodyRenderer.sharedMaterial.GetColor("_2nd_ShadeColor");
+            }
         }
         public void Tick(float dt, FireSystem fire, ElectricitySystem electricity, ChaosSettings settings)
         {
@@ -65,7 +73,18 @@ namespace FlameBlame.Npc
                 events.RaiseDamageReported(new DamageReport(displayName, "рахунок за електрику", settings.npcShockDamage));
             }
             Color color = state.State == NpcState.Shocked ? Color.yellow : state.IsCharred ? new Color(0.09f, 0.07f, 0.06f) : originalColor;
+            bodyRenderer.GetPropertyBlock(block);
             block.SetColor("_BaseColor", color);
+            if (toonMaterial)
+            {
+                bool reacting = state.State == NpcState.Shocked || state.IsCharred;
+                float brightness = Mathf.Max(originalColor.maxColorComponent, .0001f);
+                Color shade1 = reacting ? color * (firstShade.maxColorComponent / brightness) : firstShade;
+                Color shade2 = reacting ? color * (secondShade.maxColorComponent / brightness) : secondShade;
+                shade1.a = shade2.a = color.a;
+                block.SetColor("_1st_ShadeColor", shade1);
+                block.SetColor("_2nd_ShadeColor", shade2);
+            }
             bodyRenderer.SetPropertyBlock(block);
             if (visual != null)
             {

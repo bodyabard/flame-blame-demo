@@ -66,6 +66,7 @@ namespace FlameBlame.EditorTools
             PhaseTwoBuilder.UpgradeOpenScene();
 
             EditorSceneManager.SaveScene(scene, ScenePath);
+            ToonMaterialMigration.ReapplyIfConfigured();
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
             AssetDatabase.SaveAssets();
             Debug.Log("[FlameBlame] Greybox built: " + ScenePath);
@@ -116,7 +117,7 @@ namespace FlameBlame.EditorTools
 
         static Material LoadOrCreate(string name, string shaderName)
         {
-            string path = $"{Root}/Materials/{name}.mat";
+            string path = ToonMaterialMigration.OriginalPath(name);
             var m = AssetDatabase.LoadAssetAtPath<Material>(path);
             if (m == null)
             {

@@ -27,7 +27,7 @@ namespace FlameBlame.EditorTools
         static void Clear(Transform parent,string name) {var old=parent.Find(name);if(old!=null)Object.DestroyImmediate(old.gameObject);}
         static Material Material(string name,Color color,bool glow=false)
         {
-            string path=Root+"/Materials/Feel_"+name+".mat";var mat=AssetDatabase.LoadAssetAtPath<Material>(path);
+            string path=ToonMaterialMigration.OriginalPath("Feel_"+name);var mat=AssetDatabase.LoadAssetAtPath<Material>(path);
             if(mat==null){mat=new Material(Shader.Find("Universal Render Pipeline/Lit"));AssetDatabase.CreateAsset(mat,path);}
             mat.SetColor("_BaseColor",color);mat.SetFloat("_Smoothness",.2f);
             if(glow){mat.EnableKeyword("_EMISSION");mat.SetColor("_EmissionColor",color*.35f);}EditorUtility.SetDirty(mat);return mat;
@@ -150,7 +150,7 @@ namespace FlameBlame.EditorTools
         static void Water()
         {
             var emitter=Object.FindFirstObjectByType<JetEmitter>();var data=new SerializedObject(emitter);var ps=(ParticleSystem)data.FindProperty("jet").objectReferenceValue;
-            var renderer=ps.GetComponent<ParticleSystemRenderer>();const string path=Root+"/Materials/Feel_FoamyWater.mat";
+            var renderer=ps.GetComponent<ParticleSystemRenderer>();string path=ToonMaterialMigration.OriginalPath("Feel_FoamyWater");
             var mat=AssetDatabase.LoadAssetAtPath<Material>(path);if(mat==null){mat=new Material(renderer.sharedMaterial);AssetDatabase.CreateAsset(mat,path);}
             mat.SetTexture("_BaseMap",Disc().texture);mat.SetColor("_BaseColor",new Color(.72f,.9f,1,.65f));EditorUtility.SetDirty(mat);renderer.sharedMaterial=mat;
             var colors=ps.colorOverLifetime;colors.enabled=true;

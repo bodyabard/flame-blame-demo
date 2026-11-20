@@ -28,6 +28,7 @@ namespace FlameBlame.EditorTools
         {
             EditorSceneManager.OpenScene(ScenePath);
             UpgradeOpenScene();
+            ToonMaterialMigration.ReapplyIfConfigured();
             EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
             AssetDatabase.SaveAssets();
             Debug.Log("[FlameBlame] Phase 2 ready: play Main for milestone-2.");
@@ -97,7 +98,7 @@ namespace FlameBlame.EditorTools
             EditorUtility.SetDirty(bootstrap);
         }
 
-        static Material Material(string name) => AssetDatabase.LoadAssetAtPath<Material>(Root + "/Materials/" + name + ".mat");
+        static Material Material(string name) => AssetDatabase.LoadAssetAtPath<Material>(ToonMaterialMigration.OriginalPath(name));
         static void Ref(Object target, string field, Object value)
         {
             var so = new SerializedObject(target);
@@ -138,7 +139,7 @@ namespace FlameBlame.EditorTools
             rb.constraints = RigidbodyConstraints.FreezeRotation;
             rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             var visual = new GameObject("Visual").transform; visual.SetParent(go.transform, false);
-            string materialPath = Root + "/Materials/" + name + ".mat";
+            string materialPath = ToonMaterialMigration.OriginalPath(name);
             var mat = AssetDatabase.LoadAssetAtPath<Material>(materialPath);
             if (mat == null) { mat = new Material(Material("Fabric")); AssetDatabase.CreateAsset(mat, materialPath); }
             mat.SetColor("_BaseColor", color); EditorUtility.SetDirty(mat);

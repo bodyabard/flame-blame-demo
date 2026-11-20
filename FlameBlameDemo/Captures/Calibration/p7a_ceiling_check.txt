@@ -1,0 +1,1 @@
+mean luminance ceiling on=0,5566 off=0,5285 (view from inside the room; difference is the ceiling's own pixels)

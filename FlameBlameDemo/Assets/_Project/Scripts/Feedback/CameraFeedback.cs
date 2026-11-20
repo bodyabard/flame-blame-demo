@@ -11,6 +11,7 @@ namespace FlameBlame.Feedback
         [SerializeField] VisualTuning tuning;
         [SerializeField] CharacterController motor;
         [SerializeField] FlameBlame.Hose.HoseController hose;
+        [SerializeField] FlameBlame.Core.ScaleProfile scale;   // optional: world FOV source
         Camera lens;
         Vector3 origin;
         float bob;
@@ -61,7 +62,7 @@ namespace FlameBlame.Feedback
             bob = Mathf.Lerp(bob,moving ? 1f : 0f,1f-Mathf.Exp(-tuning.fovResponse*dt));
             cam.localPosition = origin + Vector3.up * (Mathf.Sin(Time.time*tuning.bobSpeed)*tuning.bobHeight*bob);
             float flow = hose != null && hose.Held && hose.WaterFlowing ? hose.Pressure : 0f;
-            lens.fieldOfView = Mathf.Lerp(lens.fieldOfView,tuning.baseFov+flow*tuning.fovKick,1f-Mathf.Exp(-tuning.fovResponse*dt));
+            lens.fieldOfView = Mathf.Lerp(lens.fieldOfView,(scale!=null ? scale.worldFov : tuning.baseFov)+flow*tuning.fovKick,1f-Mathf.Exp(-tuning.fovResponse*dt));
         }
     }
 }

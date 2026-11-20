@@ -23,6 +23,7 @@ namespace FlameBlame.Npc
         [SerializeField] int washedCost = 120;
         [SerializeField] int charredCost = 600;
         [SerializeField] float feetOffset = 0.9f;
+        [SerializeField] Renderer[] tintedParts;   // head, arms and gloves share the body charring/shock colour
         readonly NpcStateMachine state = new NpcStateMachine();
         Rigidbody body;
         IGameEvents events;
@@ -86,6 +87,8 @@ namespace FlameBlame.Npc
                 block.SetColor("_2nd_ShadeColor", shade2);
             }
             bodyRenderer.SetPropertyBlock(block);
+            bool tinted=state.State == NpcState.Shocked || state.IsCharred;
+            if(tintedParts!=null) for(int i=0;i<tintedParts.Length;i++) tintedParts[i].SetPropertyBlock(tinted ? block : null);
             if (visual != null)
             {
                 float wobble = state.State == NpcState.Idle ? 2f : state.State == NpcState.Shocked ? 18f : 9f;

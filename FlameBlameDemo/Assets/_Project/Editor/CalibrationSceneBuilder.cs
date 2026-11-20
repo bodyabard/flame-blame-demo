@@ -62,7 +62,7 @@ namespace FlameBlame.EditorTools
             EditorUtility.SetDirty(m); mats[name] = m; return m;
         }
 
-        static Transform Part(Transform parent, string name, Vector3 pos, Vector3 size, Material m, PrimitiveType type = PrimitiveType.Cube)
+        public static Transform Part(Transform parent, string name, Vector3 pos, Vector3 size, Material m, PrimitiveType type = PrimitiveType.Cube)
         {
             var go = GameObject.CreatePrimitive(type); go.name = name;
             Object.DestroyImmediate(go.GetComponent<Collider>());
@@ -70,7 +70,7 @@ namespace FlameBlame.EditorTools
             go.GetComponent<Renderer>().sharedMaterial = m; return go.transform;
         }
 
-        static Transform Group(Transform parent, string name, Vector3 pos)
+        public static Transform Group(Transform parent, string name, Vector3 pos)
         {
             var g = new GameObject(name).transform; g.SetParent(parent, false); g.localPosition = pos; return g;
         }
@@ -151,7 +151,7 @@ namespace FlameBlame.EditorTools
             var vm = vmGo.AddComponent<Camera>(); vm.nearClipPlane = .03f; vm.farClipPlane = 10f; vm.fieldOfView = p.viewmodelFov; vm.cullingMask = 1 << viewLayer;
             var baseData = world.GetUniversalAdditionalCameraData(); var vmData = vm.GetUniversalAdditionalCameraData();
             vmData.renderType = CameraRenderType.Overlay; baseData.cameraStack.Add(vm);
-            var hands = BuildHands(vmGo.transform, viewLayer);
+            var hands = BuildHands(vmGo.transform, viewLayer, Mat);
 
             Lights(root);
 
@@ -188,40 +188,54 @@ namespace FlameBlame.EditorTools
             }
         }
 
-        static ToyNpcShape BuildNpc(Transform parent, string name, Vector3 pos, float yaw, ScaleProfile p)
+        public static ToyNpcShape BuildNpc(Transform parent, string name, Vector3 pos, float yaw, ScaleProfile p)
         {
             var npc = Group(parent, name, pos); npc.localRotation = Quaternion.Euler(0, 180 + yaw, 0);
-            var shape = Group(npc, "Shape", Vector3.zero);
-            var skin = Mat("Skin", new Color(.88f, .43f, .28f)); var jacket = Mat("Jacket", new Color(.96f, .64f, .16f));
-            var helmetMat = Mat("Helmet", new Color(.86f, .26f, .12f)); var stripe = Mat("Yellow", new Color(1f, .82f, .2f));
-            var boot = Mat("Boot", new Color(.3f, .22f, .2f)); var eyeW = Mat("Eye", new Color(.98f, .97f, .9f)); var pupil = Mat("Pupil", new Color(.03f, .03f, .04f));
-            var glove = Mat("NpcGlove", new Color(.78f, .62f, .26f));
-            var torso = Part(shape, "Torso", Vector3.zero, Vector3.one, jacket, PrimitiveType.Sphere);
+            return BuildNpcShape(npc, p.npcHeight, p.npcHeadRatio, Mat, true, Mat("Jacket", new Color(.96f, .64f, .16f)), out _);
+        }
+
+        /// Shared toy-NPC construction (calibration scene and playable level). Parts are children of `shape`; returns the bound component on `owner`.
+        public static ToyNpcShape BuildNpcShape(Transform owner, float height, float headRatio, System.Func<string, Color, Material> mat, bool helmet, Material jacketMat, out Renderer[] tinted)
+        {
+            var shape = Group(owner, "Shape", Vector3.zero);
+            var skin = mat("Skin", new Color(.88f, .43f, .28f)); var helmetMat = helmet ? mat("Helmet", new Color(.86f, .26f, .12f)) : null;
+            var stripe = mat("Yellow", new Color(1f, .82f, .2f)); var boot = mat("Boot", new Color(.3f, .22f, .2f));
+            var eyeW = mat("Eye", new Color(.98f, .97f, .9f)); var pupil = mat("Pupil", new Color(.03f, .03f, .04f));
+            var glove = mat("NpcGlove", new Color(.78f, .62f, .26f));
+            var torso = Part(shape, "Torso", Vector3.zero, Vector3.one, jacketMat, PrimitiveType.Sphere);
             var head = Part(shape, "Head", Vector3.zero, Vector3.one, skin, PrimitiveType.Sphere);
-            var helmet = Part(shape, "Helmet", Vector3.zero, Vector3.one, helmetMat, PrimitiveType.Sphere);
-            var brim = Part(shape, "Brim", Vector3.zero, Vector3.one, helmetMat, PrimitiveType.Cylinder);
-            var badge = Part(shape, "Badge", Vector3.zero, Vector3.one, stripe);
-            var legs = new Transform[2]; var arms = new Transform[2]; var gloves = new Transform[2]; var eyes = new Transform[2]; var pupils = new Transform[2];
+            Transform hm = null, brim = null, badge = null;
+            if (helmet)
+            {
+                hm = Part(shape, "Helmet", Vector3.zero, Vector3.one, helmetMat, PrimitiveType.Sphere);
+                brim = Part(shape, "Brim", Vector3.zero, Vector3.one, helmetMat, PrimitiveType.Cylinder);
+                badge = Part(shape, "Badge", Vector3.zero, Vector3.one, stripe);
+            }
+            var legs = new Transform[2]; var arms = new Transform[2]; var eyes = new Transform[2]; var pupils = new Transform[2];
+            var parts = new List<Renderer> { head.GetComponent<Renderer>() };
             for (int i = 0; i < 2; i++)
             {
                 legs[i] = Part(shape, "Leg", Vector3.zero, Vector3.one, boot, PrimitiveType.Cylinder);
-                arms[i] = Part(shape, "Arm", Vector3.zero, Vector3.one, jacket, PrimitiveType.Capsule);
-                gloves[i] = Part(shape, "Glove", Vector3.zero, Vector3.one, glove, PrimitiveType.Sphere);
+                arms[i] = Group(shape, "ArmPivot", Vector3.zero);
+                parts.Add(Part(arms[i], "Arm", Vector3.zero, Vector3.one, jacketMat, PrimitiveType.Capsule).GetComponent<Renderer>());
+                parts.Add(Part(arms[i], "Glove", Vector3.zero, Vector3.one, glove, PrimitiveType.Sphere).GetComponent<Renderer>());
                 eyes[i] = Part(shape, "Eye", Vector3.zero, Vector3.one, eyeW, PrimitiveType.Sphere);
                 pupils[i] = Part(shape, "Pupil", Vector3.zero, Vector3.one, pupil, PrimitiveType.Sphere);
             }
+            var mouth = Part(shape, "Mouth", Vector3.zero, Vector3.one, pupil, PrimitiveType.Sphere);
             var stripes = new[] { Part(shape, "Stripe", Vector3.zero, Vector3.one, stripe, PrimitiveType.Cylinder), Part(shape, "Stripe", Vector3.zero, Vector3.one, stripe, PrimitiveType.Cylinder) };
-            var comp = npc.gameObject.AddComponent<ToyNpcShape>();
-            comp.Bind(shape, torso, head, helmet, brim, badge, legs, arms, gloves, eyes, pupils, stripes);
-            comp.Apply(p.npcHeight, p.npcHeadRatio);
+            var comp = owner.gameObject.AddComponent<ToyNpcShape>();
+            comp.Bind(shape, torso, head, hm, brim, badge, mouth, legs, arms, eyes, pupils, stripes);
+            comp.Apply(height, headRatio);
+            tinted = parts.ToArray();
             return comp;
         }
 
-        static Transform BuildHands(Transform camera, int layer)
+        public static Transform BuildHands(Transform camera, int layer, System.Func<string, Color, Material> mat)
         {
             var rig = Group(camera, "Hands", Vector3.zero);
-            var sleeve = Mat("Sleeve", new Color(.5f, .43f, .2f)); var glove = Mat("Glove", new Color(.45f, .38f, .17f));
-            var dirt = Mat("Dirt", new Color(.28f, .24f, .16f)); var stripe = Mat("Yellow", new Color(1f, .82f, .2f));
+            var sleeve = mat("Sleeve", new Color(.5f, .43f, .2f)); var glove = mat("Glove", new Color(.45f, .38f, .17f));
+            var dirt = mat("Dirt", new Color(.28f, .24f, .16f)); var stripe = mat("Yellow", new Color(1f, .82f, .2f));
             for (int s = -1; s <= 1; s += 2)
             {
                 var arm = Group(rig, s < 0 ? "ArmL" : "ArmR", new Vector3(s * .40f, -.34f, .20f));
@@ -243,7 +257,7 @@ namespace FlameBlame.EditorTools
             return rig;
         }
 
-        static void SetLayer(Transform t, int layer) { t.gameObject.layer = layer; foreach (Transform c in t) SetLayer(c, layer); }
+        public static void SetLayer(Transform t, int layer) { t.gameObject.layer = layer; foreach (Transform c in t) SetLayer(c, layer); }
 
         static void Lights(Transform root)
         {

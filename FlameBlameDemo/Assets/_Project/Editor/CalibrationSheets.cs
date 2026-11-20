@@ -118,7 +118,7 @@ namespace FlameBlame.EditorTools
             foreach (var t in new[] { tex, reference, a, b, both }) Object.DestroyImmediate(t);
         }
 
-        static Texture2D Resize(Texture2D src, int w, int h)
+        public static Texture2D Resize(Texture2D src, int w, int h)
         {
             var rt = RenderTexture.GetTemporary(w, h, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);
             Graphics.Blit(src, rt); var prev = RenderTexture.active; RenderTexture.active = rt;
@@ -126,7 +126,7 @@ namespace FlameBlame.EditorTools
             RenderTexture.active = prev; RenderTexture.ReleaseTemporary(rt); return o;
         }
 
-        static Texture2D Grab(Camera cam, int w, int h)
+        public static Texture2D Grab(Camera cam, int w, int h)
         {
             var rt = new RenderTexture(w, h, 24, RenderTextureFormat.ARGB32); rt.Create();
             RenderPipeline.SubmitRenderRequest(cam, new UniversalRenderPipeline.SingleCameraRequest { destination = rt });

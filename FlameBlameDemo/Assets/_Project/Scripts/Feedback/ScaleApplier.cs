@@ -13,6 +13,8 @@ namespace FlameBlame.Feedback
         [SerializeField] ToyNpcShape[] npcs;
         [SerializeField] ScaledProp[] props;
         [SerializeField] Vector3 handsBase;
+        [SerializeField] bool applyCameraPitch = true;   // off in the playable level: PlayerLook owns pitch
+        public bool ApplyCameraPitch { get => applyCameraPitch; set => applyCameraPitch = value; }
         public ScaleProfile Profile { get => profile; set => profile = value; }
         public Camera WorldCamera => worldCamera;
         public Camera ViewmodelCamera => viewmodelCamera;
@@ -32,7 +34,7 @@ namespace FlameBlame.Feedback
             {
                 worldCamera.fieldOfView = profile.worldFov;
                 var t = worldCamera.transform; var p = t.localPosition; p.y = profile.cameraHeight; t.localPosition = p;
-                t.localRotation = Quaternion.Euler(profile.cameraPitch, 0, 0);
+                if (applyCameraPitch) t.localRotation = Quaternion.Euler(profile.cameraPitch, 0, 0);
             }
             if (viewmodelCamera != null) viewmodelCamera.fieldOfView = profile.viewmodelFov;
             if (handsRig != null) { handsRig.localScale = Vector3.one * profile.handsScale; handsRig.localPosition = handsBase + profile.handsOffset; }

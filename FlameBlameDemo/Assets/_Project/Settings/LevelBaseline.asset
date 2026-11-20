@@ -1,0 +1,179 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c7dddde48bf8440942c4e8ccd9d445, type: 3}
+  m_Name: LevelBaseline
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::FlameBlame.EditorTools.LevelBaseline
+  entries:
+  - key: layout:Sofa
+    position: {x: -4.463, y: 0, z: 2.5}
+    scale: {x: 1, y: 1, z: 1}
+    value: 0
+  - key: layout:Armchair
+    position: {x: -2.6, y: 0, z: -1.2}
+    scale: {x: 1, y: 1, z: 1}
+    value: 0
+  - key: layout:Curtain
+    position: {x: -5.9, y: 1.7, z: 2.5}
+    scale: {x: 1, y: 1, z: 1}
+    value: 0
+  - key: layout:PaperStack_1
+    position: {x: -3.6, y: 0.15, z: 2.3}
+    scale: {x: 1, y: 1, z: 1}
+    value: 0
+  - key: mass:PaperStack_1
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 1
+  - key: layout:PaperStack_2
+    position: {x: -2.7, y: 0.15, z: 1.2}
+    scale: {x: 1, y: 1, z: 1}
+    value: 0
+  - key: mass:PaperStack_2
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 1
+  - key: layout:PaperStack_3
+    position: {x: -2.3, y: 0.15, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    value: 0
+  - key: mass:PaperStack_3
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 1
+  - key: layout:Shelf_1
+    position: {x: 5.7, y: 0, z: -1.8}
+    scale: {x: 1, y: 1, z: 1}
+    value: 0
+  - key: layout:Shelf_2
+    position: {x: 5.7, y: 0, z: 1.8}
+    scale: {x: 1, y: 1, z: 1}
+    value: 0
+  - key: layout:Table
+    position: {x: 3, y: 0, z: -0.2}
+    scale: {x: 1, y: 1, z: 1}
+    value: 0
+  - key: layout:Crate
+    position: {x: 3.9, y: 0.25, z: -3}
+    scale: {x: 1, y: 1, z: 1}
+    value: 0
+  - key: mass:Crate
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 3
+  - key: layout:MetalLocker
+    position: {x: 2.4, y: 0, z: 4.2}
+    scale: {x: 1, y: 1, z: 1}
+    value: 0
+  - key: layout:MetalBarrel
+    position: {x: 4.3, y: 0.45, z: 3.4}
+    scale: {x: 1, y: 1, z: 1}
+    value: 0
+  - key: mass:MetalBarrel
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 8
+  - key: layout:SparkCable
+    position: {x: -1.3, y: 0.04, z: 0.8}
+    scale: {x: 1, y: 1, z: 1}
+    value: 0
+  - key: cable:radius
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 0.6
+  - key: layout:WateringCan
+    position: {x: 0.2, y: 0.65, z: 0.4}
+    scale: {x: 0.4, y: 0.6, z: 0.4}
+    value: 0
+  - key: mass:WateringCan
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 1.2
+  - key: layout:Book
+    position: {x: 2.25, y: 1.1076001, z: -0.8598}
+    scale: {x: 0.12, y: 0.35999998, z: 0.24}
+    value: 0
+  - key: layout:Flowerpot
+    position: {x: 0.7, y: 0.35, z: 1.2}
+    scale: {x: 0.4, y: 0.3, z: 0.4}
+    value: 0
+  - key: mass:Flowerpot
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 1.2
+  - key: layout:Hydrant
+    position: {x: -5.3, y: 0, z: -4.3}
+    scale: {x: 1, y: 1, z: 1}
+    value: 0
+  - key: layout:Player
+    position: {x: -4.2, y: 0.05, z: -3}
+    scale: {x: 1, y: 1, z: 1}
+    value: 0
+  - key: npc:panic
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 3.2
+  - key: npc:char
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 0.9
+  - key: puddle:d
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 1.1
+  - key: puddle:s
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 0.7
+  - key: fire:Wood
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 1.6
+  - key: fire:Fabric
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 1.8
+  - key: fire:Paper
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 1.5
+  - key: fire:Metal
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 0
+  - key: ps:Template_Flame
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 0.35
+  - key: ps:Template_Flame/Core
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 0.2
+  - key: ps:Template_Flame/Smoke
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 0.55
+  - key: ps:Template_Flame/Embers
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 0.04
+  - key: ps:Template_Steam
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 0.5
+  - key: ps:Template_Splash
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 0.1
+  - key: ps:Template_Spark
+    position: {x: 0, y: 0, z: 0}
+    scale: {x: 0, y: 0, z: 0}
+    value: 0.06

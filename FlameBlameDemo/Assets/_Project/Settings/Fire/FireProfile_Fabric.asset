@@ -18,7 +18,7 @@ MonoBehaviour:
   coolRate: 4
   burnDuration: 10
   spreadHeatPerSecond: 60
-  spreadRadius: 1.8
+  spreadRadius: 0.9
   waterCooling: 120
   charColor: {r: 0.1, g: 0.08, b: 0.08, a: 1}
   glowColor: {r: 1, g: 0.35, b: 0.05, a: 1}

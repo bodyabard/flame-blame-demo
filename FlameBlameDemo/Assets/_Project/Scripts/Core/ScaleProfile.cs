@@ -24,5 +24,20 @@ namespace FlameBlame.Core
         [Header("First-person hands")]
         [Min(.2f)] public float handsScale = 1f;
         public Vector3 handsOffset = Vector3.zero;
+        [Header("Playable level (applied by Tools/FlameBlame/Rebuild Main Level)")]
+        [Tooltip("Furniture size relative to the original greybox, on top of objectScaleMultiplier (the room is ~2x smaller).")]
+        [Range(.3f, 1.2f)] public float furnitureFit = .6f;
+        [Tooltip("Distances shrank by this factor vs the greybox: fire spread, NPC panic and char radii.")]
+        [Range(.2f, 1f)] public float distanceScale = .5f;
+        [Min(.5f)] public float moveSpeed = 2.2f;
+        [Min(.1f)] public float lookSensitivity = 2f;
+        [Range(.5f, 1f)] public float hoseReachMargin = .95f;
+        [Min(4)] public int hoseSegments = 32;
+        [Range(.1f, 1f)] public float jetRangeFactor = .4f;
+        [Min(.02f)] public float jetRadius = .1f;
+        [Min(.5f)] public float hoseGrabDistance = 1.6f;
+        [Range(.2f, 1.5f)] public float puddleScale = .6f;
+        [Range(.2f, 1.5f)] public float particleScale = .75f;
+        [Min(.1f)] public float npcMaxSpeed = 1.4f;
     }
 }

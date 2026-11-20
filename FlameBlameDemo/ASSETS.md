@@ -41,3 +41,6 @@ No HDRI or noisy surface textures are needed for the clean sunset palette. Curre
 The AudioMixer `Audio/FlameBlame.mixer` contains Master with Effects, Voices and Music groups. Every authored AudioSource routes to one of these groups. Source gains are adjustable in VisualTuning; group faders are available in Unity's AudioMixer window. All audio and font resources needed for this pass have been imported; no manual account login is required.
 
 | Unity Toon Shader 0.16.1-preview | Unity package com.unity.toonshader; LICENSE.md in package | Unity Companion License (Unity-dependent projects) | Materials/Toon: opaque environment, props, NPCs and first-person equipment |
+
+## Фаза 7
+Нових зовнішніх асетів немає: NPC, руки, двері, цоколь і палітра зібрані з примітивів і матеріалів проєкту (Toon-шейдер користувача). Сторонні моделі лишились ті ж (Kenney Furniture для дивана/крісла).

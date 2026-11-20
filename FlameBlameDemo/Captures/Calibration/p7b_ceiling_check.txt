@@ -1,0 +1,1 @@
+mean luminance ceiling on=0,7285 off=0,7285 (bottom half of the frame only (floor and furniture, no ceiling pixels))

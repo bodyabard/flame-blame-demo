@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0cea29c1c3246f41847789851fcc03b, type: 3}
+  m_Name: EnvironmentPalette
+  m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Core.EnvironmentPalette
+  wall: {r: 0.96, g: 0.74, b: 0.58, a: 1}
+  wainscot: {r: 0.83, g: 0.38999996, b: 0.19999996, a: 1}
+  floor: {r: 0.42999998, g: 0.47999996, b: 0.58, a: 1}
+  ceiling: {r: 0.86, g: 0.66, b: 0.52, a: 1}
+  door: {r: 0.82, g: 0.62, b: 0.45, a: 1}
+  sofa: {r: 0.72, g: 0.3, b: 0.2, a: 1}
+  accent: {r: 0.88, g: 0.36, b: 0.18, a: 1}
+  wood: {r: 0.62, g: 0.35, b: 0.19, a: 1}
+  metal: {r: 0.6, g: 0.55, b: 0.54, a: 1}
+  paper: {r: 0.96, g: 0.85, b: 0.62, a: 1}
+  petal: {r: 0.86, g: 0.3, b: 0.38, a: 1}
+  leaf: {r: 0.42, g: 0.6, b: 0.22, a: 1}
+  npcJacketA: {r: 0.96, g: 0.64, b: 0.16, a: 1}
+  npcJacketB: {r: 0.93, g: 0.78, b: 0.27, a: 1}
+  npcSkin: {r: 0.88, g: 0.43, b: 0.28, a: 1}
+  npcStripe: {r: 1, g: 0.82, b: 0.2, a: 1}
+  npcBoot: {r: 0.3, g: 0.22, b: 0.2, a: 1}
+  npcGlove: {r: 0.78, g: 0.62, b: 0.26, a: 1}
+  sleeve: {r: 0.5, g: 0.43, b: 0.2, a: 1}
+  glove: {r: 0.45, g: 0.38, b: 0.17, a: 1}
+  dirt: {r: 0.28, g: 0.24, b: 0.16, a: 1}

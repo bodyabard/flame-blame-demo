@@ -16,3 +16,5 @@
 - **Phase 4 / delivery:** Codex audited runtime paths, added adaptive visual emission/distance culling and fixed reused-effect visibility, prepared validated WebGL/Windows menu builds and a local server, and drafted judge instructions and the Ukrainian video script.
 
 - **Phase 4 / WebGL GPU fix:** Codex used Chrome GPU-call instrumentation to trace invisible Lit meshes to an invalid additional-shadow sampler binding, aligned the Mobile URP shadow fallback, and confirmed rendering, a full result/restart cycle and zero Lit draw errors in the browser probe.
+
+- **WebGL / local launch follow-up:** Codex added a double-click Windows launcher resolving Node from PATH or Rider runtimes after the user's shell lacked node, and verified HTTP 200 with the Rider path removed from PATH.

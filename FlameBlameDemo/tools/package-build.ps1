@@ -31,6 +31,7 @@ foreach ($reportName in @('build-WebGL.json','build-Windows.json','browser-smoke
 }
 if ($Target -eq 'WebGL') {
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'serve-webgl.mjs') -Destination (Join-Path $outputFolder 'serve-webgl.mjs') -Force
+    foreach ($launcher in @('Start-WebGL.cmd','start-webgl.ps1')) { Copy-Item -LiteralPath (Join-Path $PSScriptRoot $launcher) -Destination (Join-Path $outputFolder $launcher) -Force }
     'From this folder: node serve-webgl.mjs . 8080 ; open http://127.0.0.1:8080 ; click Load then the game canvas.' | Set-Content -Encoding UTF8 (Join-Path $outputFolder 'START.txt')
 }
 else { 'Run FlameBlameDemo.exe with all neighbouring files and folders intact. WASD / Mouse / Space / LMB / E / Esc.' | Set-Content -Encoding UTF8 (Join-Path $outputFolder 'START.txt') }

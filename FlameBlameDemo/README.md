@@ -6,6 +6,8 @@
 
 **WebGL у Chrome на ПК.** Розпакуйте весь архів WebGL. Не відкривайте `index.html` через `file://` — потрібен HTTP-сервер.
 
+На Windows двічі натисніть **Start-WebGL.cmd** у папці розпакованого WebGL-білда (або `tools/Start-WebGL.cmd` у репозиторії). Лаунчер знайде Node.js у PATH або в runtime Rider. Залиште його вікно відкритим і перейдіть на **http://127.0.0.1:8080**. На ПК без Node.js та Rider спочатку встановіть Node.js.
+
 З кореня цього репозиторію, з установленим Node.js:
 
 ```powershell

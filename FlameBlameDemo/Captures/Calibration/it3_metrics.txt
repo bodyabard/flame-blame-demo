@@ -1,0 +1,34 @@
+== it3_fov
+V50 W60 | doorH=0.355 doorW=0.091 doorTopY=0.126 | npc02 torsoW=0.249 helmetTopY=0.219 | npc01 torsoW=0.394 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.062
+V50 W70 | doorH=0.293 doorW=0.075 doorTopY=0.192 | npc02 torsoW=0.205 helmetTopY=0.268 | npc01 torsoW=0.325 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.062
+V50 W80 | doorH=0.244 doorW=0.063 doorTopY=0.243 | npc02 torsoW=0.171 helmetTopY=0.306 | npc01 torsoW=0.271 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.062
+V50 W90 | doorH=0.205 doorW=0.053 doorTopY=0.284 | npc02 torsoW=0.144 helmetTopY=0.338 | npc01 torsoW=0.227 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.062
+V50 W100 | doorH=0.172 doorW=0.044 doorTopY=0.319 | npc02 torsoW=0.121 helmetTopY=0.364 | npc01 torsoW=0.191 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.062
+V60 W60 | doorH=0.355 doorW=0.091 doorTopY=0.126 | npc02 torsoW=0.249 helmetTopY=0.219 | npc01 torsoW=0.394 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087
+V60 W70 | doorH=0.293 doorW=0.075 doorTopY=0.192 | npc02 torsoW=0.205 helmetTopY=0.268 | npc01 torsoW=0.325 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087
+V60 W80 | doorH=0.244 doorW=0.063 doorTopY=0.243 | npc02 torsoW=0.171 helmetTopY=0.306 | npc01 torsoW=0.271 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087
+V60 W90 | doorH=0.205 doorW=0.053 doorTopY=0.284 | npc02 torsoW=0.144 helmetTopY=0.338 | npc01 torsoW=0.227 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087
+V60 W100 | doorH=0.172 doorW=0.044 doorTopY=0.319 | npc02 torsoW=0.121 helmetTopY=0.364 | npc01 torsoW=0.191 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087
+V70 W60 | doorH=0.355 doorW=0.091 doorTopY=0.126 | npc02 torsoW=0.249 helmetTopY=0.219 | npc01 torsoW=0.394 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.104
+V70 W70 | doorH=0.293 doorW=0.075 doorTopY=0.192 | npc02 torsoW=0.205 helmetTopY=0.268 | npc01 torsoW=0.325 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.104
+V70 W80 | doorH=0.244 doorW=0.063 doorTopY=0.243 | npc02 torsoW=0.171 helmetTopY=0.306 | npc01 torsoW=0.271 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.104
+V70 W90 | doorH=0.205 doorW=0.053 doorTopY=0.284 | npc02 torsoW=0.144 helmetTopY=0.338 | npc01 torsoW=0.227 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.104
+V70 W100 | doorH=0.172 doorW=0.044 doorTopY=0.319 | npc02 torsoW=0.121 helmetTopY=0.364 | npc01 torsoW=0.191 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.104
+== it3_npc
+N0.6 H1 | doorH=0.244 doorW=0.063 doorTopY=0.243 | npc02 torsoW=0.105 helmetTopY=0.465 | npc01 torsoW=0.161 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087
+N0.6 H1.2 | doorH=0.244 doorW=0.063 doorTopY=0.243 | npc02 torsoW=0.129 helmetTopY=0.413 | npc01 torsoW=0.200 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087
+N0.6 H1.4 | doorH=0.244 doorW=0.063 doorTopY=0.243 | npc02 torsoW=0.155 helmetTopY=0.360 | npc01 torsoW=0.242 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087
+N0.6 H1.6 | doorH=0.244 doorW=0.063 doorTopY=0.243 | npc02 torsoW=0.182 helmetTopY=0.306 | npc01 torsoW=0.289 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087
+N0.7 H1 | doorH=0.244 doorW=0.063 doorTopY=0.243 | npc02 torsoW=0.100 helmetTopY=0.463 | npc01 torsoW=0.153 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087
+N0.7 H1.2 | doorH=0.244 doorW=0.063 doorTopY=0.243 | npc02 torsoW=0.122 helmetTopY=0.412 | npc01 torsoW=0.189 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087
+N0.7 H1.4 | doorH=0.244 doorW=0.063 doorTopY=0.243 | npc02 torsoW=0.146 helmetTopY=0.359 | npc01 torsoW=0.228 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087
+N0.7 H1.6 | doorH=0.244 doorW=0.063 doorTopY=0.243 | npc02 torsoW=0.171 helmetTopY=0.306 | npc01 torsoW=0.271 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087
+N0.85 H1 | doorH=0.244 doorW=0.063 doorTopY=0.243 | npc02 torsoW=0.093 helmetTopY=0.461 | npc01 torsoW=0.141 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087
+N0.85 H1.2 | doorH=0.244 doorW=0.063 doorTopY=0.243 | npc02 torsoW=0.113 helmetTopY=0.410 | npc01 torsoW=0.174 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087
+N0.85 H1.4 | doorH=0.244 doorW=0.063 doorTopY=0.243 | npc02 torsoW=0.135 helmetTopY=0.359 | npc01 torsoW=0.210 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087
+N0.85 H1.6 | doorH=0.244 doorW=0.063 doorTopY=0.243 | npc02 torsoW=0.158 helmetTopY=0.306 | npc01 torsoW=0.248 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087
+== it3_obj
+O1 | doorH=0.244 doorW=0.063 doorTopY=0.243 | npc02 torsoW=0.171 helmetTopY=0.306 | npc01 torsoW=0.271 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087
+O1.3 | doorH=0.244 doorW=0.063 doorTopY=0.243 | npc02 torsoW=0.171 helmetTopY=0.306 | npc01 torsoW=0.271 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087
+O1.6 | doorH=0.244 doorW=0.063 doorTopY=0.243 | npc02 torsoW=0.171 helmetTopY=0.306 | npc01 torsoW=0.271 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087
+== final | doorH=0.244 doorW=0.063 doorTopY=0.243 | npc02 torsoW=0.171 helmetTopY=0.306 | npc01 torsoW=0.271 | lineSlopeDeg=18.2 | handsTop(fromTop)=0.000 handsCover=0.087

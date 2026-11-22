@@ -1,4 +1,4 @@
-﻿using FlameBlame.Electric;
+using FlameBlame.Electric;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -11,16 +11,20 @@ namespace FlameBlame.Feedback
             public Transform View;
             public Renderer Renderer;
             public MaterialPropertyBlock Block = new MaterialPropertyBlock();
-            public float Expires, Diameter;
+            public float Expires, Diameter, Born, VisualDiameter, Variation;
+            public float GameplayDiameter;
             public Vector3 Position => View.position;
-            public float Radius => View.localScale.x * 0.5f;
+            public float Radius => GameplayDiameter * 0.5f;
             public bool Energized { get; set; }
         }
         readonly ObjectPool<Puddle> pool;
         readonly Puddle[] active;
         readonly ElectricitySystem electricity;
-        readonly float lifetime, thickness;
-        readonly int baseColorId = Shader.PropertyToID("_BaseColor");
+        readonly float lifetime;
+        int sequence;
+        readonly int fillId = Shader.PropertyToID("_Fill");
+        readonly int electrifiedId = Shader.PropertyToID("_Electrified");
+
         int count;
 
         public PuddleFactory(Transform root, Transform template, ElectricitySystem electricity,
@@ -28,7 +32,7 @@ namespace FlameBlame.Feedback
         {
             this.electricity = electricity;
             this.lifetime = Mathf.Max(1f, lifetime);
-            thickness = template.localScale.y;
+
             capacity = Mathf.Clamp(capacity, 1, 48);
             active = new Puddle[capacity];
             template.gameObject.SetActive(false);
@@ -60,8 +64,18 @@ namespace FlameBlame.Feedback
             puddle.Energized = false;
             puddle.Diameter = diameter;
             puddle.Expires = Time.time + lifetime;
-            puddle.View.SetPositionAndRotation(position + Vector3.up * (0.012f + count * 0.0004f), Quaternion.identity);
-            puddle.View.localScale = new Vector3(diameter, thickness, diameter);
+            puddle.Born = Time.time;
+            puddle.Variation = Random.Range(.75f,1.25f);
+            puddle.VisualDiameter = diameter;
+            puddle.GameplayDiameter = diameter;
+            puddle.Block.Clear();
+            puddle.Block.SetFloat(Shader.PropertyToID("_Seed"), Random.value*100f);
+            puddle.Block.SetFloat(Shader.PropertyToID("_MaskIndex"), Random.Range(0,4));
+            puddle.Block.SetFloat(fillId, 0);
+            puddle.Block.SetFloat(electrifiedId, 0);
+            puddle.Renderer.SetPropertyBlock(puddle.Block);
+            puddle.View.SetPositionAndRotation(position + Vector3.up * (0.012f + (sequence++ % 12) * 0.0007f), Quaternion.Euler(90f, Random.Range(0f,360f),0f));
+            puddle.View.localScale = new Vector3(diameter, diameter, 1f);
             active[count++] = puddle;
             electricity.Register(puddle);
         }
@@ -73,9 +87,14 @@ namespace FlameBlame.Feedback
                 if (now >= p.Expires) { Release(i); continue; }
                 float shrink = Mathf.Clamp01((p.Expires - now) / Mathf.Min(4f, lifetime));
                 float diameter = p.Diameter * shrink;
-                p.View.localScale = new Vector3(diameter, thickness, diameter);
-                p.Block.SetColor(baseColorId, p.Energized
-                    ? new Color(1f, 0.75f, 0.08f, 0.8f) : new Color(0.25f, 0.5f, 0.85f, 0.55f));
+                p.GameplayDiameter = diameter;
+                p.VisualDiameter = Mathf.Lerp(p.VisualDiameter,p.Diameter,1f-Mathf.Exp(-Time.deltaTime*8f));
+                float age = Mathf.Clamp01((now-p.Born)/.45f);
+                float visual = p.VisualDiameter*p.Variation*(1f+Mathf.Sin(age*Mathf.PI)*.08f);
+                p.View.localScale = new Vector3(visual,visual,1f);
+                p.Block.SetFloat(fillId, Mathf.SmoothStep(0f,1f,age)*shrink);
+                p.Block.SetFloat(electrifiedId,p.Energized?1f:0f);
+
                 p.Renderer.SetPropertyBlock(p.Block);
             }
         }

@@ -1,0 +1,2 @@
+Applied; shader supported=True; errors=False
+Pool smoke PASS: spawn, fill, shared material, expiration, reuse. Unity batch exit 0.

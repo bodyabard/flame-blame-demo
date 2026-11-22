@@ -10,7 +10,7 @@ Add every external asset here (name, source, license, where used).
 
 Phase 2 adds no external character models, animations, textures or audio. Capsule reactions are procedural. Imported resources retain their Unity package GUIDs and the font's OFL notice.
 
-## Phase 3 — scene review
+## Phase 3 ï¿½ scene review
 
 | Name | Source | License | Used in |
 |------|--------|---------|---------|
@@ -20,16 +20,16 @@ Phase 2 adds no external character models, animations, textures or audio. Capsul
 No HDRI or noisy surface textures are needed for the clean sunset palette. Current NPCs remain procedural; no Mixamo asset has been imported. Audio and font selection belong to the second review section of phase 3.
 
 ### Optional import pipeline after scene review
-1. Quaternius **Ultimate House Interior Pack** — https://quaternius.com/packs/ultimatehomeinterior.html — official page labels CC0; optional alternative, not imported.
-2. Kenney **Food Kit** — https://kenney.nl/assets/food-kit — optional small props; verify and preserve download license before importing.
-3. Poly Haven HDRIs / ambientCG surfaces — optional only if the flat material style needs them; retain each asset's CC0 notice on import.
-4. Kenney audio / Freesound CC0 clips — audio pass pending; accept only individual clips with verified CC0 licenses.
+1. Quaternius **Ultimate House Interior Pack** ï¿½ https://quaternius.com/packs/ultimatehomeinterior.html ï¿½ official page labels CC0; optional alternative, not imported.
+2. Kenney **Food Kit** ï¿½ https://kenney.nl/assets/food-kit ï¿½ optional small props; verify and preserve download license before importing.
+3. Poly Haven HDRIs / ambientCG surfaces ï¿½ optional only if the flat material style needs them; retain each asset's CC0 notice on import.
+4. Kenney audio / Freesound CC0 clips ï¿½ audio pass pending; accept only individual clips with verified CC0 licenses.
 
-### ÇÐÎÁÈ ÂÐÓ×ÍÓ
+### ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 1. Optional: sign into **Mixamo**, choose **Y Bot**, then **Idle**, **Running**, **Dying**, export FBX for Unity (animations Without Skin after the character). Review Adobe terms before redistribution. These are optional animation candidates, not imported or required by the current procedural NPCs.
 2. No Asset Store package or login is required for the scene review.
 
-## Phase 3 — feel, HUD and audio
+## Phase 3 ï¿½ feel, HUD and audio
 
 | Name | Source | License | Used in |
 |------|--------|---------|---------|
@@ -54,3 +54,8 @@ The AudioMixer `Audio/FlameBlame.mixer` contains Master with Effects, Voices and
 | Hose_Lit.mat, Hose_Brass.mat | Generated in-project, URP/Lit | Project original | Matte yellow tube; warm brass couplings and nozzle |
 | HoseHexRing.asset | Procedural six-sided mesh | Project original | Endpoint coupling rings |
 Reference images 16/17 are comparison inputs only; no reference pixels or external assets are embedded into game materials.
+
+## Puddle visuals â€” phase 10
+- `Assets/_Project/Art/Puddles/Mask0..3.png`: four original 256Ã—256 soft silhouette masks with 3â€“4 satellite drops; generated offline by `PuddleVisualBuilder.Generate` (analytic lobes and a smooth 11.5px edge). No downloaded artwork.
+- `Assets/_Project/Art/Puddles/Noise.png`: original periodic RG Fourier noise, 256Ã—256; generated once in Editor. Linear sampling; masks Clamp, noise Repeat; no mipmaps.
+- `Assets/_Project/Shaders/PuddleToon.shadergraph`: original toon water surface function in a URP Lit graph. Generator uses serialization scaffolding from the installed Unity TMP Lit graph; no TMP artwork is incorporated. Reference screenshots 19â€“21 inform the technique only and are not shipped as textures.

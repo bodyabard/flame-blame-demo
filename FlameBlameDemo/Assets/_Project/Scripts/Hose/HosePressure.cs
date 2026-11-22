@@ -18,6 +18,11 @@ namespace FlameBlame.Hose
             return basePressure * Mathf.Lerp(1f, minFactor, choke);
         }
 
+        public void TickBend(float choke, float dt)
+        {
+            float target=BasePressure*Mathf.Lerp(1f,.3f,Mathf.Clamp01(choke));
+            Pressure=Mathf.Lerp(Pressure,target,1f-Mathf.Exp(-Smoothing*dt));
+        }
         public void Tick(int kinks, float dt)
         {
             float target = TargetPressure(BasePressure, kinks, MinFactor, KinksForFullChoke);

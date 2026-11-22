@@ -3,3 +3,10 @@
 
 - Фаза 6: AI зібрав сцену-калібрування, `ScaleProfile` і Editor-рендер контактних листів із автоматичними замірами пропорцій (двері/NPC/руки), щоб підбирати FOV і масштаб числами, а не на око.
 - Фаза 7: AI написав ідемпотентний Editor-скрипт, що переносить калібрування в готовий рівень на місці (масштаб, FOV, палітра, NPC, рукав, радіуси вогню), не торкаючись світла й постобробки, і перевірив стелю числом (яскравість зі стелею = без стелі).
+
+
+## Phase 9 — hose visuals
+- AI implemented a cached Catmull–Rom tube mesh with transported frames, lit matte materials, endpoint couplings, unilateral bend projection, bend-relative pressure and traveling swell fronts.
+- Validation: Unity batch compilation, EditMode suite and staged live captures (results recorded in Captures/Hose/verification.txt and Logs/hose-tests.xml). Manual milestone review remains required.
+
+- Final verification: 21/21 EditMode tests pass; staged Play smoke has 0 errors and 846 tube vertices. Independent code review found frozen fallback couplings; fixed visibility with renderer selection. Manual milestone review remains pending.

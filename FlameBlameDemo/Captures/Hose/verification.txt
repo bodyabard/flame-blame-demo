@@ -1,0 +1,1 @@
+Play smoke: 0 errors; dry/wet/closed/dropped captures. Tube vertices: 846.

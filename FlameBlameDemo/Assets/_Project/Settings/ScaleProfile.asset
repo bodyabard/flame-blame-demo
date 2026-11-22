@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 106e2c97e3ea9dc4187cdf9da57f88e0, type: 3}
   m_Name: ScaleProfile
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Core.ScaleProfile
+  tubeRadius: 0.09
+  bendLimitFactor: 1.8
+  hoseDryScale: 0.85
+  hoseWetScale: 1.15
+  hoseWaveSpeed: 8
+  hoseSwellTime: 0.18
+  hoseVibration: 0.025
   worldFov: 80
   viewmodelFov: 60
   cameraHeight: 1.6
@@ -25,3 +32,15 @@ MonoBehaviour:
   doorHeight: 2.1
   handsScale: 1
   handsOffset: {x: 0, y: 0, z: 0}
+  furnitureFit: 0.6
+  distanceScale: 0.5
+  moveSpeed: 2.2
+  lookSensitivity: 2
+  hoseReachMargin: 0.95
+  hoseSegments: 32
+  jetRangeFactor: 0.4
+  jetRadius: 0.1
+  hoseGrabDistance: 1.6
+  puddleScale: 0.6
+  particleScale: 0.75
+  npcMaxSpeed: 1.4

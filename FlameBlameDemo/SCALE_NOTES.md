@@ -38,3 +38,13 @@ worldFov **80** · viewmodelFov **60** · cameraHeight 1.6 · cameraPitch 18 · 
 - **NPC:** та сама конструкція `ToyNpcShape`, що в калібруванні, без шолома; два варіанти куртки (оранжева, гірчична); `NpcActor.tintedParts` фарбує голову/руки при обвугленні й ударі струмом.
 - **Перевірка:** Play-smoke 8 с без помилок (`Captures/Calibration/play_smoke.txt`).
 - **Не робив:** стартовий нахил камери в грі (його веде `PlayerLook`, 0°); `handPoint` (точка струменя) лишився на старому місці; кадр руху/вогню/струменя вживу не знімав.
+
+## Phase 9 � hose
+- Base tube radius 0.09 m; collision radius 0.081 m (fixed, independent of visual swelling). ScaleProfile controls both base radius and bend factor.
+- Bend chord factor starts at 1.8 and is raised to keep curvature radius at least 4x tubeRadius. At ~0.21 m segments it is about 1.91. Projection stiffness 0.7, at least 16 solver iterations.
+- Pressure starts choking at 80% of the permitted turn and smoothly approaches 30%. The legacy kink-count API remains available to existing callers/tests.
+- 8 tube sides, 3 Catmull�Rom subdivisions, 94 rings / 846 vertices for 32 simulation points (UV seam duplicated). Analytic normals and cached topology; no per-frame array creation.
+- ScaleProfile: dry/wet radius factors .85/1.15, front speed 8 m/s, smoothing .18 s, pressure vibration 2.5%. Runtime tuning applies directly; base collision radius updates on initialization.
+- Inspector HoseRenderer.useTube switches to the legacy ribbon. Apply Hose Visuals rebuilds hose assets only; no lighting/post changes.
+- Collision regression: bend projection can push initial coils beyond finite floor edges. Hose constraints now clamp free points to the room XZ extents from ScaleProfile, with radius clearance; collision mask also includes Default architecture colliders. No room/light objects were changed.
+- EditMode collision regression now reads the actual scene segment count/length and profile radius/bend settings, rather than the obsolete 9.3 m chain. Full suite: 21/21 passed.

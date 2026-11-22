@@ -21,21 +21,28 @@ namespace FlameBlame.Tests
                 Assert.That(controller, Is.Not.Null);
                 var serialized = new SerializedObject(controller);
                 int mask = serialized.FindProperty("collisionMask").intValue;
-                Assert.That(mask, Is.EqualTo(LayerMask.GetMask("Floor", "Interactable")));
+                Assert.That(mask, Is.EqualTo(LayerMask.GetMask("Default", "Floor", "Interactable")));
                 foreach (var root in scene.GetRootGameObjects())
                     foreach (var collider in root.GetComponentsInChildren<Collider>())
                     {
                         string objectName = collider.gameObject.name;
                         if (objectName == "Floor") Assert.That(mask & (1 << collider.gameObject.layer), Is.Not.Zero);
                         if (objectName.StartsWith("Wall_") || objectName == "Ceiling")
-                            Assert.That(mask & (1 << collider.gameObject.layer), Is.Zero);
+                            Assert.That(mask & (1 << collider.gameObject.layer), Is.Not.Zero);
                     }
                 var anchor = (Transform)serialized.FindProperty("anchor").objectReferenceValue;
                 var hand = (Transform)serialized.FindProperty("handPoint").objectReferenceValue;
                 Physics.SyncTransforms();
                 using (var resolver = new PhysicsHoseCollision(mask))
                 {
-                    var sim = new HoseSimulation(32, 0.3f, resolver);
+                    var profile = (FlameBlame.Core.ScaleProfile)serialized.FindProperty("scale").objectReferenceValue;
+                    var sim = new HoseSimulation(serialized.FindProperty("segments").intValue,
+                        serialized.FindProperty("segmentLength").floatValue, resolver)
+                    {
+                        Radius=profile.tubeRadius*.9f, TubeRadius=profile.tubeRadius,
+                        RoomHalfExtents=new Vector2(profile.roomWidth*.5f,profile.roomLength*.5f),
+                        BendLimitFactor=profile.bendLimitFactor, Iterations=16
+                    };
                     sim.Reset(anchor.position, anchor.right);
                     for (int step = 0; step < 600; step++)
                     {

@@ -46,3 +46,11 @@ The AudioMixer `Audio/FlameBlame.mixer` contains Master with Effects, Voices and
 Нових зовнішніх асетів немає: NPC, руки, двері, цоколь і палітра зібрані з примітивів і матеріалів проєкту (Toon-шейдер користувача). Сторонні моделі лишились ті ж (Kenney Furniture для дивана/крісла).
 
 Налаштування освітлення й post-processing натхненні RestaurantGame3DUnity (Kağan Ayten, MIT); асети не використано. Джерело: https://github.com/KaganAyten/RestaurantGame3DUnity .
+
+
+## Phase 9 � procedural hose assets
+| Asset | Source | License | Use |
+|---|---|---|---|
+| Hose_Lit.mat, Hose_Brass.mat | Generated in-project, URP/Lit | Project original | Matte yellow tube; warm brass couplings and nozzle |
+| HoseHexRing.asset | Procedural six-sided mesh | Project original | Endpoint coupling rings |
+Reference images 16/17 are comparison inputs only; no reference pixels or external assets are embedded into game materials.

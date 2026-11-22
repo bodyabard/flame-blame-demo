@@ -14,6 +14,10 @@ namespace FlameBlame.Hose
         /// Dot product below which two neighbouring segments count as a kink.
         public float KinkDotThreshold = 0.15f;
 
+        public float BendLimitFactor = 1.8f, TubeRadius = .09f;
+        public Vector2 RoomHalfExtents = new Vector2(float.PositiveInfinity, float.PositiveInfinity);
+        readonly HoseBendConstraint bend = new HoseBendConstraint();
+        public float EffectiveBendFactor => HoseBendConstraint.ChordFactor(SegmentLength, TubeRadius, BendLimitFactor);
         readonly Vector3[] p;
         readonly Vector3[] prev;
         readonly IHoseCollisionResolver collision;
@@ -102,6 +106,12 @@ namespace FlameBlame.Hose
                     else { p[i] += corr * 0.5f; p[i + 1] -= corr * 0.5f; }
                 }
 
+                bend.Solve(p, SegmentLength * EffectiveBendFactor, endPinned);
+                for(int i=1;i<n-(endPinned?1:0);i++)
+                {
+                    p[i].x=Mathf.Clamp(p[i].x,-RoomHalfExtents.x+Radius,RoomHalfExtents.x-Radius);
+                    p[i].z=Mathf.Clamp(p[i].z,-RoomHalfExtents.y+Radius,RoomHalfExtents.y-Radius);
+                }
                 if (collision != null)
                     for (int i = 1; i < n - (endPinned ? 1 : 0); i++)
                         p[i] = collision is IHoseMotionCollisionResolver motion
@@ -110,6 +120,16 @@ namespace FlameBlame.Hose
             }
         }
 
+        public float BendChoke()
+        {
+            float limit=2f*Mathf.Acos(EffectiveBendFactor*.5f), choke=0f;
+            for(int i=1;i<Segments-1;i++)
+            {
+                float angle=Vector3.Angle(p[i]-p[i-1],p[i+1]-p[i])*Mathf.Deg2Rad;
+                choke=Mathf.Max(choke,Mathf.InverseLerp(limit*.8f,limit,angle));
+            }
+            return choke;
+        }
         public int CountKinks()
         {
             int kinks = 0;

@@ -6,6 +6,11 @@ namespace FlameBlame.Core
     [CreateAssetMenu(menuName = "FlameBlame/Scale Profile")]
     public sealed class ScaleProfile : ScriptableObject
     {
+        [Header("Hose visuals")]
+        [Range(.07f,.11f)] public float tubeRadius = .09f;
+        [Range(1f,1.99f)] public float bendLimitFactor = 1.8f;
+        public float hoseDryScale = .85f, hoseWetScale = 1.15f;
+        public float hoseWaveSpeed = 8f, hoseSwellTime = .18f, hoseVibration = .025f;
         [Header("Lenses (vertical FOV, degrees)")]
         [Range(40, 120)] public float worldFov = 80f;
         [Range(30, 100)] public float viewmodelFov = 60f;

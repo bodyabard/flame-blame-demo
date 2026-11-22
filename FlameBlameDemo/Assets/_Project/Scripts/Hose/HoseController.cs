@@ -9,6 +9,8 @@ namespace FlameBlame.Hose
         [SerializeField] Transform anchor;       // hydrant outlet
         [SerializeField] Transform handPoint;    // empty in front of the camera
 
+        [SerializeField] FlameBlame.Core.ScaleProfile scale;
+        public FlameBlame.Core.ScaleProfile Scale => scale;
         [Header("Rope")]
         [SerializeField] int segments = 32;
         [SerializeField] float segmentLength = 0.3f;
@@ -56,6 +58,12 @@ namespace FlameBlame.Hose
             {
                 Iterations = iterations, Gravity = gravity, Damping = damping, Radius = radius
             };
+            if(scale != null)
+            {
+                sim.TubeRadius=scale.tubeRadius; sim.Radius=scale.tubeRadius*.9f;
+                sim.RoomHalfExtents=new Vector2(scale.roomWidth*.5f,scale.roomLength*.5f);
+                sim.BendLimitFactor=scale.bendLimitFactor; sim.Iterations=Mathf.Max(16,iterations);
+            }
             sim.Reset(anchor.position, anchor.right);
             pressure = new HosePressure
             {
@@ -93,7 +101,7 @@ namespace FlameBlame.Hose
             }
 
             sim.Step(dt, anchor.position, handPoint.position, Held, whip);
-            pressure.Tick(sim.CountKinks(), dt);
+            pressure.TickBend(sim.BendChoke(), dt);
         }
     }
 }

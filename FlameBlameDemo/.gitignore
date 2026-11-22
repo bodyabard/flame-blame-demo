@@ -138,6 +138,10 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]ceneDependencyCache*
 
 /.visual-validation/
+
 /VisualValidation/
 
 /Builds/
+
+
+

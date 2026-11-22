@@ -25,6 +25,9 @@ namespace FlameBlame.Feedback
         IGameEvents events;
         float shake;
         float kick;
+        float dip;
+        public void LandingDip(float amount) { dip=Mathf.Max(dip,amount); }
+        public void JetKick(float amount) { shake=Mathf.Max(shake,amount); kick=Mathf.Min(kickMax,kick+amount); }
 
         public void Initialize(PlayerLook playerLook, IGameEvents gameEvents)
         {
@@ -49,6 +52,7 @@ namespace FlameBlame.Feedback
         {
             if (look == null) return;
             float dt = Time.deltaTime;
+            dip=Mathf.MoveTowards(dip,0,dt*.3f);
             shake = Mathf.MoveTowards(shake, 0f, shakeDecay * dt);
             kick = Mathf.Lerp(kick, 0f, kickDecay * dt);
 
@@ -60,9 +64,10 @@ namespace FlameBlame.Feedback
             if(tuning == null) return;
             bool moving = motor != null && motor.isGrounded && Vector3.ProjectOnPlane(motor.velocity,Vector3.up).sqrMagnitude > .1f;
             bob = Mathf.Lerp(bob,moving ? 1f : 0f,1f-Mathf.Exp(-tuning.fovResponse*dt));
-            cam.localPosition = origin + Vector3.up * (Mathf.Sin(Time.time*tuning.bobSpeed)*tuning.bobHeight*bob);
+            cam.localPosition = origin + Vector3.up * (Mathf.Sin(Time.time*tuning.bobSpeed)*tuning.bobHeight*bob-dip);
             float flow = hose != null && hose.Held && hose.WaterFlowing ? hose.Pressure : 0f;
-            lens.fieldOfView = Mathf.Lerp(lens.fieldOfView,(scale!=null ? scale.worldFov : tuning.baseFov)+flow*tuning.fovKick,1f-Mathf.Exp(-tuning.fovResponse*dt));
+            float fovKick=hose!=null && hose.JetTuning!=null && hose.Modes.Current.UsesThrust ? hose.JetTuning.fovKick : tuning.fovKick;
+            lens.fieldOfView = Mathf.Lerp(lens.fieldOfView,(scale!=null ? scale.worldFov : tuning.baseFov)+flow*fovKick,1f-Mathf.Exp(-tuning.fovResponse*dt));
         }
     }
 }

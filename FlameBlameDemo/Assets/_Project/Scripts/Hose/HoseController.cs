@@ -30,6 +30,13 @@ namespace FlameBlame.Hose
         [SerializeField] float whipNoise = 0.8f;
         [SerializeField] float grabDistance = 2.5f;
 
+        [SerializeField] NozzleRig nozzleRig;
+        [SerializeField] JetTuning jetTuning;
+        public JetTuning JetTuning => jetTuning;
+        public NozzleModeMachine Modes { get; private set; }
+        Vector3 heldPosition;
+        Quaternion heldRotation;
+        public Transform Muzzle => nozzleRig != null ? nozzleRig.muzzle : handPoint;
         IHoseInput input;
         HoseSimulation sim;
         PhysicsHoseCollision collision;
@@ -41,9 +48,22 @@ namespace FlameBlame.Hose
         public float Pressure => pressure != null ? pressure.Pressure : 0f;
         public Vector3[] Points => sim.Points;
         public int Segments => sim.Segments;
-        public Vector3 NozzlePosition => Held ? handPoint.position : sim.EndPosition;
-        public Vector3 NozzleDirection => Held ? handPoint.forward : sim.EndDirection;
+        public Vector3 NozzlePosition => nozzleRig != null ? nozzleRig.inlet.position : (Held ? handPoint.position : sim.EndPosition);
+        public Vector3 NozzleDirection => nozzleRig != null ? nozzleRig.muzzle.forward : (Held ? handPoint.forward : sim.EndDirection);
 
+        public Vector3 MuzzlePosition => nozzleRig != null ? nozzleRig.muzzle.position : NozzlePosition;
+        void SyncNozzle()
+        {
+            if(nozzleRig == null || sim == null) return;
+            nozzleRig.Follow(handPoint, sim.EndPosition, sim.EndDirection, Held);
+            if(Held && Modes != null && Modes.Current.UsesThrust && input is FlameBlame.Player.IPlayerInput player)
+            {
+                var heading=Vector3.ProjectOnPlane(handPoint.parent.forward,Vector3.up);
+                if(heading.sqrMagnitude>.001f)
+                    nozzleRig.pose.rotation=Quaternion.LookRotation(heading)*Modes.Current.Rotation(jetTuning,player.Move);
+            }
+        }
+        void LateUpdate() { SyncNozzle(); }
         // IHoseTether
         public bool IsTethered => Held;
         public Vector3 AnchorPosition => anchor.position;
@@ -52,6 +72,8 @@ namespace FlameBlame.Hose
         public void Initialize(IHoseInput hoseInput)
         {
             input = hoseInput;
+            Modes = new NozzleModeMachine();
+            heldPosition = handPoint.localPosition; heldRotation = handPoint.localRotation;
             collision?.Dispose();
             collision = new PhysicsHoseCollision(collisionMask);
             sim = new HoseSimulation(segments, segmentLength, collision)
@@ -82,6 +104,14 @@ namespace FlameBlame.Hose
             if (input == null) return;
             if (input.TogglePressed)
                 hold.Toggle(Vector3.Distance(handPoint.position, sim.EndPosition), grabDistance);
+            Modes.Tick(Held, input.ModePressed);
+            if(jetTuning != null && input is FlameBlame.Player.IPlayerInput playerInput)
+            {
+                float blend = 1-Mathf.Exp(-3*Time.deltaTime/jetTuning.poseDuration);
+                handPoint.localPosition = Vector3.Lerp(handPoint.localPosition, Modes.Current.Position(jetTuning,heldPosition),blend);
+                handPoint.localRotation = Quaternion.Slerp(handPoint.localRotation,heldRotation * Modes.Current.Rotation(jetTuning,playerInput.Move),blend);
+            }
+            SyncNozzle();
         }
 
         void FixedUpdate()
@@ -100,7 +130,8 @@ namespace FlameBlame.Hose
                 whip = (sim.EndDirection + noise) * whipForce * pressure.Pressure;
             }
 
-            sim.Step(dt, anchor.position, handPoint.position, Held, whip);
+            SyncNozzle();
+            sim.Step(dt, anchor.position, NozzlePosition, Held, whip);
             pressure.TickBend(sim.BendChoke(), dt);
         }
     }

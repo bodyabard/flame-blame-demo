@@ -37,7 +37,7 @@ namespace FlameBlame.Hose
         {
             valveOpen = false;
             hose.WaterFlowing = false;
-            emitter.SetState(hose.NozzlePosition, hose.NozzleDirection, 0f, 0f);
+            emitter.SetState(hose.MuzzlePosition, hose.NozzleDirection, 0f, 0f);
         }
 
         public void Initialize(IHoseInput hoseInput, IGameEvents gameEvents)
@@ -66,17 +66,19 @@ namespace FlameBlame.Hose
 
             float p = hose.Pressure;
             float speed = maxSpeed * p;
-            Vector3 pos = hose.NozzlePosition;
+            Vector3 pos = hose.MuzzlePosition;
             Vector3 dir = hose.NozzleDirection;
 
+            emitter.SetThrust(hose.Held && hose.Modes.Current.UsesThrust, hose.JetTuning);
             emitter.SetState(pos, dir, speed, valveOpen ? emissionRate * Mathf.Clamp01(p + 0.2f) : 0f);
             if (!valveOpen) return;
+            if(hose.Held && hose.Modes.Current.UsesThrust) events.RaiseShake(shakeAmount*p);
 
             float dt = Time.deltaTime;
             if (scanner.Scan(pos, dir, speed * rangeFactor, waterPerSecond * p * dt, pushForce * p, out RaycastHit hit))
                 events.RaiseWaterImpact(hit.point, hit.normal);
 
-            if (hose.Held)
+            if (hose.Held && !hose.Modes.Current.UsesThrust)
             {
                 events.RaiseRecoil(-dir * recoilPerSecond * p * dt);
                 events.RaiseShake(shakeAmount * p);

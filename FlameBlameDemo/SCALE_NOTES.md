@@ -48,3 +48,7 @@ worldFov **80** · viewmodelFov **60** · cameraHeight 1.6 · cameraPitch 18 · 
 - Inspector HoseRenderer.useTube switches to the legacy ribbon. Apply Hose Visuals rebuilds hose assets only; no lighting/post changes.
 - Collision regression: bend projection can push initial coils beyond finite floor edges. Hose constraints now clamp free points to the room XZ extents from ScaleProfile, with radius clearance; collision mask also includes Default architecture colliders. No room/light objects were changed.
 - EditMode collision regression now reads the actual scene segment count/length and profile radius/bend settings, rather than the obsolete 9.3 m chain. Full suite: 21/21 passed.
+# Phase 11a
+- Current room, hose segment count and reach unchanged until milestone 11a approval; second-floor window height belongs to block C.
+- `Settings/JetTuning.asset`: gravity 20, thrust 26 (1.3g), rise cap 3.5 m/s, fall cap 12, air cap 4; equilibrium at pressure 20/26 ≈ .769 for a vertical nozzle. Inclination increases required pressure.
+- Mode switch .2 s, spool .28/.22 s; initial jet pose (.24,-.22,.55), downward 78 degrees with steering 18 degrees. Human camera/framing and flight review remains required.

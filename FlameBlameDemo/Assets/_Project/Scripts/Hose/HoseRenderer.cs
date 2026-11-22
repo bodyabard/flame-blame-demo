@@ -34,7 +34,7 @@ namespace FlameBlame.Hose
             if (hose.Held) buffer[buffer.Length - 1] = hose.NozzlePosition;
             line.SetPositions(buffer);
 
-            if (nozzleModel != null)
+            if (nozzleModel != null && hose.GetComponent<NozzleRig>() == null)
                 nozzleModel.SetPositionAndRotation(hose.NozzlePosition, Quaternion.LookRotation(hose.NozzleDirection));
         }
     }

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9109de6bfb9b23c469f7ab0df183262f, type: 3}
+  m_Name: JetTuning
+  m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Hose.JetTuning
+  thrust: 26
+  gravity: 20
+  maxRiseSpeed: 3.5
+  maxFallSpeed: 12
+  maxAirSpeed: 4
+  spoolUp: 0.28
+  spoolDown: 0.22
+  airControl: 2
+  airDrag: 0.5
+  tetherSpring: 14
+  tetherDamping: 5
+  poseDuration: 0.2
+  downAngle: 78
+  steerAngle: 18
+  jetPosition: {x: 0.24, y: -0.22, z: 0.55}
+  fovKick: 7
+  landingDip: 0.08
+  sprayMultiplier: 1.35
+  sprayAngle: 7

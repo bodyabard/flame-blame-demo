@@ -8,6 +8,7 @@ namespace FlameBlame.Core
     public class LegacyInput : MonoBehaviour, IHoseInput, IPlayerInput
     {
         public bool TogglePressed => Input.GetKeyDown(KeyCode.E);
+        public bool ModePressed => Input.GetKeyDown(KeyCode.Q);
         public bool ValveHeld => Input.GetMouseButton(0);
         public bool JumpPressed => Input.GetKeyDown(KeyCode.Space);
         public bool CaptureCursorPressed => Input.GetMouseButtonDown(0);

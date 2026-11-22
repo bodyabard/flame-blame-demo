@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
   m_IsGlobal: 1
   priority: 0
@@ -167,6 +167,40 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &53357174
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 53357175}
+  m_Layer: 0
+  m_Name: NozzlePose
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &53357175
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53357174}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.34202015, z: -0, w: 0.9396927}
+  m_LocalPosition: {x: -1.1315187, y: 1.4499999, z: -1.2851822}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1726724569}
+  - {fileID: 1957944309}
+  - {fileID: 832533202}
+  m_Father: {fileID: 559234269}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &64315283
 GameObject:
@@ -210,7 +244,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b0e98ca2f419ead419a82b46442fc334, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Feedback.FirstPersonHands
   tuning: {fileID: 11400000, guid: 3cb7a66634883404cb071da2f125c28d, type: 2}
   hose: {fileID: 559234267}
@@ -443,7 +477,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa42ceb4932dc104495c5bcd87346b98, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.Flammable
   profile: {fileID: 11400000, guid: 09cc27535183d9243aedae696815892f, type: 2}
   igniteOnStart: 0
@@ -458,7 +492,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9cd8971c6a6081944a596340ed8495be, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.PropertyDamage
   displayName: "\u0421\u0442\u0456\u043B"
   propertyValue: 800
@@ -1320,7 +1354,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2
@@ -1459,7 +1493,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d48ca77117230554087868075365d789, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Hose.JetController
   hose: {fileID: 559234267}
   emitter: {fileID: 230631202}
@@ -1485,7 +1519,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 622109fe98b4d554fa8be4f5212181ee, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Hose.JetEmitter
   jet: {fileID: 230631203}
   lifetime: 1
@@ -6648,7 +6682,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -6810,7 +6844,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa42ceb4932dc104495c5bcd87346b98, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.Flammable
   profile: {fileID: 11400000, guid: a6b841388db2dab44b21082153c67381, type: 2}
   igniteOnStart: 0
@@ -6825,7 +6859,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9cd8971c6a6081944a596340ed8495be, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.PropertyDamage
   displayName: "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0438"
   propertyValue: 180
@@ -7536,7 +7570,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -7818,7 +7852,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0.65, g: 0.12, b: 0.045, a: 0.94}
@@ -8106,7 +8140,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -13281,7 +13315,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 574f5fc91c1c6484ebe987242dafa249, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Feedback.CameraFeedback
   cam: {fileID: 1809259754}
   tuning: {fileID: 11400000, guid: 3cb7a66634883404cb071da2f125c28d, type: 2}
@@ -13319,7 +13353,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e4afc6a449220a46a6c2722f3b7c4af, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Player.PlayerMotor
   moveSpeed: 2.2
   gravity: -20
@@ -13335,7 +13369,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af87bfacad010e84e8147b70b93ab565, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Player.PlayerLook
   sensitivity: 2
   pitchLimit: 80
@@ -23200,6 +23234,8 @@ GameObject:
   - component: {fileID: 559234272}
   - component: {fileID: 559234271}
   - component: {fileID: 559234270}
+  - component: {fileID: 559234274}
+  - component: {fileID: 559234275}
   m_Layer: 9
   m_Name: Hose
   m_TagString: Untagged
@@ -23217,7 +23253,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2022d6c62e814d04fb690cd8c07683ef, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Hose.HoseRenderer
   useTube: 1
   nozzleModel: {fileID: 1726724569}
@@ -23231,7 +23267,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0de2bf4d03df01744b404b3edf38aa78, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Hose.HoseController
   anchor: {fileID: 8629601001634630284}
   handPoint: {fileID: 1423257877}
@@ -23251,6 +23287,8 @@ MonoBehaviour:
   whipForce: 900
   whipNoise: 0.8
   grabDistance: 1.6
+  nozzleRig: {fileID: 559234274}
+  jetTuning: {fileID: 11400000, guid: 713fcba1cb7fea54ebda765ff8bb42f6, type: 2}
 --- !u!120 &559234268
 LineRenderer:
   serializedVersion: 3
@@ -23385,6 +23423,7 @@ Transform:
   m_Children:
   - {fileID: 917895945}
   - {fileID: 1629116862}
+  - {fileID: 53357175}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &559234270
@@ -23397,7 +23436,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ce95297be9dc3f41a09c357927d1b4e, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Hose.HoseTubeRenderer
   startCoupling: {fileID: 917895945}
   endCoupling: {fileID: 1629116862}
@@ -23411,7 +23450,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 61c996aa889afdd43a3cc1a0659b3afe, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Hose.HoseSwellController
 --- !u!23 &559234272
 MeshRenderer:
@@ -23470,6 +23509,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 559234265}
   m_Mesh: {fileID: 0}
+--- !u!114 &559234274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559234265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7be6a2b0bb359aa4fbef79c24b39def6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Hose.NozzleRig
+  pose: {fileID: 53357175}
+  inlet: {fileID: 1957944309}
+  muzzle: {fileID: 832533202}
+--- !u!114 &559234275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559234265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07170b04224224346b1375558968619c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Feedback.JetFeedback
+  hose: {fileID: 559234267}
+  motor: {fileID: 494362336}
+  cameraFeedback: {fileID: 494362334}
+  valveClick: {fileID: 8300000, guid: 6f93c9c960fd12e4b9aff927a35d8e4f, type: 3}
+  landing: {fileID: 8300000, guid: d70570d844ecc32448c20616b70a25da, type: 3}
 --- !u!1 &561923187
 GameObject:
   m_ObjectHideFlags: 0
@@ -23946,7 +24017,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa42ceb4932dc104495c5bcd87346b98, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.Flammable
   profile: {fileID: 11400000, guid: a6b841388db2dab44b21082153c67381, type: 2}
   igniteOnStart: 0
@@ -23961,7 +24032,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9cd8971c6a6081944a596340ed8495be, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.PropertyDamage
   displayName: "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0438"
   propertyValue: 180
@@ -24107,7 +24178,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
   m_Navigation:
     m_Mode: 3
@@ -24151,7 +24222,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0.75, g: 0.22, b: 0.08, a: 1}
@@ -24499,7 +24570,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -24742,7 +24813,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1218509e5fc77e443802e827157e884d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Core.GameBootstrap
   input: {fileID: 811817654}
   hose: {fileID: 559234267}
@@ -24772,7 +24843,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 63c4fd7f9f66c5e4db7ae3b6dabc2775, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Core.LegacyInput
 --- !u!4 &811817655
 Transform:
@@ -24837,7 +24908,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0}
@@ -24955,6 +25026,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 827650364}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &832533201
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 832533202}
+  m_Layer: 0
+  m_Name: NozzleMuzzle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &832533202
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 832533201}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.175}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 53357175}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &836334961
 GameObject:
   m_ObjectHideFlags: 0
@@ -25001,7 +25103,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 302a76da42dbd7a4aabeb35b03b9f1e5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Npc.NpcActor
   visual: {fileID: 1427228696}
   bodyRenderer: {fileID: 371470717}
@@ -25083,7 +25185,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 610bb6f0d1394724e97e830ea3ebfd53, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Npc.NpcExpression
   actor: {fileID: 836334963}
   tuning: {fileID: 11400000, guid: 3cb7a66634883404cb071da2f125c28d, type: 2}
@@ -35600,7 +35702,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa42ceb4932dc104495c5bcd87346b98, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.Flammable
   profile: {fileID: 11400000, guid: 533f2caa193329e459f8be2e5a041e5d, type: 2}
   igniteOnStart: 0
@@ -35615,7 +35717,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9cd8971c6a6081944a596340ed8495be, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.PropertyDamage
   displayName: MetalLocker
   propertyValue: 400
@@ -35669,7 +35771,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.62, b: 0.08, a: 1}
@@ -36116,7 +36218,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0.1, g: 0.09, b: 0.07, a: 1}
@@ -36396,7 +36498,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0.65, g: 0.12, b: 0.045, a: 0.94}
@@ -36891,7 +36993,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -36905,7 +37007,8 @@ MonoBehaviour:
     | \u041B\u041A\u041C \u2014 \u0432\u043E\u0434\u0430 | E \u2014 \u043A\u0438\u043D\u0443\u0442\u0438
     / \u0432\u0437\u044F\u0442\u0438\n\u0412\u043E\u0434\u0430 + \u043A\u0430\u0431\u0435\u043B\u044C
     = \u0435\u043B\u0435\u043A\u0442\u0440\u043E\u0442\u0435\u0440\u0430\u043F\u0456\u044F.
-    \u0416\u043E\u0432\u0442\u0456 \u043A\u0430\u043B\u044E\u0436\u0456 \u043D\u0435\u0431\u0435\u0437\u043F\u0435\u0447\u043D\u0456!"
+    \u0416\u043E\u0432\u0442\u0456 \u043A\u0430\u043B\u044E\u0436\u0456 \u043D\u0435\u0431\u0435\u0437\u043F\u0435\u0447\u043D\u0456!  
+    Q \u2014 \u0440\u0435\u0436\u0438\u043C   Q \u0432\u0402\u201D \u0421\u0402\u0420\xB5\u0420\xB6\u0420\u0451\u0420\u0458"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 494285bb2170a1f44bc01fd004daf5ae, type: 2}
   m_sharedMaterial: {fileID: -6342515419004341718, guid: 494285bb2170a1f44bc01fd004daf5ae, type: 2}
@@ -37212,7 +37315,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -47262,7 +47365,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 302a76da42dbd7a4aabeb35b03b9f1e5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Npc.NpcActor
   visual: {fileID: 1886515254}
   bodyRenderer: {fileID: 1853423368}
@@ -47344,7 +47447,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 610bb6f0d1394724e97e830ea3ebfd53, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Npc.NpcExpression
   actor: {fileID: 1325935152}
   tuning: {fileID: 11400000, guid: 3cb7a66634883404cb071da2f125c28d, type: 2}
@@ -47612,7 +47715,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89d7f3f03e71056468f567144b8ae74f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Feedback.ScaleApplier
   profile: {fileID: 11400000, guid: 175899690fcf3214f84bec72c2cf961f, type: 2}
   worldCamera: {fileID: 1809259756}
@@ -47713,7 +47816,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 030a1525074fb73418e1915a42990990, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Npc.ToyNpcShape
   shape: {fileID: 1991011004}
   torso: {fileID: 371470716}
@@ -48297,7 +48400,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa42ceb4932dc104495c5bcd87346b98, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.Flammable
   profile: {fileID: 11400000, guid: 533f2caa193329e459f8be2e5a041e5d, type: 2}
   igniteOnStart: 0
@@ -48312,7 +48415,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9cd8971c6a6081944a596340ed8495be, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.PropertyDamage
   displayName: MetalBarrel
   propertyValue: 400
@@ -48991,7 +49094,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2
@@ -49093,7 +49196,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -49103,7 +49206,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text:
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 494285bb2170a1f44bc01fd004daf5ae, type: 2}
   m_sharedMaterial: {fileID: -6342515419004341718, guid: 494285bb2170a1f44bc01fd004daf5ae, type: 2}
@@ -49468,7 +49571,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa42ceb4932dc104495c5bcd87346b98, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.Flammable
   profile: {fileID: 11400000, guid: a6b841388db2dab44b21082153c67381, type: 2}
   igniteOnStart: 0
@@ -49483,7 +49586,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9cd8971c6a6081944a596340ed8495be, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.PropertyDamage
   displayName: "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0438"
   propertyValue: 180
@@ -49521,7 +49624,7 @@ Transform:
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.35}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 53357175}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1726724570
 MeshRenderer:
@@ -49832,7 +49935,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa42ceb4932dc104495c5bcd87346b98, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.Flammable
   profile: {fileID: 11400000, guid: 09cc27535183d9243aedae696815892f, type: 2}
   igniteOnStart: 0
@@ -49847,7 +49950,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9cd8971c6a6081944a596340ed8495be, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.PropertyDamage
   displayName: "\u042F\u0449\u0438\u043A"
   propertyValue: 250
@@ -50026,7 +50129,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 161530d28f148ec4c9f07aab3a2aaf46, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Water.WaterSurface
   puddleThreshold: 0.35
   puddleDiameter: 0.66
@@ -50215,7 +50318,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
   m_RenderShadows: 1
   m_RequiresDepthTextureOption: 2
@@ -50398,7 +50501,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c2e5c0c7df629c4f922d46336146b42, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.UI.ScorePresenter
   scoreLabel: {fileID: 392494273}
   timerLabel: {fileID: 272785908}
@@ -50421,7 +50524,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
   m_IgnoreReversedGraphics: 1
   m_BlockingObjects: 0
@@ -50438,7 +50541,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
@@ -50697,7 +50800,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.StandaloneInputModule
   m_SendPointerHoverToParent: 1
   m_HorizontalAxis: Horizontal
@@ -50717,7 +50820,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventSystem
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
@@ -50967,7 +51070,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 030a1525074fb73418e1915a42990990, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Npc.ToyNpcShape
   shape: {fileID: 1025754701}
   torso: {fileID: 1853423367}
@@ -51148,7 +51251,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
   m_RenderShadows: 1
   m_RequiresDepthTextureOption: 2
@@ -51407,7 +51510,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d89188f029a878a4a8e0277d326ff091, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.UI.PressureGauge
   hose: {fileID: 559234267}
   tuning: {fileID: 11400000, guid: 3cb7a66634883404cb071da2f125c28d, type: 2}
@@ -51424,7 +51527,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0.65, g: 0.12, b: 0.045, a: 0.94}
@@ -51452,6 +51555,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1951784344}
   m_CullTransparentMesh: 1
+--- !u!1 &1957944308
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1957944309}
+  m_Layer: 0
+  m_Name: NozzleInlet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1957944309
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957944308}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.175}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 53357175}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1969979284
 GameObject:
   m_ObjectHideFlags: 0
@@ -51659,7 +51793,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4eef7a2b23c17574bb1d1fd4e9609a9e, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Feedback.LookComparison
   tuning: {fileID: 11400000, guid: 3cb7a66634883404cb071da2f125c28d, type: 2}
   key: {fileID: 1567465352}
@@ -52008,7 +52142,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f70b897df7d0074bba4976add9e9a1a, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Feedback.GameAudio
   tuning: {fileID: 11400000, guid: 3cb7a66634883404cb071da2f125c28d, type: 2}
   hose: {fileID: 559234267}
@@ -52306,7 +52440,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9cd8971c6a6081944a596340ed8495be, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.PropertyDamage
   displayName: "\u041A\u043D\u0438\u0436\u043A\u0430"
   propertyValue: 90
@@ -52323,7 +52457,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa42ceb4932dc104495c5bcd87346b98, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.Flammable
   profile: {fileID: 11400000, guid: a6b841388db2dab44b21082153c67381, type: 2}
   igniteOnStart: 0
@@ -52660,7 +52794,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.62, b: 0.08, a: 1}
@@ -52735,7 +52869,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0.65, g: 0.12, b: 0.045, a: 0.94}
@@ -53253,7 +53387,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -53263,7 +53397,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text:
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 494285bb2170a1f44bc01fd004daf5ae, type: 2}
   m_sharedMaterial: {fileID: -6342515419004341718, guid: 494285bb2170a1f44bc01fd004daf5ae, type: 2}
@@ -53451,7 +53585,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2
@@ -54229,7 +54363,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1347190361469804002, guid: 62e2bec502019ff4a8ae0c1d383abaff, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
-      value:
+      value: 
       objectReference: {fileID: 2100000, guid: ebbc02bac769878468f8e7f990562aa8, type: 2}
     - target: {fileID: 2245637447314353842, guid: 62e2bec502019ff4a8ae0c1d383abaff, type: 3}
       propertyPath: m_Name
@@ -54237,11 +54371,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5211610125638468265, guid: 62e2bec502019ff4a8ae0c1d383abaff, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
-      value:
+      value: 
       objectReference: {fileID: 2100000, guid: ebbc02bac769878468f8e7f990562aa8, type: 2}
     - target: {fileID: 7105091959104821692, guid: 62e2bec502019ff4a8ae0c1d383abaff, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
-      value:
+      value: 
       objectReference: {fileID: 2100000, guid: ebbc02bac769878468f8e7f990562aa8, type: 2}
     - target: {fileID: 8872047647031433233, guid: 62e2bec502019ff4a8ae0c1d383abaff, type: 3}
       propertyPath: m_Mass
@@ -54394,7 +54528,6 @@ SceneRoots:
   - {fileID: 1770384501}
   - {fileID: 494362335}
   - {fileID: 559234269}
-  - {fileID: 1726724569}
   - {fileID: 230631205}
   - {fileID: 1591498823}
   - {fileID: 811817655}

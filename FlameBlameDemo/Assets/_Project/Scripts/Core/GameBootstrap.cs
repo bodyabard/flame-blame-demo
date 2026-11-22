@@ -68,6 +68,8 @@ namespace FlameBlame.Core
                 chaosSettings.flamePoolSize, chaosSettings.steamPoolSize, chaosSettings.splashPoolSize, chaosSettings.sparkPoolSize);
             puddles = new PuddleFactory(effectsRoot, puddleTemplate, electricity, chaosSettings.maxPuddles, chaosSettings.evaporationSeconds);
             presenter = new EffectsPresenter(events, effects, puddles);
+            var jetFeedback=hose.GetComponent<JetFeedback>();
+            if(jetFeedback!=null) jetFeedback.Initialize(events,effectsRoot);
             visualBudget = new AdaptiveEffectBudget(chaosSettings, effects, jet, playerLook.transform);
             scorePresenter.Initialize(ledger, game, events);
 

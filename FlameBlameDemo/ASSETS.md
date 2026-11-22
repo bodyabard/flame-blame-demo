@@ -59,3 +59,6 @@ Reference images 16/17 are comparison inputs only; no reference pixels or extern
 - `Assets/_Project/Art/Puddles/Mask0..3.png`: four original 256×256 soft silhouette masks with 3–4 satellite drops; generated offline by `PuddleVisualBuilder.Generate` (analytic lobes and a smooth 11.5px edge). No downloaded artwork.
 - `Assets/_Project/Art/Puddles/Noise.png`: original periodic RG Fourier noise, 256×256; generated once in Editor. Linear sampling; masks Clamp, noise Repeat; no mipmaps.
 - `Assets/_Project/Shaders/PuddleToon.shadergraph`: original toon water surface function in a URP Lit graph. Generator uses serialization scaffolding from the installed Unity TMP Lit graph; no TMP artwork is incorporated. Reference screenshots 19–21 inform the technique only and are not shipped as textures.
+# Phase 11a additions
+- `Audio/Generated/JetValve.wav`, `JetLanding.wav`: original procedural sine/envelope audio generated locally for this project, dedicated under CC0; valve click and landing thump. No downloaded third-party audio.
+- No new textures/models; nozzle uses the existing primitive mesh and material.

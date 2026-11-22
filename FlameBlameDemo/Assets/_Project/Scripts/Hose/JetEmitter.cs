@@ -10,6 +10,12 @@ namespace FlameBlame.Hose
         [SerializeField] float gravityModifier = 0.5f;
         [SerializeField] int maxParticles = 400;      // total scene budget is 1000
         float visualQuality = 1f;
+        float rateMultiplier = 1f;
+        public void SetThrust(bool active, JetTuning tuning)
+        {
+            rateMultiplier=active && tuning!=null ? tuning.sprayMultiplier : 1;
+            var shape=jet.shape; shape.angle=active && tuning!=null ? tuning.sprayAngle : 2;
+        }
         public void SetVisualQuality(float quality) { visualQuality = Mathf.Clamp01(quality); }
 
         public void Initialize(LayerMask collidesWith)
@@ -33,7 +39,7 @@ namespace FlameBlame.Hose
             var main = jet.main;
             main.startSpeed = speed;
             var em = jet.emission;
-            em.rateOverTime = rate * visualQuality;
+            em.rateOverTime = rate * visualQuality * rateMultiplier;
         }
     }
 }

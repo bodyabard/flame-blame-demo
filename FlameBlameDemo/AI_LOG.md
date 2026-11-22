@@ -14,3 +14,6 @@ AI допоміг перетворити механіку скаженого б�
 ## Phase 10 — toon puddles (2026-11-22)
 - AI adapted the supplied water-bending tutorial screenshots: baked silhouette masks plus noise/threshold dissolve; replaced scrolling normals/refraction with world-space toon glints and bands for WebGL.
 - Added Editor-only procedural asset baking, URP Lit opaque/alpha-clip Shader Graph, shared quad/material and pooled MPB fill/electricity/variation. Conductivity radius and lifetime retain the previous formulas. Preview captures are controlled material states, not proof of live gameplay.
+# Phase 11a — nozzle and jet mode (2026-11-22)
+- AI traced nozzle orientation ownership, added inlet/muzzle rig and editor migration; water scanning continues through the existing receiver pipeline.
+- AI implemented State/Strategy modes, pressure-driven velocity integration, tuning asset, HUD/camera/audio feedback and one equilibrium/velocity test. Human feel review required before phase C.

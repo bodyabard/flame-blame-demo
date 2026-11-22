@@ -19,12 +19,19 @@ namespace FlameBlame.Player
         IGameEvents events;
         Vector3 impulse;
         float yVel;
+        HoseController hose;
+        JetpackMotor jetpack;
+        bool wasFlying;
+        public event System.Action<float> Landed;
+        public float Speed => cc!=null ? cc.velocity.magnitude : 0;
 
         public void Initialize(IPlayerInput playerInput, IHoseTether hoseTether, IGameEvents gameEvents)
         {
             cc = GetComponent<CharacterController>();
             input = playerInput;
             tether = hoseTether;
+            hose = hoseTether as HoseController;
+            if(hose != null && hose.JetTuning != null) jetpack = new JetpackMotor(hose.JetTuning);
             events = gameEvents;
             events.RecoilApplied += OnRecoil;
         }
@@ -43,6 +50,21 @@ namespace FlameBlame.Player
 
             Vector2 m = input.Move;
             Vector3 move = transform.TransformDirection(new Vector3(m.x, 0f, m.y)) * moveSpeed;
+
+            bool flying = jetpack != null && (hose.Modes.Current.UsesThrust || wasFlying && !cc.isGrounded);
+            if(flying)
+            {
+                if(!wasFlying) jetpack.Reset(impulse + Vector3.up*yVel);
+                var velocity=jetpack.Step(dt,hose.Held && hose.Modes.Current.UsesThrust && hose.WaterFlowing,
+                    hose.Pressure,hose.Muzzle.forward,move/moveSpeed,cc.isGrounded,transform.position,tether);
+                bool grounded=cc.isGrounded;
+                var flags=cc.Move(velocity*dt);
+                if((flags & CollisionFlags.Above)!=0) { jetpack.Ceiling(); events.RaiseShake(.2f); }
+                if(!grounded && cc.isGrounded && velocity.y<0) { Landed?.Invoke(-velocity.y); events.RaiseShake(Mathf.Clamp01(-velocity.y*.04f)); }
+                yVel=jetpack.Velocity.y; impulse=Vector3.zero; wasFlying=true;
+                return;
+            }
+            if(wasFlying) { wasFlying=false; jetpack.Reset(Vector3.zero); }
 
             if (cc.isGrounded && yVel <= 0f)
                 yVel = input.JumpPressed ? Mathf.Sqrt(Mathf.Max(0f, -2f * gravity * jumpHeight)) : -2f;

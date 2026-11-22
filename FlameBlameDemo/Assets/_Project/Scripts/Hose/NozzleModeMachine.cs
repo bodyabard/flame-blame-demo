@@ -18,7 +18,7 @@ namespace FlameBlame.Hose
         public bool UsesThrust => true;
         public Vector3 Position(JetTuning tuning, Vector3 heldPosition) => tuning.jetPosition;
         public Quaternion Rotation(JetTuning tuning, Vector2 move) =>
-            Quaternion.Euler(tuning.downAngle + move.y * tuning.steerAngle, 0, -move.x * tuning.steerAngle);
+            Quaternion.AngleAxis(-move.x*tuning.steerAngle,Vector3.forward) * Quaternion.Euler(tuning.downAngle + move.y * tuning.steerAngle, 0, 0);
     }
     public sealed class NozzleModeMachine
     {

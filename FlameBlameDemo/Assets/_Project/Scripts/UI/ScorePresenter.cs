@@ -26,6 +26,7 @@ namespace FlameBlame.UI
         readonly Popup[] active = new Popup[8];
         ObjectPool<Popup> pool;
         int count, previousSecond = -1;
+        [SerializeField] WindowEntryGate entryGate;
         float flash;
         DamageLedger ledger;
         GameStateMachine game;
@@ -36,6 +37,9 @@ namespace FlameBlame.UI
         {
             ledger = damageLedger;
             game = state;
+            timerLabel.enableAutoSizing=true;
+            timerLabel.fontSizeMin=18;
+            timerLabel.fontSizeMax=timerLabel.fontSize;
             events = gameEvents;
             restart = new RestartSceneCommand();
             scoreLabel.SetText("ЗБИТКИ  $999999999"); scoreLabel.ForceMeshUpdate(true, true);
@@ -107,7 +111,8 @@ namespace FlameBlame.UI
         {
             if (game == null) return;
             int second = Mathf.CeilToInt(game.Remaining);
-            if (second != previousSecond) { previousSecond = second; timerLabel.SetText("ЧАС  {0:0} с", second); }
+            if(entryGate!=null && !entryGate.Entered) timerLabel.SetText("Злети до вікна: Q — режим, ЛКМ — тяга");
+            if ((entryGate==null || entryGate.Entered) && second != previousSecond) { previousSecond = second; timerLabel.SetText("ЧАС  {0:0} с", second); }
             float dt = Time.unscaledDeltaTime;
             flash = Mathf.MoveTowards(flash, 0f, dt * flashDecay);
             shockFlash.color = new Color(1f, 0.05f, 0f, flash);

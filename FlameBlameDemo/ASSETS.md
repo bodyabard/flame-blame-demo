@@ -62,3 +62,5 @@ Reference images 16/17 are comparison inputs only; no reference pixels or extern
 # Phase 11a additions
 - `Audio/Generated/JetValve.wav`, `JetLanding.wav`: original procedural sine/envelope audio generated locally for this project, dedicated under CC0; valve click and landing thump. No downloaded third-party audio.
 - No new textures/models; nozzle uses the existing primitive mesh and material.
+# Flight test exterior
+- Original Unity primitives: ground floor facade, rounded window frame, yard/sidewalk, blocked door, closed window, fence and three trees. Locally authored `FlightGround`, `FlightPavement`, `FlightTrim`, `FlightDarkGlass` materials; no third-party assets added.

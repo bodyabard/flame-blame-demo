@@ -57,7 +57,7 @@ namespace FlameBlame.Feedback
             if(hose.Modes==null) return;
             if(style==null) style=new GUIStyle(GUI.skin.box) {fontSize=18,alignment=TextAnchor.MiddleCenter};
             GUI.color=Color.Lerp(Color.white,new Color(1,.7f,.2f),pulse);
-            GUI.Box(new Rect(Screen.width-270,Screen.height-140,250,35),hose.Modes.Current.UsesThrust ? "↑ ТЯГА   Q — режим" : "≈ ГАСІННЯ   Q — режим",style);
+            GUI.Box(new Rect(Screen.width-270,Screen.height-140,250,35),hose.Modes.Current.UsesThrust ? "JET | Q - mode" : "WATER | Q - mode",style);
             GUI.color=Color.white;
         }
         void OnDestroy()

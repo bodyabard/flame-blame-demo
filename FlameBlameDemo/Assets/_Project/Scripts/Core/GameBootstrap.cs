@@ -24,6 +24,7 @@ namespace FlameBlame.Core
         [SerializeField] CameraFeedback cameraFeedback;
         [SerializeField] GameAudio gameAudio;
         [SerializeField] FirstPersonHands hands;
+        [SerializeField] WindowEntryGate entryGate;
 
         [Header("VFX templates (inactive scene objects)")]
         [SerializeField] Transform effectsRoot;
@@ -107,7 +108,7 @@ namespace FlameBlame.Core
             for (int i = 0; i < cables.Length; i++) cables[i].Tick(Time.time, effects);
             playerShock.Tick(electricity);
             presenter.Tick();
-            game.Tick(Time.deltaTime, fire.ActiveCount, ledger.Total);
+            if(entryGate==null || entryGate.Entered) game.Tick(Time.deltaTime, fire.ActiveCount, ledger.Total);
         }
 
         void FixedUpdate()

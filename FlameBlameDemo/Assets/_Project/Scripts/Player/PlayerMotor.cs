@@ -51,13 +51,15 @@ namespace FlameBlame.Player
             Vector2 m = input.Move;
             Vector3 move = transform.TransformDirection(new Vector3(m.x, 0f, m.y)) * moveSpeed;
 
-            bool flying = jetpack != null && (hose.Modes.Current.UsesThrust || wasFlying && !cc.isGrounded);
+            bool thrusting=jetpack!=null && hose.Held && hose.Modes.Current.UsesThrust && hose.WaterFlowing;
+            bool flying = jetpack != null && (thrusting || wasFlying && !cc.isGrounded);
             if(flying)
             {
                 if(!wasFlying) jetpack.Reset(impulse + Vector3.up*yVel);
-                var velocity=jetpack.Step(dt,hose.Held && hose.Modes.Current.UsesThrust && hose.WaterFlowing,
+                var velocity=jetpack.Step(dt,thrusting,
                     hose.Pressure,hose.Muzzle.forward,move/moveSpeed,cc.isGrounded,transform.position,tether);
                 bool grounded=cc.isGrounded;
+                if(grounded) { velocity.x=move.x; velocity.z=move.z; }
                 var flags=cc.Move(velocity*dt);
                 if((flags & CollisionFlags.Above)!=0) { jetpack.Ceiling(); events.RaiseShake(.2f); }
                 if(!grounded && cc.isGrounded && velocity.y<0) { Landed?.Invoke(-velocity.y); events.RaiseShake(Mathf.Clamp01(-velocity.y*.04f)); }

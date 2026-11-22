@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using FlameBlame.Hose;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -12,6 +12,10 @@ namespace FlameBlame.EditorTools
         static JetModeBuilder() { EditorApplication.update += Poll; }
         static void Poll()
         {
+            if(File.Exists("Temp/FlameBlame-Refresh") && !EditorApplication.isCompiling && !EditorApplication.isUpdating && !EditorApplication.isPlayingOrWillChangePlaymode)
+            {
+                File.Delete("Temp/FlameBlame-Refresh"); AssetDatabase.Refresh(); return;
+            }
             if (!File.Exists("Temp/FlameBlame-BuildJet") || EditorApplication.isCompiling || EditorApplication.isUpdating || EditorApplication.isPlayingOrWillChangePlaymode) return;
             File.Delete("Temp/FlameBlame-BuildJet"); Apply();
         }
@@ -38,6 +42,9 @@ namespace FlameBlame.EditorTools
                 rig.muzzle.SetParent(rig.pose, false); rig.muzzle.localPosition = new Vector3(0,0,.175f);
             }
             rig.Follow(hand, hand.position, hand.forward, true);
+            var nozzleData=new SerializedObject(hose.GetComponent<HoseRenderer>());
+            var nozzle=(Transform)nozzleData.FindProperty("nozzleModel").objectReferenceValue;
+            nozzle.SetParent(rig.pose,false); nozzle.localPosition=Vector3.zero; nozzle.localRotation=Quaternion.identity;
             data.FindProperty("nozzleRig").objectReferenceValue = rig;
             data.ApplyModifiedPropertiesWithoutUndo();
             const string path="Assets/_Project/Settings/JetTuning.asset";
@@ -56,7 +63,7 @@ namespace FlameBlame.EditorTools
             f.FindProperty("landing").objectReferenceValue=AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/_Project/Audio/Generated/JetLanding.wav");
             f.ApplyModifiedPropertiesWithoutUndo();
             foreach(var text in Object.FindObjectsByType<TMPro.TextMeshProUGUI>(FindObjectsSortMode.None))
-                if(text.text.Contains("WASD") && !text.text.Contains("Q вЂ”")) text.text += "   Q вЂ” СЂРµР¶РёРј";
+                if(text.text.Contains("WASD")) text.text = "WASD — рух | Миша — огляд | ЛКМ — вода / тяга | E — кинути / взяти | Q — режим";
             EditorUtility.SetDirty(rig);
             EditorSceneManager.MarkSceneDirty(hose.gameObject.scene);
             EditorSceneManager.SaveOpenScenes(); AssetDatabase.SaveAssets();
@@ -64,4 +71,3 @@ namespace FlameBlame.EditorTools
         }
     }
 }
-

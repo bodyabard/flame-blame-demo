@@ -73,7 +73,8 @@ namespace FlameBlame.Hose
             mesh.SetVertices(vertices,0,vertices.Length,MeshUpdateFlags.DontRecalculateBounds);
             mesh.SetNormals(normals,0,normals.Length,MeshUpdateFlags.DontRecalculateBounds);
             if(startCoupling!=null) startCoupling.SetPositionAndRotation(centers[0],Quaternion.LookRotation(centers[1]-centers[0]));
-            if(endCoupling!=null) endCoupling.SetPositionAndRotation(centers[count-1],Quaternion.LookRotation(centers[count-1]-centers[count-2]));
+            if(endCoupling!=null) endCoupling.SetPositionAndRotation(hose.NozzlePosition,
+                hose.Held ? hose.Muzzle.rotation : Quaternion.LookRotation(centers[count-1]-centers[count-2]));
         }
         void SetVisible(bool visible)
         {

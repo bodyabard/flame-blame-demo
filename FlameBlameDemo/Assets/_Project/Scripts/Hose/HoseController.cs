@@ -3,6 +3,7 @@ using UnityEngine;
 namespace FlameBlame.Hose
 {
     /// Glue: runs the simulation, holds state, exposes the nozzle. Rendering lives in HoseRenderer.
+    [DefaultExecutionOrder(100)]
     public class HoseController : MonoBehaviour, IHoseTether, IPressureSource
     {
         [Header("Refs")]
@@ -18,6 +19,7 @@ namespace FlameBlame.Hose
         [SerializeField] float gravity = -12f;
         [SerializeField] float damping = 0.985f;
         [SerializeField] float radius = 0.06f;
+        [SerializeField] bool confineToRoom = true;
         [SerializeField] LayerMask collisionMask = ~0;   // must exclude Player and Hose layers
 
         [Header("Pressure")]
@@ -83,10 +85,11 @@ namespace FlameBlame.Hose
             if(scale != null)
             {
                 sim.TubeRadius=scale.tubeRadius; sim.Radius=scale.tubeRadius*.9f;
-                sim.RoomHalfExtents=new Vector2(scale.roomWidth*.5f,scale.roomLength*.5f);
+                if(confineToRoom) sim.RoomHalfExtents=new Vector2(scale.roomWidth*.5f,scale.roomLength*.5f);
                 sim.BendLimitFactor=scale.bendLimitFactor; sim.Iterations=Mathf.Max(16,iterations);
             }
             sim.Reset(anchor.position, anchor.right);
+            if(!confineToRoom) sim.ResetBetween(anchor.position,handPoint.position,Vector3.left);
             pressure = new HosePressure
             {
                 BasePressure = basePressure, MinFactor = minPressureFactor, KinksForFullChoke = kinksForFullChoke

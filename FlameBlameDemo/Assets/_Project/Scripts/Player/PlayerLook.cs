@@ -7,6 +7,7 @@ namespace FlameBlame.Player
     {
         [SerializeField] float sensitivity = 2f;
         [SerializeField] float pitchLimit = 80f;
+        [SerializeField] float initialPitch;
 
         IPlayerInput input;
 
@@ -15,6 +16,7 @@ namespace FlameBlame.Player
         public void Initialize(IPlayerInput playerInput)
         {
             input = playerInput;
+            Pitch=initialPitch;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }

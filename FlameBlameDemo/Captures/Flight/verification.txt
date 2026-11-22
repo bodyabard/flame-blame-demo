@@ -1,0 +1,5 @@
+Jet selected, no water: displacement=4,38896 y=0,08999991
+Thrust: pressure=0,9999998 rise=5,037657 direction=(0.21, -0.98, 0.00)
+Worst bend=18,18899 at=19 points=(-9.84, 0.08, 1.27) / (-10.03, 0.08, 1.15) / (-10.18, 0.08, 0.97)
+Released: y=0,07999986 speed=0
+Errors=0 particles=34

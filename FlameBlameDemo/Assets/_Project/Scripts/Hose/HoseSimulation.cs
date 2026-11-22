@@ -69,6 +69,34 @@ namespace FlameBlame.Hose
         }
 
         /// endAcceleration is applied to the free end (whip), m/s^2.
+        public void ResetBetween(Vector3 start, Vector3 end, Vector3 slackDirection)
+        {
+            // Equal arc-length sampling of a broad outdoor lay, allocated only on initialization.
+            const int samples=256;
+            var curve=new Vector3[samples+1]; var distance=new float[samples+1];
+            float low=0, high=Segments*SegmentLength;
+            float target=(Segments-1)*SegmentLength;
+            for(int search=0;search<20;search++)
+            {
+                float amplitude=(low+high)*.5f;
+                for(int i=0;i<=samples;i++)
+                {
+                    float t=(float)i/samples;
+                    curve[i]=Vector3.Lerp(start,end,t)+slackDirection*(Mathf.Sin(t*Mathf.PI)*amplitude);
+                    if(i>0) distance[i]=distance[i-1]+Vector3.Distance(curve[i],curve[i-1]);
+                }
+                if(distance[samples]<target) low=amplitude; else high=amplitude;
+            }
+            int sample=1;
+            for(int i=0;i<Segments;i++)
+            {
+                float d=(float)i/(Segments-1)*distance[samples];
+                while(sample<samples && distance[sample]<d) sample++;
+                float t=Mathf.InverseLerp(distance[sample-1],distance[sample],d);
+                p[i]=prev[i]=Vector3.Lerp(curve[sample-1],curve[sample],t);
+            }
+        }
+
         public void Step(float dt, Vector3 anchor, Vector3 hand, bool endPinned, Vector3 endAcceleration)
         {
             int n = Segments;

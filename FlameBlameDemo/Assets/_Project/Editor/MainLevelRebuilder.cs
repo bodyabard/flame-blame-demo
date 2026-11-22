@@ -49,6 +49,7 @@ namespace FlameBlame.EditorTools
             EditorUtility.SetDirty(bl); AssetDatabase.SaveAssets();
             EditorSceneManager.SaveScene(scene);
             Debug.Log("[FlameBlame] Main level rebuilt from ScaleProfile + EnvironmentPalette.");
+            TwoStoryLevelBuilder.Apply();
         }
 
         // ---------------------------------------------------------------- assets

@@ -1,0 +1,4 @@
+Floor=3,2 Window=2,2x2,15 sill=3,85
+Spawn=(-7.00, 0.00, -1.20) Hydrant=(-5.92, 0.55, 2.03)
+Segments=64 SegmentLength=0,2263623 Reach=13,11996
+Window ray clear; yard=40

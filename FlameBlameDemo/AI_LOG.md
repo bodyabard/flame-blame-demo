@@ -17,3 +17,6 @@ AI допоміг перетворити механіку скаженого б�
 # Phase 11a — nozzle and jet mode (2026-11-22)
 - AI traced nozzle orientation ownership, added inlet/muzzle rig and editor migration; water scanning continues through the existing receiver pipeline.
 - AI implemented State/Strategy modes, pressure-driven velocity integration, tuning asset, HUD/camera/audio feedback and one equilibrium/velocity test. Human feel review required before phase C.
+# Phase 11 follow-up — flight test level
+- Moved the preserved room and contents to a second floor, authored a repeatable exterior builder, relocated spawn/hydrant, and sized the hose for the route through the window. Added entry-gated round timing.
+- Flight telemetry isolated startup choking against the fence and a grounded vertical-speed reset preventing liftoff. Fixed those causes, ground walking in Jet, lateral steering, coupling orientation and corrupted hints; extended the existing single motor test.

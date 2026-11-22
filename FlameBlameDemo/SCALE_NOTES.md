@@ -52,3 +52,8 @@ worldFov **80** · viewmodelFov **60** · cameraHeight 1.6 · cameraPitch 18 · 
 - Current room, hose segment count and reach unchanged until milestone 11a approval; second-floor window height belongs to block C.
 - `Settings/JetTuning.asset`: gravity 20, thrust 26 (1.3g), rise cap 3.5 m/s, fall cap 12, air cap 4; equilibrium at pressure 20/26 ≈ .769 for a vertical nozzle. Inclination increases required pressure.
 - Mode switch .2 s, spool .28/.22 s; initial jet pose (.24,-.22,.55), downward 78 degrees with steering 18 degrees. Human camera/framing and flight review remains required.
+# Flight test level follow-up
+- Room dimensions unchanged; floor +3.2 m. Window clear opening 2.2 × 2.15 m, sill 3.85 m above ground. Height accommodates the standing CharacterController; rounded sill/jamb colliders.
+- Spawn (-7,0,-1.2), facing the west window; hydrant beside the house (-6,0,1.8), preserving prefab pivot height. Yard 40 × 40 m.
+- Hose 64 points, segment length unchanged at .22636232 m, usable reach ≈13.12 m. Route allowance includes vertical travel, the farthest room corner and 20% slack. Tube renderer remains capped at 109 rings / 981 vertices.
+- Settings: `FlightLevelSettings.asset`. Reproduce with `Tools/FlameBlame/Build Two Story Flight Level`; the main rebuild command also applies the exterior.

@@ -1,0 +1,19 @@
+﻿float t = _Time.y;
+float2 w = World.xz;
+float mask = MaskIndex < .5 ? SAMPLE_TEXTURE2D(Mask0.tex,Mask0.samplerstate,UV.xy).r : MaskIndex < 1.5 ? SAMPLE_TEXTURE2D(Mask1.tex,Mask1.samplerstate,UV.xy).r : MaskIndex < 2.5 ? SAMPLE_TEXTURE2D(Mask2.tex,Mask2.samplerstate,UV.xy).r : SAMPLE_TEXTURE2D(Mask3.tex,Mask3.samplerstate,UV.xy).r;
+float n = SAMPLE_TEXTURE2D(Noise.tex,Noise.samplerstate,w*1.4+t*EdgeSpeed+Seed).r;
+float edge = mask + (n-.5)*EdgeNoise*step(.01,mask);
+Threshold = lerp(1.08,.16,saturate(Fill));
+Alpha = edge;
+float depth = edge-Threshold;
+float2 drift=w*.65+float2(t*GlintSpeed,t*GlintSpeed*.4);
+float glint=step(.77,SAMPLE_TEXTURE2D(Noise.tex,Noise.samplerstate,drift).g);
+float wave=step(.65,sin(w.x*3+w.y*2-t*.65)*.5+.5);
+float3 water=lerp(WaterColor,DeepColor,step(.68,depth));
+water+=wave*float3(.025,.06,.055);
+water=lerp(water,RimColor,1-step(RimWidth,depth));
+water=lerp(water,float3(1,.73,.07),Electrified*.85);
+Color=lerp(water,float3(.9,.98,.95),glint*.65);
+Color=lerp(Color,float3(.8,.88,.85),Steam*.3);
+Glow=glint*float3(.36,.44,.42)*(.85+.15*sin(t*2)) + Electrified*float3(.6,.35,.015)*(.55+.45*sin(t*32));
+

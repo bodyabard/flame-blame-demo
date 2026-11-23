@@ -31,7 +31,7 @@ namespace FlameBlame.Ladder
             Body.Sleep();
         }
         public void Sound(AudioClip clip,float volume=1) {if(clip!=null) audioSource.PlayOneShot(clip,volume);}
-        public void Interact(PlayerLadderInteraction player) {if(State==LadderState.Resting || State==LadderState.Falling) player.Pickup(this);}
+        public void Interact(PlayerLadderInteraction player) {if(State!=LadderState.Carried) player.Pickup(this);}
         public void Carry() {SetState(LadderState.Carried); Sound(tuning.pickup);}
         void SetState(LadderState state)
         {
@@ -63,7 +63,7 @@ namespace FlameBlame.Ladder
         void FixedUpdate()
         {
             if(State!=LadderState.Falling && State!=LadderState.Resting) return;
-            if(Body.linearVelocity.sqrMagnitude<tuning.settleSpeed*tuning.settleSpeed && Body.angularVelocity.sqrMagnitude<.02f)
+            if(Time.time-lastWater>.2f && Body.linearVelocity.sqrMagnitude<tuning.settleSpeed*tuning.settleSpeed && Body.angularVelocity.sqrMagnitude<.02f)
             {settled+=Time.fixedDeltaTime; if(settled>=tuning.settleDuration) {State=LadderState.Resting; Body.Sleep();}}
             else {settled=0; State=LadderState.Falling;}
         }
@@ -77,11 +77,18 @@ namespace FlameBlame.Ladder
                 knock=LadderRules.AddKnock(knock,amount,1);
                 if(knock<tuning.knockThreshold) return;
                 SetState(LadderState.Falling);
-                Body.AddForceAtPosition((-normal+Outward*.5f)*tuning.fallImpulse,point,ForceMode.VelocityChange);
-                Body.AddTorque(transform.right*tuning.torque,ForceMode.VelocityChange);
+                // Break wall contact rather than driving both ends into their supports.
+                Vector3 away=Vector3.ProjectOnPlane(Outward,Vector3.up).normalized;
+                Body.AddForceAtPosition((-normal+away*1.5f)*tuning.fallImpulse,point,ForceMode.VelocityChange);
+                Body.AddTorque(-transform.right*tuning.torque,ForceMode.VelocityChange);
                 LadderKnockedDown?.Invoke();
             }
-            else Body.AddForceAtPosition(-normal*tuning.waterForce*amount,point,ForceMode.Impulse);
+            else
+            {
+                settled=0; State=LadderState.Falling; Body.WakeUp();
+                Body.AddForceAtPosition((-normal+Vector3.ProjectOnPlane(Outward,Vector3.up)*.35f)*tuning.waterForce*amount,point,ForceMode.Impulse);
+                Body.AddTorque(-transform.right*tuning.torque*amount,ForceMode.VelocityChange);
+            }
         }
         void OnCollisionEnter(Collision collision)
         {

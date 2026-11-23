@@ -1,5 +1,6 @@
-Jet selected, no water: displacement=4,38896 y=0,08999991
-Thrust: pressure=0,9999998 rise=5,037657 direction=(0.21, -0.98, 0.00)
-Worst bend=18,18899 at=19 points=(-9.84, 0.08, 1.27) / (-10.03, 0.08, 1.15) / (-10.18, 0.08, 0.97)
+Jet selected, no water: displacement=0 y=0,08999985
+Thrust: pressure=0,9999998 rise=5,045829 direction=(0.21, -0.98, 0.00)
+Worst bend=37,94485 at=30 points=(-12.18, 0.08, 0.72) / (-12.30, 0.08, 0.53) / (-12.29, 0.08, 0.31)
+Bend obstacle=Yard root=FlightExterior
 Released: y=0,07999986 speed=0
 Errors=0 particles=34

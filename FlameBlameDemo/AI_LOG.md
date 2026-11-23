@@ -25,3 +25,12 @@ AI допоміг перетворити механіку скаженого б�
 - Added independent ladder states, carry/holster integration, placement geometry/ghost, climb locomotion and pressure-weighted water knockdown. JetpackMotor and protected visual/gameplay systems are unchanged.
 - Editor generator builds the primitive prefab, matte materials and original procedural CC0 audio. One EditMode test covers geometry and knock accumulation/decay. Human play review is required before block B.
 - Verification: Unity 6000.3.24f1 compilation passed, requested EditMode test 1/1 passed, 8-second Play smoke passed (Resting/dynamic and locomotion initialization). Captures/Ladder/resting.png is an actual runtime render. Remaining gameplay screenshots and feel approval require the 12a human play review; block B has not started.
+
+## Phase 12a review fixes
+- Fixed overlapping GroundFloor/room-floor surfaces (z-fighting), allowed picking up placed ladders, and prevented water-hit bodies from being put back to sleep while water is arriving.
+- Reworked window transfers to lift feet over the actual sill before crossing in either direction. Climb now releases when thrust starts, allowing PlayerMotor to run flight.
+- Added physical recovery regression and a scripted round-trip traversal probe. Updated hose collision regression to honor the actual outdoor scene initialization instead of clamping it into the old room bounds.
+- Reproduced stationary launch failure: pressure 30%, rise approximately 0, while the worst hose curve was only 36.8 degrees on the yard. Pressure now starts choking beyond solver-permitted curvature (serialized start/full factors 1.05/2.5). Regression failed at 0.502 choke for a relaxed 33-degree curve, then passed. A true folded hose still chokes.
+- Stationary flight after repair: pressure approximately 100%, rise 5.046 m in the scripted thrust interval, no runtime errors. No JetpackMotor/thrust/gravity changes.
+- Window round-trip probe now passes entry, reverse attachment, descent, placed pickup and nozzle restoration. Climber ignores only the current ladder's colliders until safely separated; wall/window collisions remain enabled. Full EditMode suite: 25 passed, 0 failed.
+- Final scripted water recovery passed: after a 0.5 water hit the ladder fell away from the facade (top y=0.06 m, dynamic Rigidbody); subsequent water woke it again. Corrected the old torque sign that drove the ladder into the wall. Final traversal report passes every stage; captures include the repaired interior/window view.

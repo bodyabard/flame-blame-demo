@@ -32,7 +32,7 @@ namespace FlameBlame.EditorTools
             if(EditorApplication.isCompiling || EditorApplication.isUpdating) return;
             if(File.Exists("Temp/FlameBlame-VerifyFlight") && !EditorApplication.isPlayingOrWillChangePlaymode)
             {
-                File.Delete("Temp/FlameBlame-VerifyFlight"); SessionState.SetBool("FlightVerify",true); EditorApplication.isPlaying=true;
+                File.Delete("Temp/FlameBlame-VerifyFlight"); UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/_Project/Scenes/Main.unity"); SessionState.SetBool("FlightVerify",true); EditorApplication.isPlaying=true;
             }
             if(!EditorApplication.isPlaying || !SessionState.GetBool("FlightVerify",false)) return;
             if(start==0) {start=EditorApplication.timeSinceStartup; stage=0; errors=0; report="";}
@@ -42,7 +42,7 @@ namespace FlameBlame.EditorTools
             if(stage==0)
             {
                 input=new InputSource(); Set(motor,"input",input); Set(hose,"input",input); Set(Object.FindFirstObjectByType<JetController>(),"input",input);
-                initial=motor.transform.position; hose.Modes.Tick(true,true); input.Move=Vector2.right;
+                initial=motor.transform.position; hose.Modes.Tick(true,true); input.Move=Vector2.zero;
                 ScreenCapture.CaptureScreenshot("Captures/Flight/exterior.png");
             }
             if(stage==1)
@@ -60,6 +60,7 @@ namespace FlameBlame.EditorTools
                     if(angle>worst) {worst=angle;index=i;}
                 }
                 report+="Worst bend="+worst+" at="+index+" points="+hose.Points[index-1]+" / "+hose.Points[index]+" / "+hose.Points[index+1]+"\n";
+                foreach(var obstacle in Physics.OverlapSphere(hose.Points[index],.16f)) report+="Bend obstacle="+obstacle.name+" root="+obstacle.transform.root.name+"\n";
                 ScreenCapture.CaptureScreenshot("Captures/Flight/thrust.png");
                 input.ValveHeld=false;
             }

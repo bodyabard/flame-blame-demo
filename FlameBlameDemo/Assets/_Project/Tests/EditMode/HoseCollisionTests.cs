@@ -40,10 +40,11 @@ namespace FlameBlame.Tests
                         serialized.FindProperty("segmentLength").floatValue, resolver)
                     {
                         Radius=profile.tubeRadius*.9f, TubeRadius=profile.tubeRadius,
-                        RoomHalfExtents=new Vector2(profile.roomWidth*.5f,profile.roomLength*.5f),
+                        RoomHalfExtents=serialized.FindProperty("confineToRoom").boolValue ? new Vector2(profile.roomWidth*.5f,profile.roomLength*.5f) : new Vector2(float.PositiveInfinity,float.PositiveInfinity),
                         BendLimitFactor=profile.bendLimitFactor, Iterations=16
                     };
-                    sim.Reset(anchor.position, anchor.right);
+                    if(serialized.FindProperty("confineToRoom").boolValue) sim.Reset(anchor.position, anchor.right);
+                    else sim.ResetBetween(anchor.position,hand.position,Vector3.left);
                     for (int step = 0; step < 600; step++)
                     {
                         sim.Step(0.02f, anchor.position, hand.position, held, Vector3.zero);

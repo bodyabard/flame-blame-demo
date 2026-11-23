@@ -61,3 +61,8 @@ worldFov **80** · viewmodelFov **60** · cameraHeight 1.6 · cameraPitch 18 · 
 ## Phase 12a — ladder
 - Length 4.5 m; inclination 73 degrees; projected height 4.303 m, base offset from wall 1.316 m (+0.12 m clearance).
 - Existing sill: 3.85 m above yard. Top clears it by approximately 0.45 m. Rung spacing 0.3 m. Runtime tuning: Settings/LadderTuning.asset.
+
+## Phase 12a repair
+- GroundFloor top is now below the room-floor underside by 0.02 m (2.98 m rather than 3.2 m); the visible room floor remains at 3.2 m. Removes coplanar z-fighting.
+- Character collision against the current ladder is suspended during climb/window transfer; architecture collision remains active. Window transfer lifts feet above the detected sill before horizontal travel; reverse entry begins at the upper rung rather than the interior floor height.
+- Hose pressure: permitted free curvature no longer represents a full kink. Choking onset/full factors relative to solver bend limit are serialized on HoseController (1.05 / 2.5); actual folds still reduce pressure.

@@ -1,0 +1,1 @@
+GroundFloor top separated below room floor underside; room surface and materials unchanged.

@@ -66,7 +66,8 @@ namespace FlameBlame.EditorTools
             var pavement=Mat("FlightPavement",new Color(.57f,.47f,.37f));
             Box(exterior,"Yard",new Vector3(-3,-.15f,0),new Vector3(settings.yardSize,.3f,settings.yardSize),ground,LayerMask.NameToLayer("Floor"));
             Box(exterior,"Sidewalk",new Vector3(-5,-.02f,0),new Vector3(4,.06f,12),pavement,LayerMask.NameToLayer("Floor"));
-            Box(exterior,"GroundFloor",new Vector3(0,settings.floorHeight*.5f,0),new Vector3(scale.roomWidth+.2f,settings.floorHeight,scale.roomLength+.2f),material);
+            // Leave the room floor as the only visible surface at the storey boundary.
+            Box(exterior,"GroundFloor",new Vector3(0,(settings.floorHeight-.22f)*.5f,0),new Vector3(scale.roomWidth+.2f,settings.floorHeight-.22f,scale.roomLength+.2f),material);
             Box(exterior,"BlockedDoor",new Vector3(x-.06f,1.05f,-1.6f),new Vector3(.12f,2.1f,.8f),trim);
             for(int i=0;i<2;i++) Box(exterior,"BoardedDoor",new Vector3(x-.15f,.6f+i*.8f,-1.6f),new Vector3(.1f,.12f,1),pavement);
             var dark=Mat("FlightDarkGlass",new Color(.18f,.15f,.16f));

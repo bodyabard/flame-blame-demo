@@ -1,0 +1,13 @@
+Transfer start=(-3.52, 3.96, 0.00) end=(-2.02, 3.89, 0.00)
+Blockers:
+Up: (-2.02, 3.28, 0.00) state=Walk
+PASS window entry
+Return: (-5.74, 0.09, 0.00) state=Walk
+PASS reverse ladder attachment
+Down: (-13.55, 0.08, 0.00) state=Walk
+PASS descent
+PASS placed pickup and holster
+PASS nozzle restore
+Knocked top=(-7.38, 0.06, 0.02) dynamic=True
+PASS water knockdown falls away from wall
+PASS subsequent water wakes ladder

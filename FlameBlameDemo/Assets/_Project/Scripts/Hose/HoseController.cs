@@ -26,6 +26,8 @@ namespace FlameBlame.Hose
         [SerializeField] float basePressure = 1f;
         [SerializeField] float minPressureFactor = 0.15f;
         [SerializeField] float kinksForFullChoke = 3f;
+        [SerializeField] float chokeStartFactor=1.05f;
+        [SerializeField] float chokeFullFactor=2.5f;
 
         [Header("Whip")]
         [SerializeField] float whipForce = 900f;
@@ -86,7 +88,8 @@ namespace FlameBlame.Hose
             collision = new PhysicsHoseCollision(collisionMask);
             sim = new HoseSimulation(segments, segmentLength, collision)
             {
-                Iterations = iterations, Gravity = gravity, Damping = damping, Radius = radius
+                Iterations = iterations, Gravity = gravity, Damping = damping, Radius = radius,
+                ChokeStartFactor=chokeStartFactor, ChokeFullFactor=chokeFullFactor
             };
             if(scale != null)
             {

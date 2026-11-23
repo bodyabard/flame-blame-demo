@@ -15,6 +15,7 @@ namespace FlameBlame.Hose
         public float KinkDotThreshold = 0.15f;
 
         public float BendLimitFactor = 1.8f, TubeRadius = .09f;
+        public float ChokeStartFactor=1.05f, ChokeFullFactor=2.5f;
         public Vector2 RoomHalfExtents = new Vector2(float.PositiveInfinity, float.PositiveInfinity);
         readonly HoseBendConstraint bend = new HoseBendConstraint();
         public float EffectiveBendFactor => HoseBendConstraint.ChordFactor(SegmentLength, TubeRadius, BendLimitFactor);
@@ -154,7 +155,8 @@ namespace FlameBlame.Hose
             for(int i=1;i<Segments-1;i++)
             {
                 float angle=Vector3.Angle(p[i]-p[i-1],p[i+1]-p[i])*Mathf.Deg2Rad;
-                choke=Mathf.Max(choke,Mathf.InverseLerp(limit*.8f,limit,angle));
+                // Solver-permitted curvature is an ordinary bend, not a collapsed hose.
+                choke=Mathf.Max(choke,Mathf.InverseLerp(limit*ChokeStartFactor,limit*ChokeFullFactor,angle));
             }
             return choke;
         }

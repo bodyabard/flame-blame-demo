@@ -19,15 +19,17 @@ namespace FlameBlame.Tests
             Assert.That(LadderRules.Decay(knock,.2f,1),Is.EqualTo(.2f).Within(.001f));
             Assert.That(LadderRules.Decay(knock,.2f,10),Is.Zero);
         }
-        [Test] public void UpperEntryKeepsForwardDescendingAndLookingAwayAllowsWalkOff()
+        [Test] public void ViewControlsDirectionAndLookingAwayDetachesEvenWithoutMovement()
         {
-            var outward=Vector3.back;
-            Assert.That(FlameBlame.Player.PlayerLocomotionStateMachine.ClimbInputSign(true,outward,outward),Is.EqualTo(-1));
-            Assert.That(FlameBlame.Player.PlayerLocomotionStateMachine.ClimbInputSign(true,outward,-outward),Is.EqualTo(1));
-            Assert.That(FlameBlame.Player.PlayerLocomotionStateMachine.ClimbInputSign(false,outward,outward),Is.EqualTo(1));
-            Assert.That(FlameBlame.Player.PlayerLocomotionStateMachine.WantsWalkOff(1,outward,outward,70),Is.True);
-            Assert.That(FlameBlame.Player.PlayerLocomotionStateMachine.WantsWalkOff(1,-outward,outward,70),Is.False);
-            Assert.That(FlameBlame.Player.PlayerLocomotionStateMachine.WantsWalkOff(-1,outward,outward,70),Is.False);
+            Assert.That(LadderRules.ViewClimbSign(Vector3.up,1,.15f),Is.EqualTo(1));
+            Assert.That(LadderRules.ViewClimbSign(Vector3.down,1,.15f),Is.EqualTo(-1));
+            Assert.That(LadderRules.ViewClimbSign(Vector3.up,-1,.15f),Is.EqualTo(1));
+            Assert.That(LadderRules.ViewClimbSign(Vector3.forward,-1,.15f),Is.EqualTo(-1));
+            var eye=new Vector3(0,2,-.55f); var bottom=Vector3.zero; var top=Vector3.up*4;
+            Assert.That(LadderRules.FacingLadder(eye,(top-eye).normalized,bottom,top,70),Is.True);
+            Assert.That(LadderRules.FacingLadder(eye,(bottom-eye).normalized,bottom,top,70),Is.True);
+            Assert.That(LadderRules.FacingLadder(eye,Vector3.back,bottom,top,70),Is.False);
+            Assert.That(LadderRules.FacingLadder(eye,Vector3.right,bottom,top,70),Is.False);
         }
     }
 }

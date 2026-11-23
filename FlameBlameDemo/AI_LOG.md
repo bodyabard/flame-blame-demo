@@ -40,3 +40,5 @@ AI допоміг перетворити механіку скаженого б�
 # 2026-11-23 — automatic hose reel and collision recovery
 - Added bounded collision-aware route measurement and dynamic deployed point count: payout/retraction happens at the hydrant, preserves the nozzle and full maximum reach, and pauses while dropped. Rendering, bending and prop impacts now respect active points.
 - Added full-span capsule penetration checks, iterative point recovery and wet-radius clearance. Removed spline corner cutting and ignored the attached hydrant socket's geometry. EditMode and Play checks cover obstacle detours, thin fences, resizing, return retraction and dropped length.
+# 2026-11-23 — view-directed ladder movement
+- Replaced the fixed upper-entry input reversal with live up/down look direction and a neutral dead zone. Looking away from the ladder detaches even without movement, using exactly the Space jump-off impulse. Added direction/visibility regression checks and controlled-descent Play telemetry.

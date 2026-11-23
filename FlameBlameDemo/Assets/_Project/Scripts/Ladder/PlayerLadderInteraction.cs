@@ -89,8 +89,8 @@ namespace FlameBlame.Ladder
         }
         void OnGUI()
         {
-            string hint=Carried!=null ? "F — поставити / ЛКМ — кинути" : locomotion!=null && locomotion.State==PlayerLocomotionState.Climb ? "W/S — лізти · Space — відстрибнути" : focus!=null ? "F — взяти драбину" : "";
-            if(hint.Length>0) GUI.Label(new Rect(Screen.width*.5f-180,Screen.height*.7f,420,35),hint);
+            string hint=Carried!=null ? "F — поставити / ЛКМ — кинути" : locomotion!=null && locomotion.State==PlayerLocomotionState.Climb ? "W/S — рух за поглядом\nВідвести погляд / Space — відстрибнути" : focus!=null ? "F — взяти драбину" : "";
+            if(hint.Length>0) GUI.Label(new Rect(Screen.width*.5f-180,Screen.height*.7f,420,55),hint);
         }
     }
 }

@@ -19,6 +19,7 @@ namespace FlameBlame.EditorTools
         static double start;
         static int stage;
         static string report; static bool traced, reversed;
+        static float descentClimbTime;
         static LadderTraversalVerification() {EditorApplication.update+=Tick;}
         static void Tick()
         {
@@ -26,12 +27,12 @@ namespace FlameBlame.EditorTools
             if(File.Exists("Temp/FlameBlame-TraverseLadder") && !EditorApplication.isPlayingOrWillChangePlaymode)
             {File.Delete("Temp/FlameBlame-TraverseLadder"); UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/_Project/Scenes/Main.unity"); SessionState.SetBool("FlightVerify",false); SessionState.SetBool("LadderTraverse",true); EditorApplication.isPlaying=true;}
             if(!EditorApplication.isPlaying || !SessionState.GetBool("LadderTraverse",false)) return;
-            if(start==0) {start=Time.time; stage=0; report=""; traced=false; reversed=false;}
+            if(start==0) {start=Time.time; stage=0; report=""; traced=false; reversed=false; descentClimbTime=0;}
             double elapsed=Time.time-start;
             double[] times={1,7,10,14,15,17};
             var locomotion=Object.FindFirstObjectByType<PlayerMotor>()?.Locomotion;
             if(locomotion!=null && traced && stage==1 && locomotion.State==PlayerLocomotionState.Walk && locomotion.transform.position.x>-2.5f) input.Move=Vector2.zero;
-            if(locomotion!=null && stage==2 && locomotion.State==PlayerLocomotionState.Climb) reversed=true;
+            if(locomotion!=null && stage==2 && locomotion.State==PlayerLocomotionState.Climb) {reversed=true; descentClimbTime+=Time.deltaTime;}
             if(locomotion!=null && !traced && (bool)typeof(PlayerLocomotionStateMachine).GetField("transferring",BindingFlags.NonPublic|BindingFlags.Instance).GetValue(locomotion))
             {traced=true; report+="Transfer start="+typeof(PlayerLocomotionStateMachine).GetField("transferStart",BindingFlags.NonPublic|BindingFlags.Instance).GetValue(locomotion)+" end="+typeof(PlayerLocomotionStateMachine).GetField("transferEnd",BindingFlags.NonPublic|BindingFlags.Instance).GetValue(locomotion)+"\n";}
             if(traced && !report.Contains("Blockers:"))
@@ -69,6 +70,7 @@ namespace FlameBlame.EditorTools
             if(stage==3)
             {
                 report+=(reversed ? "PASS" : "FAIL")+" reverse ladder attachment\n";
+                report+=(descentClimbTime>1 ? "PASS" : "FAIL")+" controlled descent; attached seconds="+descentClimbTime+"\n";
                 report+="Down: "+motor.transform.position+" state="+motor.Locomotion.State+"\n";
                 report+=(motor.transform.position.y<.5f ? "PASS" : "FAIL")+" descent\n";
                 input.Move=Vector2.zero; ladder.Interact(interaction);

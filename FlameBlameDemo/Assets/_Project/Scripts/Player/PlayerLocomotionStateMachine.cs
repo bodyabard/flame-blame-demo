@@ -20,9 +20,6 @@ namespace FlameBlame.Player
         Vector3 transferStart, transferEnd;
         bool transferring, entering;
         float climbInputSign=1;
-        public static float ClimbInputSign(bool upper,Vector3 movement,Vector3 outward) => upper && Vector3.Dot(movement,outward)>0 ? -1 : 1;
-        public static bool WantsWalkOff(float travel,Vector3 forward,Vector3 outward,float facingAngle) =>
-            travel>0 && Vector3.Dot(Vector3.ProjectOnPlane(forward,Vector3.up).normalized,-outward)<Mathf.Cos(facingAngle*Mathf.Deg2Rad);
         Vector3 Outside => Vector3.ProjectOnPlane(current.Outward,Vector3.up).normalized;
         public void Initialize(LadderStateMachine[] sceneLadders)
         {ladders=sceneLadders; controller=GetComponent<CharacterController>(); motor=GetComponent<PlayerMotor>();}
@@ -72,7 +69,7 @@ namespace FlameBlame.Player
                     float distance=upper ? Vector3.ProjectOnPlane(transform.position-ladder.Top,Vector3.up).magnitude : Vector3.Distance(transform.position,nearest);
                     if(distance>(upper ? 1.6f : .9f) || Vector3.Angle(movement,toward)>ladder.tuning.attachAngle) continue;
                     current=ladder; progress=Mathf.Clamp(along,0,ladder.tuning.length-.5f); State=PlayerLocomotionState.Climb;
-                    climbInputSign=ClimbInputSign(upper,movement,outward);
+                    climbInputSign=upper ? -1 : 1;
                     RestoreLadderCollision(); ignoredLadder=current;
                     foreach(var solid in current.Solids) Physics.IgnoreCollision(controller,solid,true);
                     current.LadderKnockedDown+=Knocked; current.Sound(current.tuning.step);
@@ -82,14 +79,14 @@ namespace FlameBlame.Player
                 if(State!=PlayerLocomotionState.Climb) return false;
                 if(transferring) return true;
             }
-            if(input.JumpPressed) {Detach(Outside*current.tuning.jumpBack+Vector3.up*2); return true;}
-            float travel=input.Move.y*climbInputSign*current.tuning.climbSpeed*dt;
-            if(WantsWalkOff(travel,view.forward,Outside,current.tuning.walkOffAngle))
+            if(input.JumpPressed || !LadderRules.FacingLadder(view.position,view.forward,current.Bottom,
+                current.Top+current.transform.up*controller.height,current.tuning.walkOffAngle))
             {
-                Vector3 direction=Vector3.ProjectOnPlane(view.forward,Vector3.up).normalized;
-                Detach(direction*current.tuning.jumpBack+Vector3.up*2);
+                Detach(Outside*current.tuning.jumpBack+Vector3.up*2);
                 return true;
             }
+            climbInputSign=LadderRules.ViewClimbSign(view.forward,climbInputSign,current.tuning.lookDirectionDeadZone);
+            float travel=input.Move.y*climbInputSign*current.tuning.climbSpeed*dt;
             progress=Mathf.Clamp(progress+travel,0,current.tuning.length);
             controller.Move(current.Bottom+current.transform.up*progress+Outside*.55f-transform.position);
             stepDistance+=Mathf.Abs(travel);

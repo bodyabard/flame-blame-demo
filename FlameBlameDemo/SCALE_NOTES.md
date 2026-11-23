@@ -76,3 +76,7 @@ worldFov **80** · viewmodelFov **60** · cameraHeight 1.6 · cameraPitch 18 · 
 - `HoseReelTuning.asset`: slack 1 m, minimum deployed length 2 m, payout 12 m/s, retraction 2 m/s, route checks every .12 s with at most 128 visibility queries. Unresolved routes keep their current deployment.
 - Collision clearance covers the wet hose radius plus .008 m skin. Full spans receive capsule checks; tube interpolation is linear to avoid spline overshoot into obstacles. Mesh remains capped at 981 vertices.
 - Apply via `Tools/FlameBlame/Apply Hose Reel`. Reel freezes while dropped; regrabbing resumes automatic management. The attached hydrant's own geometry is excluded from hose collision queries.
+# 2026-11-23 — view-directed ladder controls (supersedes fixed entry direction)
+- W follows vertical look direction; S reverses it. Near-level view retains the last direction within `LadderTuning.lookDirectionDeadZone` (.15 vertical component).
+- Facing is tested against the ladder in 3D, including the lower section when looking down. The upper facing region extends by the controller height to permit finishing a climb when eye height rises above the last rung.
+- Looking away within the configured 70° visibility tolerance triggers the same outward/upward impulse as Space, including when standing still on the ladder.

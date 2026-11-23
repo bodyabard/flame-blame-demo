@@ -19,5 +19,15 @@ namespace FlameBlame.Tests
             Assert.That(LadderRules.Decay(knock,.2f,1),Is.EqualTo(.2f).Within(.001f));
             Assert.That(LadderRules.Decay(knock,.2f,10),Is.Zero);
         }
+        [Test] public void UpperEntryKeepsForwardDescendingAndLookingAwayAllowsWalkOff()
+        {
+            var outward=Vector3.back;
+            Assert.That(FlameBlame.Player.PlayerLocomotionStateMachine.ClimbInputSign(true,outward,outward),Is.EqualTo(-1));
+            Assert.That(FlameBlame.Player.PlayerLocomotionStateMachine.ClimbInputSign(true,outward,-outward),Is.EqualTo(1));
+            Assert.That(FlameBlame.Player.PlayerLocomotionStateMachine.ClimbInputSign(false,outward,outward),Is.EqualTo(1));
+            Assert.That(FlameBlame.Player.PlayerLocomotionStateMachine.WantsWalkOff(1,outward,outward,70),Is.True);
+            Assert.That(FlameBlame.Player.PlayerLocomotionStateMachine.WantsWalkOff(1,-outward,outward,70),Is.False);
+            Assert.That(FlameBlame.Player.PlayerLocomotionStateMachine.WantsWalkOff(-1,outward,outward,70),Is.False);
+        }
     }
 }

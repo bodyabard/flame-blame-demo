@@ -20,13 +20,22 @@ namespace FlameBlame.Player
             bool grounded, Vector3 position, IHoseTether tether)
         {
             Spool = Mathf.MoveTowards(Spool, flowing ? 1 : 0, dt / Mathf.Max(.01f, flowing ? tuning.spoolUp : tuning.spoolDown));
-            if(!flowing) pressure=0;
             Vector3 velocity = Velocity;
             if(grounded && velocity.y < 0) velocity.y = 0;
-            velocity += (-muzzleForward * (tuning.thrust * Mathf.Clamp01(pressure) * Spool) - Vector3.up * tuning.gravity) * dt;
-            var horizontal = Vector3.ProjectOnPlane(velocity,Vector3.up);
-            velocity -= horizontal * Mathf.Min(1,tuning.airDrag*dt);
-            velocity += control * tuning.airControl * dt;
+            if(flowing)
+            {
+                velocity.y=Mathf.MoveTowards(velocity.y,tuning.maxRiseSpeed,tuning.liftResponse*dt);
+                var horizontal=Vector3.MoveTowards(Vector3.ProjectOnPlane(velocity,Vector3.up),
+                    Vector3.ClampMagnitude(control,1)*tuning.maxAirSpeed,tuning.steeringResponse*dt);
+                velocity.x=horizontal.x; velocity.z=horizontal.z;
+            }
+            else
+            {
+                velocity.y-=tuning.gravity*dt;
+                var horizontal=Vector3.ProjectOnPlane(velocity,Vector3.up);
+                velocity-=horizontal*Mathf.Min(1,tuning.airDrag*dt);
+                velocity+=control*tuning.airControl*dt;
+            }
             if(tether.IsTethered)
             {
                 var offset = position - tether.AnchorPosition;

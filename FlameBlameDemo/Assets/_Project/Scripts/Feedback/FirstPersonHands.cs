@@ -17,7 +17,7 @@ namespace FlameBlame.Feedback
             if(tuning==null || hose==null || input==null) return;
             arms.gameObject.SetActive(hose.Held);
             float motion=input.Move.magnitude;
-            float recoil=hose.WaterFlowing ? hose.Pressure : 0;
+            float recoil=hose.WaterFlowing ? hose.NozzlePressure : 0;
             Vector3 offset=new Vector3(-input.Look.x,-input.Look.y,-recoil*4)*tuning.handSway;
             offset.y+=Mathf.Sin(Time.time*tuning.bobSpeed)*motion*tuning.bobHeight;
             arms.localPosition=Vector3.Lerp(arms.localPosition,origin+offset,1-Mathf.Exp(-tuning.fovResponse*Time.deltaTime));

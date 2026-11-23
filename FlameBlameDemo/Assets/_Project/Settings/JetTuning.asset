@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Hose.JetTuning
   thrust: 26
   gravity: 20
-  maxRiseSpeed: 3.5
+  liftResponse: 60
+  steeringResponse: 20
+  maxRiseSpeed: 4.5
   maxFallSpeed: 12
-  maxAirSpeed: 4
+  maxAirSpeed: 5.5
   spoolUp: 0.28
   spoolDown: 0.22
   airControl: 2

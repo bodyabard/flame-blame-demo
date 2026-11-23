@@ -5,6 +5,7 @@ namespace FlameBlame.Hose
     public sealed class JetTuning : ScriptableObject
     {
         public float thrust = 26f, gravity = 20f;
+        public float liftResponse = 60f, steeringResponse = 20f;
         public float maxRiseSpeed = 3.5f, maxFallSpeed = 12f, maxAirSpeed = 4f;
         public float spoolUp = .28f, spoolDown = .22f, airControl = 2f, airDrag = .5f;
         public float tetherSpring = 14f, tetherDamping = 5f;

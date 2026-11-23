@@ -34,3 +34,6 @@ AI допоміг перетворити механіку скаженого б�
 - Stationary flight after repair: pressure approximately 100%, rise 5.046 m in the scripted thrust interval, no runtime errors. No JetpackMotor/thrust/gravity changes.
 - Window round-trip probe now passes entry, reverse attachment, descent, placed pickup and nozzle restoration. Climber ignores only the current ladder's colliders until safely separated; wall/window collisions remain enabled. Full EditMode suite: 25 passed, 0 failed.
 - Final scripted water recovery passed: after a 0.5 water hit the ladder fell away from the facade (top y=0.06 m, dynamic Rigidbody); subsequent water woke it again. Corrected the old torque sign that drove the ladder into the wall. Final traversal report passes every stage; captures include the repaired interior/window view.
+# 2026-11-23 — casual movement follow-up
+- Replaced pressure-driven flight with target lift and WASD steering; rapid fall recovery works in midair with zero hose pressure. Jet output, camera/audio feedback and gauge use the same independent output pressure; extinguishing retains hose pressure.
+- Fixed upper ladder entry direction and look-away walk-off, increased movement speeds, extended motor/ladder regression checks and exercised traversal with forward input from the upper landing.

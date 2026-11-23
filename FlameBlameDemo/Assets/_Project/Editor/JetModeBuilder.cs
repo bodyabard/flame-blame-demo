@@ -12,6 +12,8 @@ namespace FlameBlame.EditorTools
         static JetModeBuilder() { EditorApplication.update += Poll; }
         static void Poll()
         {
+            if(File.Exists("Temp/FlameBlame-ArcadeMovement") && !EditorApplication.isCompiling && !EditorApplication.isUpdating && !EditorApplication.isPlayingOrWillChangePlaymode)
+            {File.Delete("Temp/FlameBlame-ArcadeMovement"); ApplyArcadeMovement();}
             if(File.Exists("Temp/FlameBlame-Refresh") && !EditorApplication.isCompiling && !EditorApplication.isUpdating && !EditorApplication.isPlayingOrWillChangePlaymode)
             {
                 File.Delete("Temp/FlameBlame-Refresh"); AssetDatabase.Refresh(); return;
@@ -68,6 +70,20 @@ namespace FlameBlame.EditorTools
             EditorSceneManager.MarkSceneDirty(hose.gameObject.scene);
             EditorSceneManager.SaveOpenScenes(); AssetDatabase.SaveAssets();
             Debug.Log("[FlameBlame] Jet rig applied");
+        }
+        [MenuItem("Tools/FlameBlame/Apply Arcade Movement")]
+        public static void ApplyArcadeMovement()
+        {
+            var profile=AssetDatabase.LoadAssetAtPath<FlameBlame.Core.ScaleProfile>("Assets/_Project/Settings/ScaleProfile.asset");
+            profile.moveSpeed=3.6f; EditorUtility.SetDirty(profile);
+            var player=Object.FindFirstObjectByType<FlameBlame.Player.PlayerMotor>();
+            var data=new SerializedObject(player); data.FindProperty("moveSpeed").floatValue=profile.moveSpeed; data.ApplyModifiedPropertiesWithoutUndo();
+            var jet=AssetDatabase.LoadAssetAtPath<JetTuning>("Assets/_Project/Settings/JetTuning.asset");
+            jet.maxAirSpeed=5.5f; jet.maxRiseSpeed=4.5f; jet.liftResponse=60; jet.steeringResponse=20; EditorUtility.SetDirty(jet);
+            var ladder=AssetDatabase.LoadAssetAtPath<FlameBlame.Ladder.LadderTuning>("Assets/_Project/Settings/LadderTuning.asset");
+            ladder.climbSpeed=2.4f; ladder.walkOffAngle=70; EditorUtility.SetDirty(ladder);
+            AssetDatabase.SaveAssets(); EditorSceneManager.MarkSceneDirty(player.gameObject.scene); EditorSceneManager.SaveOpenScenes();
+            Debug.Log("[FlameBlame] Arcade movement applied: walk 3.6, flight 5.5, rise 4.5, climb 2.4");
         }
     }
 }

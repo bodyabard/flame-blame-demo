@@ -65,7 +65,7 @@ namespace FlameBlame.Hose
             }
             hose.WaterFlowing = valveOpen;
 
-            float p = hose.Pressure;
+            float p = hose.NozzlePressure;
             float speed = maxSpeed * p;
             Vector3 pos = hose.MuzzlePosition;
             Vector3 dir = hose.NozzleDirection;

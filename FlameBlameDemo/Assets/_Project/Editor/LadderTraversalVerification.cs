@@ -63,7 +63,7 @@ namespace FlameBlame.EditorTools
             {
                 report+="Up: "+motor.transform.position+" state="+motor.Locomotion.State+"\n";
                 report+=(motor.transform.position.x>-2.5f ? "PASS" : "FAIL")+" window entry\n";
-                Object.FindFirstObjectByType<FlameBlame.Feedback.CameraFeedback>().enabled=false; interaction.view.localRotation=Quaternion.Euler(25,0,0); ScreenCapture.CaptureScreenshot("Captures/Ladder/window-repaired.png"); input.Move=Vector2.down;
+                Object.FindFirstObjectByType<FlameBlame.Feedback.CameraFeedback>().enabled=false; interaction.view.localRotation=Quaternion.Euler(25,0,0); ScreenCapture.CaptureScreenshot("Captures/Ladder/window-repaired.png"); motor.transform.rotation=Quaternion.LookRotation(Vector3.ProjectOnPlane(ladder.Outward,Vector3.up)); input.Move=Vector2.up;
             }
             if(stage==2) report+="Return: "+motor.transform.position+" state="+motor.Locomotion.State+"\n";
             if(stage==3)

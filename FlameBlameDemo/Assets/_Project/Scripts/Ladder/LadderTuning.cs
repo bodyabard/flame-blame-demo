@@ -6,6 +6,7 @@ namespace FlameBlame.Ladder
     {
         public float length=4.5f, angle=73, wallTolerance=15, placeRange=2.5f, pickupRange=2;
         public float climbSpeed=1.8f, reattachDelay=.4f, attachAngle=50, carrySpeed=.8f;
+        public float walkOffAngle=70;
         public float knockThreshold=.4f, knockDecay=.18f, waterForce=25, fallImpulse=2, throwImpulse=5, throwUp=2, torque=2;
         public float settleSpeed=.12f, settleDuration=1, snapDuration=.25f, mantleDuration=.35f, jumpBack=3;
         public AudioClip pickup, place, step, impact;

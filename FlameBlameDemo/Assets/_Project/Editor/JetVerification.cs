@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Reflection;
 using FlameBlame.Hose;
 using UnityEditor;
@@ -36,7 +36,7 @@ namespace FlameBlame.EditorTools
             {
                 File.Delete("Temp/FlameBlame-TestJet");
                 testing=true; runner=ScriptableObject.CreateInstance<TestRunnerApi>(); runner.RegisterCallbacks(new Results());
-                runner.Execute(new ExecutionSettings(new Filter {testMode=TestMode.EditMode, testNames=new[]{"FlameBlame.Tests.JetpackMotorTests"}}));
+                runner.Execute(new ExecutionSettings(new Filter {testMode=TestMode.EditMode, testNames=new[]{"FlameBlame.Tests.JetpackMotorTests","FlameBlame.Tests.LadderRulesTests"}}));
             }
             if(testing || EditorApplication.timeSinceStartup-testEnded<4) return;
             if(File.Exists("Temp/FlameBlame-SmokeJet") && !EditorApplication.isPlayingOrWillChangePlaymode)

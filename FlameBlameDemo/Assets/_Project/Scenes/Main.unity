@@ -14064,7 +14064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e4afc6a449220a46a6c2722f3b7c4af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Player.PlayerMotor
-  moveSpeed: 2.2
+  moveSpeed: 3.6
   gravity: -20
   jumpHeight: 1
   impulseDamping: 6
@@ -24109,6 +24109,8 @@ MonoBehaviour:
   basePressure: 1
   minPressureFactor: 0.15
   kinksForFullChoke: 3
+  chokeStartFactor: 1.05
+  chokeFullFactor: 2.5
   whipForce: 900
   whipNoise: 0.8
   grabDistance: 1.6

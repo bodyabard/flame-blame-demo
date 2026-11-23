@@ -34,7 +34,7 @@ MonoBehaviour:
   handsOffset: {x: 0, y: 0, z: 0}
   furnitureFit: 0.6
   distanceScale: 0.5
-  moveSpeed: 2.2
+  moveSpeed: 3.6
   lookSensitivity: 2
   hoseReachMargin: 0.95
   hoseSegments: 32

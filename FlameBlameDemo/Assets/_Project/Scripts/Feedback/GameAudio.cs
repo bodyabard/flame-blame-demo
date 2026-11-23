@@ -53,7 +53,7 @@ namespace FlameBlame.Feedback
         {
             if(events==null)return;
             float blend=1-Mathf.Exp(-tuning.audioResponse*Time.unscaledDeltaTime);
-            float pressure=!finished && hose.WaterFlowing ? hose.Pressure : 0;
+            float pressure=!finished && hose.WaterFlowing ? hose.NozzlePressure : 0;
             water.volume=Mathf.Lerp(water.volume,pressure*tuning.effectsVolume,blend);
             water.pitch=Mathf.Lerp(.7f,hose.Modes.Current.UsesThrust ? 1.65f : 1.25f,pressure);
             fire.volume=Mathf.Lerp(fire.volume,finished?0:Mathf.Clamp01(fires*.25f)*tuning.effectsVolume,blend);

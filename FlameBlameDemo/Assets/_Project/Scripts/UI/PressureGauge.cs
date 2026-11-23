@@ -17,7 +17,7 @@ namespace FlameBlame.UI
         void Awake() {label.SetText("ТИСК 100%");label.ForceMeshUpdate();}
         void Update()
         {
-            pressure=Mathf.Lerp(pressure,Mathf.Clamp01(hose.Pressure),1-Mathf.Exp(-tuning.gaugeResponse*Time.deltaTime));
+            pressure=Mathf.Lerp(pressure,Mathf.Clamp01(hose.NozzlePressure),1-Mathf.Exp(-tuning.gaugeResponse*Time.deltaTime));
             needle.localRotation=Quaternion.Euler(0,0,Mathf.Lerp(120,-120,pressure));
             fill.fillAmount=pressure; fill.color=Color.Lerp(new Color(.9f,.12f,.05f),tuning.hudAccent,pressure);
             int value=Mathf.RoundToInt(pressure*100);

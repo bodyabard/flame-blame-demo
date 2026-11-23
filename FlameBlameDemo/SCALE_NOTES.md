@@ -66,3 +66,8 @@ worldFov **80** · viewmodelFov **60** · cameraHeight 1.6 · cameraPitch 18 · 
 - GroundFloor top is now below the room-floor underside by 0.02 m (2.98 m rather than 3.2 m); the visible room floor remains at 3.2 m. Removes coplanar z-fighting.
 - Character collision against the current ladder is suspended during climb/window transfer; architecture collision remains active. Window transfer lifts feet above the detected sill before horizontal travel; reverse entry begins at the upper rung rather than the interior floor height.
 - Hose pressure: permitted free curvature no longer represents a full kink. Choking onset/full factors relative to solver bend limit are serialized on HoseController (1.05 / 2.5); actual folds still reduce pressure.
+# 2026-11-23 — arcade movement (supersedes pressure-driven Jet tuning)
+- Walk: 3.6 m/s (was 2.2); flight horizontal cap 5.5 m/s, lift 4.5 m/s, climb 2.4 m/s.
+- Jet ignores hose pressure. Vertical response 60 m/s² arrests the maximum 12 m/s fall and establishes lift within ~0.3 s; steering response 20 m/s². Gravity resumes on release; maximum hose reach still applies.
+- Upper entry chooses a stable input sign: forward while facing out descends. Upward travel while looking more than 70° away from the ladder detaches in the view direction; descent remains attached.
+- Apply saved tuning with `Tools/FlameBlame/Apply Arcade Movement`. Values live in ScaleProfile, JetTuning and LadderTuning.

@@ -17,10 +17,11 @@ MonoBehaviour:
   wallTolerance: 15
   placeRange: 2.5
   pickupRange: 2
-  climbSpeed: 1.8
+  climbSpeed: 2.4
   reattachDelay: 0.4
   attachAngle: 50
   carrySpeed: 0.8
+  walkOffAngle: 70
   knockThreshold: 0.4
   knockDecay: 0.18
   waterForce: 25

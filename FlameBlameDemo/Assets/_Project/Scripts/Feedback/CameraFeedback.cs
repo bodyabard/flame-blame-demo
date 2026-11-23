@@ -65,7 +65,7 @@ namespace FlameBlame.Feedback
             bool moving = motor != null && motor.isGrounded && Vector3.ProjectOnPlane(motor.velocity,Vector3.up).sqrMagnitude > .1f;
             bob = Mathf.Lerp(bob,moving ? 1f : 0f,1f-Mathf.Exp(-tuning.fovResponse*dt));
             cam.localPosition = origin + Vector3.up * (Mathf.Sin(Time.time*tuning.bobSpeed)*tuning.bobHeight*bob-dip);
-            float flow = hose != null && hose.Held && hose.WaterFlowing ? hose.Pressure : 0f;
+            float flow = hose != null && hose.Held && hose.WaterFlowing ? hose.NozzlePressure : 0f;
             float fovKick=hose!=null && hose.JetTuning!=null && hose.Modes.Current.UsesThrust ? hose.JetTuning.fovKick : tuning.fovKick;
             lens.fieldOfView = Mathf.Lerp(lens.fieldOfView,(scale!=null ? scale.worldFov : tuning.baseFov)+flow*fovKick,1f-Mathf.Exp(-tuning.fovResponse*dt));
         }

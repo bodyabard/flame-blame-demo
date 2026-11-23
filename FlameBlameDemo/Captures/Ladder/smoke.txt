@@ -1,0 +1,1 @@
+PASS: 8 seconds; ladder Resting/dynamic; locomotion initialized; no errors.

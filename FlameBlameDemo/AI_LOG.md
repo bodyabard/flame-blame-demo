@@ -20,3 +20,8 @@ AI допоміг перетворити механіку скаженого б�
 # Phase 11 follow-up — flight test level
 - Moved the preserved room and contents to a second floor, authored a repeatable exterior builder, relocated spawn/hydrant, and sized the hose for the route through the window. Added entry-gated round timing.
 - Flight telemetry isolated startup choking against the fence and a grounded vertical-speed reset preventing liftoff. Fixed those causes, ground walking in Jet, lateral steering, coupling orientation and corrupted hints; extended the existing single motor test.
+
+## Phase 12a — portable ladder
+- Added independent ladder states, carry/holster integration, placement geometry/ghost, climb locomotion and pressure-weighted water knockdown. JetpackMotor and protected visual/gameplay systems are unchanged.
+- Editor generator builds the primitive prefab, matte materials and original procedural CC0 audio. One EditMode test covers geometry and knock accumulation/decay. Human play review is required before block B.
+- Verification: Unity 6000.3.24f1 compilation passed, requested EditMode test 1/1 passed, 8-second Play smoke passed (Resting/dynamic and locomotion initialization). Captures/Ladder/resting.png is an actual runtime render. Remaining gameplay screenshots and feel approval require the 12a human play review; block B has not started.

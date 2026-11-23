@@ -22,6 +22,9 @@ namespace FlameBlame.Player
         HoseController hose;
         JetpackMotor jetpack;
         bool wasFlying;
+        public PlayerLocomotionStateMachine Locomotion {get;set;}
+        public float MoveMultiplier {get;set;}=1;
+        public void LeaveLadder(Vector3 velocity) {impulse=velocity; yVel=0; wasFlying=false;}
         public event System.Action<float> Landed;
         public float Speed => cc!=null ? cc.velocity.magnitude : 0;
 
@@ -41,18 +44,20 @@ namespace FlameBlame.Player
             if (events != null) events.RecoilApplied -= OnRecoil;
         }
 
-        void OnRecoil(Vector3 velocityDelta) { impulse += velocityDelta; }
+        void OnRecoil(Vector3 velocityDelta) { if(Locomotion==null || Locomotion.State!=PlayerLocomotionState.Climb) impulse += velocityDelta; }
 
         void Update()
         {
             if (input == null) return;
             float dt = Time.deltaTime;
 
+            if(Locomotion!=null && Locomotion.Tick(input,dt)) {if(Locomotion.State==PlayerLocomotionState.Climb) {impulse=Vector3.zero; yVel=0; wasFlying=false;} return;}
             Vector2 m = input.Move;
-            Vector3 move = transform.TransformDirection(new Vector3(m.x, 0f, m.y)) * moveSpeed;
+            Vector3 move = transform.TransformDirection(new Vector3(m.x, 0f, m.y)) * moveSpeed * MoveMultiplier;
 
             bool thrusting=jetpack!=null && hose.Held && hose.Modes.Current.UsesThrust && hose.WaterFlowing;
             bool flying = jetpack != null && (thrusting || wasFlying && !cc.isGrounded);
+            Locomotion?.SetFlying(flying);
             if(flying)
             {
                 if(!wasFlying) jetpack.Reset(impulse + Vector3.up*yVel);

@@ -16,7 +16,7 @@ namespace FlameBlame.Hose
 
             var receiver = hit.collider.GetComponentInParent<IWaterReceiver>();
             if (receiver != null) receiver.ReceiveWater(hit.point, hit.normal, waterAmount);
-            if (hit.rigidbody != null)
+            if (hit.rigidbody != null && !hit.rigidbody.isKinematic)
             {
                 hit.rigidbody.AddForceAtPosition(dir * pushForce, hit.point, ForceMode.Force);
             }

@@ -81,6 +81,17 @@ namespace FlameBlame.Core
             if(hands!=null) hands.Initialize(input);
             playerMotor.Initialize(input, hose, events);
             cameraFeedback.Initialize(playerLook, events);
+            var ladders=FindObjectsByType<FlameBlame.Ladder.LadderStateMachine>(FindObjectsSortMode.None);
+            if(ladders.Length>0)
+            {
+                foreach(var ladder in ladders) ladder.Initialize(events);
+                var interaction=playerMotor.gameObject.AddComponent<FlameBlame.Ladder.PlayerLadderInteraction>();
+                var locomotion=playerMotor.gameObject.AddComponent<PlayerLocomotionStateMachine>();
+                interaction.view=playerLook.GetComponentInChildren<Camera>().transform;
+                interaction.hose=hose; interaction.jet=jet; interaction.motor=playerMotor; interaction.locomotion=locomotion;
+                interaction.Initialize(); locomotion.interaction=interaction; locomotion.view=interaction.view; locomotion.feedback=cameraFeedback;
+                locomotion.Initialize(ladders); playerMotor.Locomotion=locomotion;
+            }
             playerShock = new PlayerShockReceiver(playerMotor.transform, events, chaosSettings);
             hoseImpacts = new HoseImpactSystem(hose.Points, chaosSettings);
             npcs = FindObjectsByType<NpcActor>(FindObjectsSortMode.None);

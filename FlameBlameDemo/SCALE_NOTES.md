@@ -57,3 +57,7 @@ worldFov **80** · viewmodelFov **60** · cameraHeight 1.6 · cameraPitch 18 · 
 - Spawn (-7,0,-1.2), facing the west window; hydrant beside the house (-6,0,1.8), preserving prefab pivot height. Yard 40 × 40 m.
 - Hose 64 points, segment length unchanged at .22636232 m, usable reach ≈13.12 m. Route allowance includes vertical travel, the farthest room corner and 20% slack. Tube renderer remains capped at 109 rings / 981 vertices.
 - Settings: `FlightLevelSettings.asset`. Reproduce with `Tools/FlameBlame/Build Two Story Flight Level`; the main rebuild command also applies the exterior.
+
+## Phase 12a — ladder
+- Length 4.5 m; inclination 73 degrees; projected height 4.303 m, base offset from wall 1.316 m (+0.12 m clearance).
+- Existing sill: 3.85 m above yard. Top clears it by approximately 0.45 m. Rung spacing 0.3 m. Runtime tuning: Settings/LadderTuning.asset.

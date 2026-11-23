@@ -36,6 +36,9 @@ namespace FlameBlame.Hose
         [SerializeField] JetTuning jetTuning;
         public JetTuning JetTuning => jetTuning;
         public NozzleModeMachine Modes { get; private set; }
+        public bool Holstered {get;private set;}
+        Transform holster;
+        public void SetHolstered(bool value) {Holstered=value; if(value) WaterFlowing=false;}
         Vector3 heldPosition;
         Quaternion heldRotation;
         public Transform Muzzle => nozzleRig != null ? nozzleRig.muzzle : handPoint;
@@ -50,15 +53,15 @@ namespace FlameBlame.Hose
         public float Pressure => pressure != null ? pressure.Pressure : 0f;
         public Vector3[] Points => sim.Points;
         public int Segments => sim.Segments;
-        public Vector3 NozzlePosition => nozzleRig != null ? nozzleRig.inlet.position : (Held ? handPoint.position : sim.EndPosition);
+        public Vector3 NozzlePosition => nozzleRig != null ? nozzleRig.inlet.position : (Holstered ? holster.position : Held ? handPoint.position : sim.EndPosition);
         public Vector3 NozzleDirection => nozzleRig != null ? nozzleRig.muzzle.forward : (Held ? handPoint.forward : sim.EndDirection);
 
         public Vector3 MuzzlePosition => nozzleRig != null ? nozzleRig.muzzle.position : NozzlePosition;
         void SyncNozzle()
         {
             if(nozzleRig == null || sim == null) return;
-            nozzleRig.Follow(handPoint, sim.EndPosition, sim.EndDirection, Held);
-            if(Held && Modes != null && Modes.Current.UsesThrust && input is FlameBlame.Player.IPlayerInput player)
+            nozzleRig.Follow(Holstered ? holster : handPoint, sim.EndPosition, sim.EndDirection, Held || Holstered, Holstered);
+            if(!Holstered && Held && Modes != null && Modes.Current.UsesThrust && input is FlameBlame.Player.IPlayerInput player)
             {
                 var heading=Vector3.ProjectOnPlane(handPoint.parent.forward,Vector3.up);
                 if(heading.sqrMagnitude>.001f)
@@ -74,6 +77,9 @@ namespace FlameBlame.Hose
         public void Initialize(IHoseInput hoseInput)
         {
             input = hoseInput;
+            holster=new GameObject("NozzleHolster").transform;
+            holster.SetParent(handPoint.parent.parent,false); holster.localPosition=new Vector3(.35f,.8f,-.2f);
+            holster.localRotation=Quaternion.Euler(65,0,0);
             Modes = new NozzleModeMachine();
             heldPosition = handPoint.localPosition; heldRotation = handPoint.localRotation;
             collision?.Dispose();
@@ -105,7 +111,7 @@ namespace FlameBlame.Hose
         void Update()
         {
             if (input == null) return;
-            if (input.TogglePressed)
+            if (!Holstered && input.TogglePressed)
                 hold.Toggle(Vector3.Distance(handPoint.position, sim.EndPosition), grabDistance);
             Modes.Tick(Held, input.ModePressed);
             if(jetTuning != null && input is FlameBlame.Player.IPlayerInput playerInput)
@@ -134,7 +140,7 @@ namespace FlameBlame.Hose
             }
 
             SyncNozzle();
-            sim.Step(dt, anchor.position, NozzlePosition, Held, whip);
+            sim.Step(dt, anchor.position, NozzlePosition, Held || Holstered, whip);
             pressure.TickBend(sim.BendChoke(), dt);
         }
     }

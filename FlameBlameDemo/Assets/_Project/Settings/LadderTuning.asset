@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c67fc633c40f7d64d890e8004cff66aa, type: 3}
+  m_Name: LadderTuning
+  m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Ladder.LadderTuning
+  length: 4.5
+  angle: 73
+  wallTolerance: 15
+  placeRange: 2.5
+  pickupRange: 2
+  climbSpeed: 1.8
+  reattachDelay: 0.4
+  attachAngle: 50
+  carrySpeed: 0.8
+  knockThreshold: 0.4
+  knockDecay: 0.18
+  waterForce: 25
+  fallImpulse: 2
+  throwImpulse: 5
+  throwUp: 2
+  torque: 2
+  settleSpeed: 0.12
+  settleDuration: 1
+  snapDuration: 0.25
+  mantleDuration: 0.35
+  jumpBack: 3
+  pickup: {fileID: 8300000, guid: 132574eade411604eb4886d293ff9233, type: 3}
+  place: {fileID: 8300000, guid: 926061d761075cb47a2618e31d6c4862, type: 3}
+  step: {fileID: 8300000, guid: ebc31284eeba9314a8e3e12b2a3a2e82, type: 3}
+  impact: {fileID: 8300000, guid: 86ec6fa39f045c442971f8de50b7b249, type: 3}

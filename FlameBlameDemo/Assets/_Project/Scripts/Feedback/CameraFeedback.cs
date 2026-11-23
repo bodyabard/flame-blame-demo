@@ -25,7 +25,7 @@ namespace FlameBlame.Feedback
         IGameEvents events;
         float shake;
         float kick;
-        float dip;
+        float dip; float ladderRoll; public bool Climbing {get;set;} public void LadderFall() {ladderRoll=25;}
         public void LandingDip(float amount) { dip=Mathf.Max(dip,amount); }
         public void JetKick(float amount) { shake=Mathf.Max(shake,amount); kick=Mathf.Min(kickMax,kick+amount); }
 
@@ -46,7 +46,7 @@ namespace FlameBlame.Feedback
         }
 
         void OnShake(float amount) { shake = Mathf.Max(shake, Mathf.Clamp01(amount)); }
-        void OnRecoil(Vector3 delta) { kick = Mathf.Min(kick + delta.magnitude * kickPerRecoil, kickMax); }
+        void OnRecoil(Vector3 delta) { kick = Mathf.Min(kick + delta.magnitude * kickPerRecoil * (Climbing ? 1.3f : 1), kickMax); }
 
         void LateUpdate()
         {
@@ -60,7 +60,7 @@ namespace FlameBlame.Feedback
             float angle = tuning != null ? tuning.shakeAngle : shakeMaxAngle;
             float sx = (Mathf.PerlinNoise(t, 0f) - 0.5f) * 2f * shake * angle;
             float sy = (Mathf.PerlinNoise(0f, t) - 0.5f) * 2f * shake * angle;
-            cam.localRotation = Quaternion.Euler(look.Pitch - kick + sx, sy, 0f);
+            ladderRoll=Mathf.MoveTowards(ladderRoll,0,50*dt); cam.localRotation = Quaternion.Euler(look.Pitch - kick + sx, sy, ladderRoll);
             if(tuning == null) return;
             bool moving = motor != null && motor.isGrounded && Vector3.ProjectOnPlane(motor.velocity,Vector3.up).sqrMagnitude > .1f;
             bob = Mathf.Lerp(bob,moving ? 1f : 0f,1f-Mathf.Exp(-tuning.fovResponse*dt));

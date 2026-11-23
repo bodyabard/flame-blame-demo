@@ -1,0 +1,7 @@
+Initial=22 capacity=64
+Away=52
+Returned=37
+Retracted=22
+PASS payout and return
+PASS dropped length frozen
+Errors=0 tube vertices=981

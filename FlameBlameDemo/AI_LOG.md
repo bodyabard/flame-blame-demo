@@ -37,3 +37,6 @@ AI допоміг перетворити механіку скаженого б�
 # 2026-11-23 — casual movement follow-up
 - Replaced pressure-driven flight with target lift and WASD steering; rapid fall recovery works in midair with zero hose pressure. Jet output, camera/audio feedback and gauge use the same independent output pressure; extinguishing retains hose pressure.
 - Fixed upper ladder entry direction and look-away walk-off, increased movement speeds, extended motor/ladder regression checks and exercised traversal with forward input from the upper landing.
+# 2026-11-23 — automatic hose reel and collision recovery
+- Added bounded collision-aware route measurement and dynamic deployed point count: payout/retraction happens at the hydrant, preserves the nozzle and full maximum reach, and pauses while dropped. Rendering, bending and prop impacts now respect active points.
+- Added full-span capsule penetration checks, iterative point recovery and wet-radius clearance. Removed spline corner cutting and ignored the attached hydrant socket's geometry. EditMode and Play checks cover obstacle detours, thin fences, resizing, return retraction and dropped length.

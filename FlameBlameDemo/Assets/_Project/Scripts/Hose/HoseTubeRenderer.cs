@@ -15,7 +15,7 @@ namespace FlameBlame.Hose
         {
             hose=controller;
             if(hose.Scale==null) {enabled=false; return;}
-            int rings=Mathf.Min(109,(hose.Segments-1)*Subdivisions+1);
+            int rings=Mathf.Min(109,(hose.Capacity-1)*Subdivisions+1);
             centers=new Vector3[rings]; vertices=new Vector3[rings*Stride]; normals=new Vector3[vertices.Length];
             var uv=new Vector2[vertices.Length]; var indices=new int[(rings-1)*Sides*6];
             for(int i=0;i<rings;i++) for(int j=0;j<Stride;j++) uv[i*Stride+j]=new Vector2((float)j/Sides,(float)i/(rings-1));
@@ -46,8 +46,9 @@ namespace FlameBlame.Hose
             for(int i=0;i<count;i++)
             {
                 float u=(float)i/(count-1)*(hose.Segments-1); int s=Mathf.Min((int)u,hose.Segments-2); float t=u-s;
-                Vector3 a=Point(s-1),b=Point(s),c=Point(s+1),d=Point(s+2);
-                centers[i]=.5f*((2f*b)+(-a+c)*t+(2f*a-5f*b+4f*c-d)*t*t+(-a+3f*b-3f*c+d)*t*t*t);
+                Vector3 b=Point(s),c=Point(s+1);
+                // Linear interpolation stays inside the capsule checked by the span solver.
+                centers[i]=Vector3.Lerp(b,c,t);
             }
             swell.Tick(hose.WaterFlowing,Time.deltaTime);
             Vector3 tangent=(centers[1]-centers[0]).normalized;

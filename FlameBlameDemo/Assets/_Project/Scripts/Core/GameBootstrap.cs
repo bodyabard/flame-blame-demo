@@ -126,7 +126,7 @@ namespace FlameBlame.Core
         {
             if (game == null || game.Phase != GamePhase.Playing) return;
             for (int i = 0; i < npcs.Length; i++) npcs[i].Tick(Time.fixedDeltaTime, fire, electricity, chaosSettings);
-            hoseImpacts.Tick(hose.Points, Time.fixedDeltaTime);
+            hoseImpacts.Tick(hose.Points, Time.fixedDeltaTime,hose.Segments,hose.ReelChanged);
         }
 
         void OnPhase(GamePhase phase)

@@ -24116,6 +24116,7 @@ MonoBehaviour:
   grabDistance: 1.6
   nozzleRig: {fileID: 559234274}
   jetTuning: {fileID: 11400000, guid: 713fcba1cb7fea54ebda765ff8bb42f6, type: 2}
+  reelTuning: {fileID: 11400000, guid: e8b71e434c90d16468705decb81459ad, type: 2}
 --- !u!120 &559234268
 LineRenderer:
   serializedVersion: 3

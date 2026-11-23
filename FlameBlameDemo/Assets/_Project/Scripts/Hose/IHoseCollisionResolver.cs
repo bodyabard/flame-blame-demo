@@ -12,4 +12,8 @@ namespace FlameBlame.Hose
     {
         Vector3 ResolveMotion(Vector3 from, Vector3 to, float radius);
     }
+    public interface IHoseSpanCollision
+    {
+        Vector3 SpanCorrection(Vector3 from,Vector3 to,float radius);
+    }
 }

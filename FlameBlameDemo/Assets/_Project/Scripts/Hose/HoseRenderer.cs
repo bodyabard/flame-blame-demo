@@ -21,7 +21,7 @@ namespace FlameBlame.Hose
             if(tube!=null) tube.Initialize(controller);
             line = GetComponent<LineRenderer>();
             line.positionCount = hose.Segments;
-            buffer = new Vector3[hose.Segments];
+            buffer = new Vector3[hose.Capacity];
         }
 
         void LateUpdate()
@@ -29,9 +29,10 @@ namespace FlameBlame.Hose
             if (hose == null) return;
             line.enabled=!useTube || tube==null;
             if(tube!=null) tube.enabled=useTube;
-            System.Array.Copy(hose.Points, buffer, buffer.Length);
+            line.positionCount=hose.Segments;
+            System.Array.Copy(hose.Points, buffer, hose.Segments);
             // The held end follows the camera every frame, not only on physics ticks.
-            if (hose.Held) buffer[buffer.Length - 1] = hose.NozzlePosition;
+            if (hose.Held) buffer[hose.Segments - 1] = hose.NozzlePosition;
             line.SetPositions(buffer);
 
             if (nozzleModel != null && hose.GetComponent<NozzleRig>() == null)

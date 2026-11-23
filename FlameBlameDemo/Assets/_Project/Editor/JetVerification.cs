@@ -36,7 +36,7 @@ namespace FlameBlame.EditorTools
             {
                 File.Delete("Temp/FlameBlame-TestJet");
                 testing=true; runner=ScriptableObject.CreateInstance<TestRunnerApi>(); runner.RegisterCallbacks(new Results());
-                runner.Execute(new ExecutionSettings(new Filter {testMode=TestMode.EditMode, testNames=new[]{"FlameBlame.Tests.JetpackMotorTests","FlameBlame.Tests.LadderRulesTests"}}));
+                runner.Execute(new ExecutionSettings(new Filter {testMode=TestMode.EditMode, testNames=new[]{"FlameBlame.Tests.JetpackMotorTests","FlameBlame.Tests.LadderRulesTests","FlameBlame.Tests.HoseReelTests","FlameBlame.Tests.HoseCollisionTests","FlameBlame.Tests.HoseVisualLogicTests"}}));
             }
             if(testing || EditorApplication.timeSinceStartup-testEnded<4) return;
             if(File.Exists("Temp/FlameBlame-SmokeJet") && !EditorApplication.isPlayingOrWillChangePlaymode)

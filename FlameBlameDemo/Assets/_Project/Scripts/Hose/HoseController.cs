@@ -47,6 +47,11 @@ namespace FlameBlame.Hose
         IHoseInput input;
         HoseSimulation sim;
         PhysicsHoseCollision collision;
+        [SerializeField] HoseReelTuning reelTuning;
+        HoseReel reel;
+        float reelClock, targetRoute, reelTravel;
+        public bool ReelChanged {get;private set;}
+        public int Capacity => sim.Capacity;
         HosePressure pressure;
         HoseHoldState hold;
 
@@ -87,6 +92,8 @@ namespace FlameBlame.Hose
             heldPosition = handPoint.localPosition; heldRotation = handPoint.localRotation;
             collision?.Dispose();
             collision = new PhysicsHoseCollision(collisionMask);
+            collision.AttachmentRoot=anchor.parent!=null ? anchor.parent : anchor;
+            reel=new HoseReel(collision);
             sim = new HoseSimulation(segments, segmentLength, collision)
             {
                 Iterations = iterations, Gravity = gravity, Damping = damping, Radius = radius,
@@ -94,12 +101,17 @@ namespace FlameBlame.Hose
             };
             if(scale != null)
             {
-                sim.TubeRadius=scale.tubeRadius; sim.Radius=scale.tubeRadius*.9f;
+                sim.TubeRadius=scale.tubeRadius; sim.Radius=scale.tubeRadius*Mathf.Max(1,scale.hoseWetScale)+(reelTuning!=null ? reelTuning.collisionSkin : .005f);
                 if(confineToRoom) sim.RoomHalfExtents=new Vector2(scale.roomWidth*.5f,scale.roomLength*.5f);
                 sim.BendLimitFactor=scale.bendLimitFactor; sim.Iterations=Mathf.Max(16,iterations);
             }
             sim.Reset(anchor.position, anchor.right);
             if(!confineToRoom) sim.ResetBetween(anchor.position,handPoint.position,Vector3.left);
+            if(reelTuning!=null && reelTuning.enabled && collision.Clear(anchor.position,handPoint.position,sim.Radius))
+            {
+                sim.SetActiveCount(HoseReel.RequiredPoints(Vector3.Distance(anchor.position,handPoint.position),reelTuning.slack,reelTuning.minimumLength,segmentLength,sim.Capacity));
+                sim.ResetBetween(anchor.position,handPoint.position,Vector3.left);
+            }
             pressure = new HosePressure
             {
                 BasePressure = basePressure, MinFactor = minPressureFactor, KinksForFullChoke = kinksForFullChoke
@@ -144,6 +156,25 @@ namespace FlameBlame.Hose
             }
 
             SyncNozzle();
+            ReelChanged=false;
+            if(reelTuning!=null && reelTuning.enabled && (Held || Holstered))
+            {
+                reelClock-=dt;
+                if(reelClock<=0)
+                {
+                    reelClock=reelTuning.updateInterval;
+                    targetRoute=reel.RouteLength(sim.Points,sim.Segments,sim.Radius,reelTuning.visibilityBudget);
+                }
+                int desired=float.IsInfinity(targetRoute) ? sim.Segments : HoseReel.RequiredPoints(targetRoute,reelTuning.slack,reelTuning.minimumLength,segmentLength,sim.Capacity);
+                reelTravel+=dt*(desired>sim.Segments ? reelTuning.payoutSpeed : reelTuning.retractSpeed);
+                int steps=Mathf.FloorToInt(reelTravel/segmentLength);
+                if(steps>0 && desired!=sim.Segments)
+                {
+                    sim.SetActiveCount(sim.Segments+Mathf.Clamp(desired-sim.Segments,-steps,steps));
+                    ReelChanged=true;
+                }
+                reelTravel=Mathf.Min(reelTravel-steps*segmentLength,segmentLength);
+            }
             sim.Step(dt, anchor.position, NozzlePosition, Held || Holstered, whip);
             pressure.TickBend(sim.BendChoke(), dt);
         }

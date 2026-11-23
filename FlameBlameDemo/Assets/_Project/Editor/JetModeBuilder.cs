@@ -12,6 +12,8 @@ namespace FlameBlame.EditorTools
         static JetModeBuilder() { EditorApplication.update += Poll; }
         static void Poll()
         {
+            if(File.Exists("Temp/FlameBlame-Reel") && !EditorApplication.isCompiling && !EditorApplication.isUpdating && !EditorApplication.isPlayingOrWillChangePlaymode)
+            {File.Delete("Temp/FlameBlame-Reel"); ApplyReel();}
             if(File.Exists("Temp/FlameBlame-ArcadeMovement") && !EditorApplication.isCompiling && !EditorApplication.isUpdating && !EditorApplication.isPlayingOrWillChangePlaymode)
             {File.Delete("Temp/FlameBlame-ArcadeMovement"); ApplyArcadeMovement();}
             if(File.Exists("Temp/FlameBlame-Refresh") && !EditorApplication.isCompiling && !EditorApplication.isUpdating && !EditorApplication.isPlayingOrWillChangePlaymode)
@@ -70,6 +72,16 @@ namespace FlameBlame.EditorTools
             EditorSceneManager.MarkSceneDirty(hose.gameObject.scene);
             EditorSceneManager.SaveOpenScenes(); AssetDatabase.SaveAssets();
             Debug.Log("[FlameBlame] Jet rig applied");
+        }
+        [MenuItem("Tools/FlameBlame/Apply Hose Reel")]
+        public static void ApplyReel()
+        {
+            const string path="Assets/_Project/Settings/HoseReelTuning.asset";
+            var tuning=AssetDatabase.LoadAssetAtPath<HoseReelTuning>(path);
+            if(tuning==null) {tuning=ScriptableObject.CreateInstance<HoseReelTuning>(); AssetDatabase.CreateAsset(tuning,path);}
+            var hose=Object.FindFirstObjectByType<HoseController>();
+            var data=new SerializedObject(hose); data.FindProperty("reelTuning").objectReferenceValue=tuning; data.ApplyModifiedPropertiesWithoutUndo();
+            AssetDatabase.SaveAssets(); EditorSceneManager.MarkSceneDirty(hose.gameObject.scene); EditorSceneManager.SaveOpenScenes();
         }
         [MenuItem("Tools/FlameBlame/Apply Arcade Movement")]
         public static void ApplyArcadeMovement()

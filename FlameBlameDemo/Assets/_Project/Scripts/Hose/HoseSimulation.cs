@@ -5,7 +5,8 @@ namespace FlameBlame.Hose
     /// Pure Verlet chain. No MonoBehaviour, no rendering, no Physics (collision is injected).
     public sealed class HoseSimulation
     {
-        public int Segments { get; }
+        public int Segments { get; private set; }
+        public int Capacity => p.Length;
         public float SegmentLength { get; }
         public int Iterations = 10;
         public float Gravity = -12f;
@@ -26,7 +27,21 @@ namespace FlameBlame.Hose
         public Vector3[] Points => p;
         public Vector3 EndPosition => p[Segments - 1];
         public Vector3 EndDirection => (p[Segments - 1] - p[Segments - 2]).normalized;
-        public float MaxReach => (Segments - 1) * SegmentLength * 0.92f;
+        public float MaxReach => (Capacity - 1) * SegmentLength * 0.92f;
+        public void SetActiveCount(int count)
+        {
+            count=Mathf.Clamp(count,3,Capacity);
+            while(Segments<count)
+            {
+                for(int i=Segments;i>1;i--) {p[i]=p[i-1]; prev[i]=prev[i-1];}
+                p[1]=prev[1]=Vector3.Lerp(p[0],p[2],.5f); Segments++;
+            }
+            while(Segments>count)
+            {
+                for(int i=1;i<Segments-1;i++) {p[i]=p[i+1]; prev[i]=prev[i+1];}
+                Segments--;
+            }
+        }
 
         public HoseSimulation(int segments, float segmentLength, IHoseCollisionResolver collision = null)
         {
@@ -135,7 +150,7 @@ namespace FlameBlame.Hose
                     else { p[i] += corr * 0.5f; p[i + 1] -= corr * 0.5f; }
                 }
 
-                bend.Solve(p, SegmentLength * EffectiveBendFactor, endPinned);
+                bend.Solve(p, SegmentLength * EffectiveBendFactor, endPinned, Segments);
                 for(int i=1;i<n-(endPinned?1:0);i++)
                 {
                     p[i].x=Mathf.Clamp(p[i].x,-RoomHalfExtents.x+Radius,RoomHalfExtents.x-Radius);
@@ -146,6 +161,14 @@ namespace FlameBlame.Hose
                         p[i] = collision is IHoseMotionCollisionResolver motion
                             ? motion.ResolveMotion(prev[i], p[i], Radius)
                             : collision.Resolve(p[i], Radius);
+                if(collision is IHoseSpanCollision spans && it==Iterations-1)
+                    for(int i=0;i<n-1;i++)
+                    {
+                        Vector3 correction=spans.SpanCorrection(p[i],p[i+1],Radius);
+                        bool pinA=i==0, pinB=endPinned && i+1==n-1;
+                        if(!pinA) {p[i]+=correction; prev[i]+=correction;}
+                        if(!pinB) {p[i+1]+=correction; prev[i+1]+=correction;}
+                    }
             }
         }
 

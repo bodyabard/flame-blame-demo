@@ -17,10 +17,11 @@ namespace FlameBlame.Hose
             this.settings = settings;
             mask = LayerMask.GetMask("Interactable");
         }
-        public void Tick(Vector3[] points, float dt)
+        public void Tick(Vector3[] points, float dt, int activeCount=-1, bool resetVelocity=false)
         {
+            if(resetVelocity) {System.Array.Copy(points,previous,points.Length); return;}
             int touchedCount = 0;
-            for (int i = 1; i < points.Length; i++)
+            for (int i = 1; i < (activeCount<0 ? points.Length : activeCount); i++)
             {
                 Vector3 velocity = (points[i] - previous[i]) / dt;
                 previous[i] = points[i];

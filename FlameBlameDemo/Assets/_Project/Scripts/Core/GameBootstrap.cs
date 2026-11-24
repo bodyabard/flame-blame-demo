@@ -48,6 +48,7 @@ namespace FlameBlame.Core
         HudContextPublisher hudContext;
         FlameBlame.Ladder.PlayerLadderInteraction ladderInteraction;
         PlayerLocomotionStateMachine locomotion;
+        LevelScenario scenario;
         int lastSecond = -1;
         bool roundStarted;
         ElectricitySystem electricity;
@@ -65,7 +66,8 @@ namespace FlameBlame.Core
             events = new GameEvents();
             if(gameAudio!=null) gameAudio.Initialize(events);
             ledger = new DamageLedger(events);
-            game = new GameStateMachine(chaosSettings.roundSeconds, chaosSettings.damageLimit,
+            scenario=FindFirstObjectByType<LevelScenario>();
+            game = new GameStateMachine(scenario!=null ? scenario.roundSeconds : chaosSettings.roundSeconds, scenario!=null ? int.MaxValue : chaosSettings.damageLimit,
                 chaosSettings.minimumRoundSeconds, chaosSettings.firesOutDelay);
             game.Changed += OnPhase;
             electricity = new ElectricitySystem();
@@ -77,7 +79,7 @@ namespace FlameBlame.Core
             var jetFeedback=hose.GetComponent<JetFeedback>();
             if(jetFeedback!=null) jetFeedback.Initialize(events,effectsRoot);
             visualBudget = new AdaptiveEffectBudget(chaosSettings, effects, jet, playerLook.transform);
-            hud.Initialize(events, ledger, game, playerLook.GetComponentInChildren<Camera>(), Mathf.RoundToInt(chaosSettings.roundSeconds));
+            hud.Initialize(events, ledger, game, playerLook.GetComponentInChildren<Camera>(), Mathf.RoundToInt(scenario!=null ? scenario.roundSeconds : chaosSettings.roundSeconds));
 
             hose.Initialize(input);
             hoseRenderer.Initialize(hose);
@@ -112,6 +114,7 @@ namespace FlameBlame.Core
             flammables = FindObjectsByType<Flammable>(FindObjectsSortMode.None);
             foreach (var flammable in flammables)
                 flammable.Initialize(fire, events);
+            if(scenario!=null) scenario.Initialize(events,fire,hose,playerMotor.transform,playerLook.GetComponentInChildren<Camera>());
         }
 
         void Update()
@@ -119,7 +122,7 @@ namespace FlameBlame.Core
             if (game.Phase != GamePhase.Playing) return;
             visualBudget.Tick(Time.unscaledDeltaTime);
             for (int i = 0; i < flammables.Length; i++) flammables[i].SyncPosition();
-            fire.Tick(Time.deltaTime);
+            if(scenario==null || scenario.HasStarted) fire.Tick(Time.deltaTime);
             effects.Tick(Time.time);
             puddles.Tick(Time.time);
             electricity.Tick();
@@ -127,9 +130,11 @@ namespace FlameBlame.Core
             playerShock.Tick(electricity);
             presenter.Tick();
             hudContext.Tick();
-            bool entered = entryGate == null || entryGate.Entered;
-            if (entered && !roundStarted) { roundStarted = true; events.RaiseRoundStarted(Mathf.RoundToInt(chaosSettings.roundSeconds)); }
-            if (entered) game.Tick(Time.deltaTime, fire.ActiveCount, ledger.Total);
+            scenario?.Tick();
+            bool entered = scenario!=null ? scenario.HasStarted : entryGate == null || entryGate.Entered;
+            if (entered && !roundStarted) { roundStarted = true; events.RaiseRoundStarted(Mathf.RoundToInt(scenario!=null ? scenario.roundSeconds : chaosSettings.roundSeconds)); }
+            if (entered) game.Tick(Time.deltaTime, scenario!=null ? 1 : fire.ActiveCount, ledger.Total);
+            if(scenario!=null && scenario.Complete) game.Finish(RoundEnding.FiresOut);
             int second = Mathf.CeilToInt(game.Remaining);
             if (entered && second != lastSecond) { lastSecond = second; events.RaiseTimerTick(second); }
         }

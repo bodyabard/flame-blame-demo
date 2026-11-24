@@ -30,7 +30,7 @@ namespace FlameBlame.Fire
 
         public bool Ignite(FireNode node)
         {
-            if (node.State != FireState.Idle || !node.Profile.canBurn || node.FuelLeft <= 0f) return false;
+            if (!node.ZoneActive || node.State != FireState.Idle || !node.Profile.canBurn || node.FuelLeft <= 0f) return false;
             if (ActiveCount >= MaxActiveFires) return false;
             node.State = FireState.Burning;
             node.Heat = node.Profile.ignitionThreshold;
@@ -59,6 +59,7 @@ namespace FlameBlame.Fire
             for (int i = 0; i < nodes.Count; i++)
             {
                 FireNode n = nodes[i];
+                if(!n.ZoneActive) continue;
                 switch (n.State)
                 {
                     case FireState.Burning:
@@ -89,7 +90,7 @@ namespace FlameBlame.Fire
             for (int j = 0; j < nodes.Count; j++)
             {
                 FireNode m = nodes[j];
-                if (m == source || m.State != FireState.Idle) continue;
+                if (!m.ZoneActive || m.Zone!=source.Zone || m == source || m.State != FireState.Idle) continue;
                 float d2 = (m.Position - source.Position).sqrMagnitude;
                 if (d2 >= r2) continue;
                 float falloff = 1f - Mathf.Sqrt(d2) / radius;

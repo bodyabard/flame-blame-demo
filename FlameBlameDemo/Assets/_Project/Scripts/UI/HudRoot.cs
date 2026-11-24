@@ -34,6 +34,17 @@ namespace FlameBlame.UI
 
         readonly List<IHudPresenter> presenters = new List<IHudPresenter>(12);
         UITweenRunner tween;
+        IGameEvents scenarioEvents;
+        BannerPresenter scenarioBanner;
+        LevelScenario scenario;
+        void OnObjective(int current)
+        {
+            if(scenario==null) return;
+            tween.Punch(scenario.objective.rectTransform,.12f,.3f);
+            if(current==4) scenarioBanner.Show("ГОРИЩЕ ГОРИТЬ!",2f);
+            if(current==6) scenarioBanner.Show("ПЕРЕМОГА!",2f);
+        }
+        void OnScenario(ScenarioSignal signal) {if(signal==ScenarioSignal.HoseConnected) scenarioBanner.Show("ВОДА Є!",2f);}
 
         public void Initialize(IGameEvents events, DamageLedger ledger, GameStateMachine game, Camera view, int roundSeconds)
         {
@@ -45,6 +56,8 @@ namespace FlameBlame.UI
 
             var bannerPresenter = new BannerPresenter(services, banner);
             presenters.Add(bannerPresenter);
+            scenarioBanner=bannerPresenter; scenarioEvents=events; scenario=FindFirstObjectByType<LevelScenario>();
+            events.ObjectiveChanged+=OnObjective; events.ScenarioSignaled+=OnScenario;
             presenters.Add(new RoundIntroPresenter(services, bannerPresenter, damage, timer, gauge, mode, hints));
             presenters.Add(new DamagePresenter(services, damage, ledger));
             presenters.Add(new TimerPresenter(services, timer, roundSeconds));
@@ -64,7 +77,7 @@ namespace FlameBlame.UI
             {
                 if (label.font == null || label.font == last) continue;
                 last = label.font;
-                label.font.TryAddCharacters(Glyphs, out _);
+                label.font.TryAddCharacters(Glyphs + "✓•>", out _);
             }
         }
 
@@ -78,6 +91,7 @@ namespace FlameBlame.UI
 
         void OnDestroy()
         {
+            if(scenarioEvents!=null) {scenarioEvents.ObjectiveChanged-=OnObjective; scenarioEvents.ScenarioSignaled-=OnScenario;}
             for (int i = 0; i < presenters.Count; i++) presenters[i].Dispose();
         }
     }

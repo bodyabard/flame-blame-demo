@@ -52,7 +52,7 @@ namespace FlameBlame.Hose
         {
             if (input == null) return;
 
-            if(hose.Holstered) {StopFlow(); return;}
+            if(!hose.Connected || hose.Holstered) {StopFlow(); return;}
             if (hose.Held)
             {
                 valveOpen = input.ValveHeld;

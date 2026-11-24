@@ -36,6 +36,9 @@ namespace FlameBlame.EditorTools
             var scene = EditorSceneManager.OpenScene(MainPath);
             p = CalibrationSceneBuilder.LoadProfile(); pal = LoadPalette(); bl = LoadBaseline();
             template = AssetDatabase.LoadAssetAtPath<Material>(ToonDir + "/Neighbor_B_Toon.mat");
+            // Layout baselines are in ground-level coordinates; restore that frame before applying them.
+            var upperContents=GameObject.Find("SecondFloorContents");
+            if(upperContents!=null) upperContents.transform.position=Vector3.zero;
             var byName = new Dictionary<string, Transform>();
             foreach (var t in Object.FindObjectsByType<Transform>(FindObjectsInactive.Include, FindObjectsSortMode.None))
                 if (!byName.ContainsKey(t.name)) byName[t.name] = t;
@@ -50,6 +53,7 @@ namespace FlameBlame.EditorTools
             EditorSceneManager.SaveScene(scene);
             Debug.Log("[FlameBlame] Main level rebuilt from ScaleProfile + EnvironmentPalette.");
             TwoStoryLevelBuilder.Apply();
+            ScenarioLevelBuilder.Apply();
         }
 
         // ---------------------------------------------------------------- assets
@@ -107,7 +111,7 @@ namespace FlameBlame.EditorTools
         {
             var map = new Dictionary<string, Color>
             {
-                { "Visual_Sage_Toon", pal.wall }, { "Floor_Toon", pal.floor }, { "Visual_Teal_Toon", pal.sofa }, { "Fabric_Toon", pal.sofa },
+                { "Visual_Sage_Toon", pal.wall }, { "Visual_Teal_Toon", pal.sofa }, { "Fabric_Toon", pal.sofa },
                 { "Visual_Coral_Toon", pal.accent }, { "Visual_Walnut_Toon", pal.wood }, { "Wood_Toon", pal.wood }, { "Metal_Toon", pal.metal },
                 { "Paper_Toon", pal.paper }, { "Visual_Cream_Toon", pal.paper }, { "Visual_Petal_Toon", pal.petal }, { "Visual_Leaf_Toon", pal.leaf }
             };

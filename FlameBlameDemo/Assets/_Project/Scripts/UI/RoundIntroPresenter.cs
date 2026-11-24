@@ -26,7 +26,7 @@ namespace FlameBlame.UI
             SlideIn(hints.root, hints.restPosition, hints.hiddenOffset, services.Motion.slideStagger * 2f);
 
             banner.Locked = true;
-            banner.Show("Злети до вікна!", -1f);
+            banner.Show(Object.FindFirstObjectByType<FlameBlame.Core.LevelScenario>()!=null ? "Візьми шланг з машини!" : "Злети до вікна!", -1f);
             services.Events.RoundStarted += OnRoundStarted;
         }
 

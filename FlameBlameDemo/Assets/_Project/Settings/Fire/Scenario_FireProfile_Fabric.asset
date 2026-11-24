@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a713cd2a05b36034797725326f52da81, type: 3}
+  m_Name: Scenario_FireProfile_Fabric
+  m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Fire.FireMaterialProfile
+  canBurn: 1
+  ignitionThreshold: 50
+  flammability: 1.4
+  coolRate: 4
+  burnDuration: 300
+  spreadHeatPerSecond: 60
+  spreadRadius: 0.9
+  waterCooling: 120
+  charColor: {r: 0.1, g: 0.08, b: 0.08, a: 1}
+  glowColor: {r: 1, g: 0.35, b: 0.05, a: 1}
+  glowIntensity: 1.5
+  flameScale: 1
+  damageOnIgnite: 30
+  damageOnBurnOut: 60

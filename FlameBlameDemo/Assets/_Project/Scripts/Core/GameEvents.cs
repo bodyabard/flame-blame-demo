@@ -6,6 +6,10 @@ namespace FlameBlame.Core
 {
     public sealed class GameEvents : IGameEvents
     {
+        public event Action<ScenarioSignal> ScenarioSignaled;
+        public event Action<int> ObjectiveChanged;
+        public void RaiseScenarioSignal(ScenarioSignal signal) => ScenarioSignaled?.Invoke(signal);
+        public void RaiseObjectiveChanged(int current) => ObjectiveChanged?.Invoke(current);
         public event Action<FireNode> FireIgnited;
         public event Action<FireNode> FireExtinguished;
         public event Action<FireNode> FireBurnedOut;

@@ -7,6 +7,10 @@ namespace FlameBlame.Core
     /// Global Observer hub. UI, audio and VFX subscribe; gameplay code raises.
     public interface IGameEvents
     {
+        event Action<ScenarioSignal> ScenarioSignaled;
+        event Action<int> ObjectiveChanged;
+        void RaiseScenarioSignal(ScenarioSignal signal);
+        void RaiseObjectiveChanged(int current);
         event Action<FireNode> FireIgnited;
         event Action<FireNode> FireExtinguished;
         event Action<FireNode> FireBurnedOut;

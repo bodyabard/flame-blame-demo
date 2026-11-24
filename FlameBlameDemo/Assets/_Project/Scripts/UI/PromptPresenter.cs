@@ -34,6 +34,8 @@ namespace FlameBlame.UI
             }
 
             string text = next == PromptKind.PickLadder ? "взяти драбину" : "поставити";
+            if(next==PromptKind.PickHose) text="взяти шланг";
+            else if(next==PromptKind.ConnectHose) text="підключити";
             view.label.SetText(text);
             float pillW = view.label.GetPreferredValues(text).x + PillPadding;
             view.pill.sizeDelta = new Vector2(pillW, PillHeight);

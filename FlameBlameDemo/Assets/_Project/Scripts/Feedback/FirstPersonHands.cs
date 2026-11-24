@@ -21,6 +21,8 @@ namespace FlameBlame.Feedback
             Vector3 offset=new Vector3(-input.Look.x,-input.Look.y,-recoil*4)*tuning.handSway;
             offset.y+=Mathf.Sin(Time.time*tuning.bobSpeed)*motion*tuning.bobHeight;
             arms.localPosition=Vector3.Lerp(arms.localPosition,origin+offset,1-Mathf.Exp(-tuning.fovResponse*Time.deltaTime));
+            float coupling=hose.ConnectionProgress;
+            arms.localRotation=Quaternion.Euler(0,0,coupling>=0 ? Mathf.Sin(coupling*Mathf.PI*4)*12 : 0);
             if(hose.JetTuning!=null && hose.Modes.Current.UsesThrust) arms.localPosition += Vector3.down * (.15f*Time.deltaTime);
         }
     }

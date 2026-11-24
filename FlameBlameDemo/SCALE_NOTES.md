@@ -80,3 +80,23 @@ worldFov **80** · viewmodelFov **60** · cameraHeight 1.6 · cameraPitch 18 · 
 - W follows vertical look direction; S reverses it. Near-level view retains the last direction within `LadderTuning.lookDirectionDeadZone` (.15 vertical component).
 - Facing is tested against the ladder in 3D, including the lower section when looking down. The upper facing region extends by the controller height to permit finishing a climb when eye height rises above the last rung.
 - Looking away within the configured 70° visibility tolerance triggers the same outward/upward impulse as Space, including when standing still on the ladder.
+
+## Phase 14 route and budgets
+
+Main uses 92 simulation points at 0.22636232 m; usable capacity reach is approximately 18.95 m, derived from the hydrant-to-attic route with 15% slack. Tube topology remains capped at 109 rings / 981 vertices. The existing maximum of 16 fire effects and shared steam pool is retained: authored capacity 1000 particles, one shadow light. Scenario fire fuel is 300 s for a 270 s round; inactive attic nodes skip fire ticks. Spawn (-13,0,-9), facing 45 degrees, shows engine and house together. Comparison: Captures/Phase14/Compare.html; furniture proportions used one visual iteration.
+
+## Phase 14 furniture audit (world units)
+
+| Prefab | Bounds XYZ | Height / door | Height / NPC |
+|---|---|---|---|
+| Armchair | (0.92, 0.83, 0.92) | 0,39 | 0,55 |
+| Book | (0.24, 0.48, 0.35) | 0,23 | 0,32 |
+| Curtain | (0.21, 4.60, 2.80) | 2,19 | 3,07 |
+| Flowerpot | (0.20, 0.48, 0.15) | 0,23 | 0,32 |
+| Hydrant | (0.55, 1.14, 0.50) | 0,54 | 0,76 |
+| Shelf_1 | (0.37, 1.89, 1.73) | 0,90 | 1,26 |
+| Shelf_2 | (0.37, 1.89, 1.73) | 0,90 | 1,26 |
+| Sofa | (1.47, 0.83, 1.76) | 0,39 | 0,55 |
+| SparkCable | (0.09, 0.07, 1.67) | 0,03 | 0,05 |
+| Table | (1.67, 0.83, 0.94) | 0,39 | 0,55 |
+| WateringCan | (0.45, 0.48, 0.16) | 0,23 | 0,32 |

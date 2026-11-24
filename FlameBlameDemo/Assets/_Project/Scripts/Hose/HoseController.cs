@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace FlameBlame.Hose
 {
+    public enum HoseSupplyState { OnReel, Stowed, Connected }
     /// Glue: runs the simulation, holds state, exposes the nozzle. Rendering lives in HoseRenderer.
     [DefaultExecutionOrder(100)]
     public class HoseController : MonoBehaviour, IHoseTether, IPressureSource
@@ -55,10 +56,17 @@ namespace FlameBlame.Hose
         HosePressure pressure;
         HoseHoldState hold;
 
+        public HoseSupplyState SupplyState { get; private set; } = HoseSupplyState.Connected;
+        public bool Acquired => SupplyState!=HoseSupplyState.OnReel;
+        public float ConnectionProgress { get; set; } = -1;
+        public bool Connected => SupplyState==HoseSupplyState.Connected;
+        public void Stow() { SupplyState=HoseSupplyState.OnReel; WaterFlowing=false; }
+        public void Pickup() { if(!Acquired) SupplyState=HoseSupplyState.Stowed; }
+        public void Connect() { if(!Acquired) return; SupplyState=HoseSupplyState.Connected; sim.ResetBetween(anchor.position,handPoint.position,Vector3.left); }
         public bool WaterFlowing { get; set; }
-        public bool Held => hold != null && hold.IsHeld;
-        public float Pressure => pressure != null ? pressure.Pressure : 0f;
-        public float NozzlePressure => Held && Modes!=null && Modes.Current.UsesThrust ? 1f : Pressure;
+        public bool Held => Acquired && hold != null && hold.IsHeld;
+        public float Pressure => Connected && pressure != null ? pressure.Pressure : 0f;
+        public float NozzlePressure => !Connected ? 0f : Held && Modes!=null && Modes.Current.UsesThrust ? 1f : Pressure;
         public Vector3[] Points => sim.Points;
         public int Segments => sim.Segments;
         public Vector3 NozzlePosition => nozzleRig != null ? nozzleRig.inlet.position : (Holstered ? holster.position : Held ? handPoint.position : sim.EndPosition);
@@ -76,9 +84,9 @@ namespace FlameBlame.Hose
                     nozzleRig.pose.rotation=Quaternion.LookRotation(heading)*Modes.Current.Rotation(jetTuning,player.Move);
             }
         }
-        void LateUpdate() { SyncNozzle(); }
+        void LateUpdate() { SyncNozzle(); if(nozzleRig!=null) nozzleRig.SetVisible(Acquired); }
         // IHoseTether
-        public bool IsTethered => Held;
+        public bool IsTethered => Connected && Held;
         public Vector3 AnchorPosition => anchor.position;
         public float MaxReach => sim.MaxReach;
 
@@ -126,10 +134,10 @@ namespace FlameBlame.Hose
 
         void Update()
         {
-            if (input == null) return;
+            if (input == null || !Acquired) return;
             if (!Holstered && input.TogglePressed)
                 hold.Toggle(Vector3.Distance(handPoint.position, sim.EndPosition), grabDistance);
-            Modes.Tick(Held, input.ModePressed);
+            Modes.Tick(Held, Connected && input.ModePressed);
             if(jetTuning != null && input is FlameBlame.Player.IPlayerInput playerInput)
             {
                 float blend = 1-Mathf.Exp(-3*Time.deltaTime/jetTuning.poseDuration);
@@ -141,7 +149,7 @@ namespace FlameBlame.Hose
 
         void FixedUpdate()
         {
-            if (sim == null) return;
+            if (sim == null || !Connected) return;
             float dt = Time.fixedDeltaTime;
 
             Vector3 whip = Vector3.zero;

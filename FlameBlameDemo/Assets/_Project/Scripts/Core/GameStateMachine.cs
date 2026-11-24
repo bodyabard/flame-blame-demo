@@ -36,7 +36,7 @@ namespace FlameBlame.Core
             else if (Elapsed >= duration) Finish(RoundEnding.TimeUp);
             else if (sawFire && Elapsed >= gracePeriod && quietTime >= quietPeriod) Finish(RoundEnding.FiresOut);
         }
-        void Finish(RoundEnding ending)
+        public void Finish(RoundEnding ending)
         {
             Ending = ending;
             Phase = GamePhase.Result;

@@ -20,6 +20,8 @@ namespace FlameBlame.Fire
 
         internal bool Dirty;
 
+        public FireZoneId Zone { get; set; }
+        public bool ZoneActive { get; set; } = true;
         public bool IsBurning => State == FireState.Burning;
         public float Heat01 => Profile.ignitionThreshold <= 0f ? 0f : Mathf.Clamp01(Heat / Profile.ignitionThreshold);
         public float Charred01 => Profile.burnDuration <= 0f ? 0f : 1f - Mathf.Clamp01(FuelLeft / Profile.burnDuration);

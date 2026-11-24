@@ -15,6 +15,7 @@ namespace FlameBlame.Hose
             if(!held) pose.position += end-inlet.position;
             if(models!=null) foreach(var model in models) model.gameObject.layer=held && !holstered && viewLayer>=0 ? viewLayer : Mathf.Max(0,hoseLayer);
         }
+        public void SetVisible(bool visible) {if(models!=null) foreach(var model in models) model.enabled=visible;}
         void OnDrawGizmosSelected()
         {
             if (muzzle == null) return;

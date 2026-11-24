@@ -27,8 +27,9 @@ namespace FlameBlame.Hose
         void LateUpdate()
         {
             if (hose == null) return;
-            line.enabled=!useTube || tube==null;
-            if(tube!=null) tube.enabled=useTube;
+            line.enabled=hose.Connected && (!useTube || tube==null);
+            if(tube!=null) tube.enabled=useTube && hose.Connected;
+            var mesh=GetComponent<MeshRenderer>(); if(mesh!=null) mesh.enabled=hose.Connected;
             line.positionCount=hose.Segments;
             System.Array.Copy(hose.Points, buffer, hose.Segments);
             // The held end follows the camera every frame, not only on physics ticks.

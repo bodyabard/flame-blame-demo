@@ -55,6 +55,8 @@ namespace FlameBlame.Fire
             node = new FireNode(profile, b.center, this);
             localNodePosition = transform.InverseTransformPoint(b.center);
             node.VisualChanged += ApplyVisuals;
+            var zone=GetComponentInParent<FireZone>();
+            if(zone!=null) { node.Zone=zone.id; node.ZoneActive=zone.id!=FireZoneId.Attic; }
             fire.Register(node);
             if (igniteOnStart) fire.Ignite(node);
         }

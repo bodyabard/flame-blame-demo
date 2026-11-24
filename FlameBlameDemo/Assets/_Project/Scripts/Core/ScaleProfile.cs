@@ -18,6 +18,7 @@ namespace FlameBlame.Core
         [Min(.5f)] public float cameraHeight = 1.6f;
         [Range(-30, 45)] public float cameraPitch = 18f;
         [Header("Toy proportions")]
+        [Min(.1f)] public float furnitureScale = 1.25f;
         [Min(.5f)] public float npcHeight = 1.3f;
         [Range(.4f, 1.2f)] public float npcHeadRatio = .7f;
         [Range(.5f, 2.5f)] public float objectScaleMultiplier = 1.3f;

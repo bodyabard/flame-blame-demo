@@ -10,6 +10,7 @@ namespace FlameBlame.Core
     public sealed class HudContextPublisher
     {
         readonly IGameEvents events;
+        readonly LevelScenario scenario;
         readonly HoseController hose;
         readonly PlayerLadderInteraction ladder;
         readonly PlayerLocomotionStateMachine locomotion;
@@ -21,6 +22,7 @@ namespace FlameBlame.Core
             PlayerLadderInteraction ladder, PlayerLocomotionStateMachine locomotion)
         {
             this.events = events; this.hose = hose; this.ladder = ladder; this.locomotion = locomotion;
+            scenario=Object.FindFirstObjectByType<LevelScenario>();
             hose.Modes.Changed += OnModeChanged;
         }
 
@@ -32,12 +34,14 @@ namespace FlameBlame.Core
             bool climbing = locomotion != null && locomotion.State == PlayerLocomotionState.Climb;
             var nextContext = climbing ? HudContext.Climbing
                 : carrying ? HudContext.Carrying
+                : !hose.Acquired ? HudContext.Stowed
+                : !hose.Connected ? HudContext.Unconnected
                 : !hose.Held ? HudContext.Dropped
                 : hose.Modes.Current.UsesThrust ? HudContext.Jet : HudContext.Extinguish;
             if (nextContext != context) { context = nextContext; events.RaiseHudContextChanged(context); }
 
             var nextPrompt = carrying ? PromptKind.PlaceLadder
-                : ladder != null && !climbing && ladder.HasFocus ? PromptKind.PickLadder : PromptKind.None;
+                : ladder != null && !climbing && ladder.HasFocus ? PromptKind.PickLadder : scenario!=null ? scenario.SupplyPrompt : PromptKind.None;
             if (nextPrompt != prompt) { prompt = nextPrompt; events.RaisePromptChanged(prompt); }
 
             float p = hose.NozzlePressure;

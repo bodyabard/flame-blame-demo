@@ -11,7 +11,6 @@ namespace FlameBlame.Feedback
         [SerializeField] AudioClip valveClick, landing;
         AudioSource sound;
         float pulse;
-        GUIStyle style;
         FlameBlame.Core.IGameEvents events;
         Renderer[] puddles;
         [SerializeField] AudioClip windClip;
@@ -37,6 +36,7 @@ namespace FlameBlame.Feedback
         {
             cameraFeedback.LandingDip(Mathf.Clamp01(speed/hose.JetTuning.maxFallSpeed)*hose.JetTuning.landingDip);
             if(landing!=null) sound.PlayOneShot(landing,Mathf.Clamp01(speed/6));
+            if(events!=null && speed>=6f) events.RaiseHardImpact(Mathf.Clamp01(speed/hose.JetTuning.maxFallSpeed));
             if(events==null || puddles==null) return;
             var feet=motor.transform.position;
             foreach(var p in puddles)
@@ -51,14 +51,6 @@ namespace FlameBlame.Feedback
         {
             pulse=Mathf.MoveTowards(pulse,0,Time.deltaTime*4);
             if(wind!=null) wind.volume=Mathf.MoveTowards(wind.volume,motor.Speed/hose.JetTuning.maxAirSpeed*.15f,Time.deltaTime);
-        }
-        void OnGUI()
-        {
-            if(hose.Modes==null) return;
-            if(style==null) style=new GUIStyle(GUI.skin.box) {fontSize=18,alignment=TextAnchor.MiddleCenter};
-            GUI.color=Color.Lerp(Color.white,new Color(1,.7f,.2f),pulse);
-            GUI.Box(new Rect(Screen.width-270,Screen.height-140,250,35),hose.Modes.Current.UsesThrust ? "JET | Q - mode" : "WATER | Q - mode",style);
-            GUI.color=Color.white;
         }
         void OnDestroy()
         {

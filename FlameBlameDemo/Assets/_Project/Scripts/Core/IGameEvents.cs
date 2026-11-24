@@ -20,6 +20,16 @@ namespace FlameBlame.Core
         event Action<Vector3> RecoilApplied;             // velocity delta for the player
         event Action<float> ShakeRequested;              // 0..1
 
+        // HUD-facing events
+        event Action<int> RoundStarted;                  // total seconds
+        event Action<RoundEnding> RoundEnded;
+        event Action<int> TimerTick;                     // whole seconds left
+        event Action<bool> NozzleModeChanged;            // true = jet thrust
+        event Action<float> PressureChanged;             // 0..1
+        event Action<HudContext> HudContextChanged;
+        event Action<PromptKind> PromptChanged;
+        event Action<float> HardImpact;                  // 0..1, ladder fall or hard landing
+
         void RaiseFireIgnited(FireNode node);
         void RaiseFireExtinguished(FireNode node);
         void RaiseFireBurnedOut(FireNode node);
@@ -32,5 +42,14 @@ namespace FlameBlame.Core
         void RaiseWaterImpact(Vector3 point, Vector3 normal);
         void RaiseRecoil(Vector3 velocityDelta);
         void RaiseShake(float amount);
+
+        void RaiseRoundStarted(int seconds);
+        void RaiseRoundEnded(RoundEnding ending);
+        void RaiseTimerTick(int secondsLeft);
+        void RaiseNozzleModeChanged(bool thrust);
+        void RaisePressureChanged(float pressure);
+        void RaiseHudContextChanged(HudContext context);
+        void RaisePromptChanged(PromptKind prompt);
+        void RaiseHardImpact(float amount);
     }
 }

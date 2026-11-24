@@ -36,7 +36,7 @@ namespace FlameBlame.Core
         [Header("Fire")]
         [SerializeField] int maxActiveFires = 16;
         [SerializeField] ChaosSettings chaosSettings;
-        [SerializeField] ScorePresenter scorePresenter;
+        [SerializeField] HudRoot hud;
         [SerializeField] ParticleSystem sparkTemplate;
 
         GameEvents events;
@@ -45,6 +45,11 @@ namespace FlameBlame.Core
         PuddleFactory puddles;
         EffectsPresenter presenter;
         AdaptiveEffectBudget visualBudget;
+        HudContextPublisher hudContext;
+        FlameBlame.Ladder.PlayerLadderInteraction ladderInteraction;
+        PlayerLocomotionStateMachine locomotion;
+        int lastSecond = -1;
+        bool roundStarted;
         ElectricitySystem electricity;
         DamageLedger ledger;
         GameStateMachine game;
@@ -72,7 +77,7 @@ namespace FlameBlame.Core
             var jetFeedback=hose.GetComponent<JetFeedback>();
             if(jetFeedback!=null) jetFeedback.Initialize(events,effectsRoot);
             visualBudget = new AdaptiveEffectBudget(chaosSettings, effects, jet, playerLook.transform);
-            scorePresenter.Initialize(ledger, game, events);
+            hud.Initialize(events, ledger, game, playerLook.GetComponentInChildren<Camera>(), Mathf.RoundToInt(chaosSettings.roundSeconds));
 
             hose.Initialize(input);
             hoseRenderer.Initialize(hose);
@@ -85,13 +90,15 @@ namespace FlameBlame.Core
             if(ladders.Length>0)
             {
                 foreach(var ladder in ladders) ladder.Initialize(events);
-                var interaction=playerMotor.gameObject.AddComponent<FlameBlame.Ladder.PlayerLadderInteraction>();
-                var locomotion=playerMotor.gameObject.AddComponent<PlayerLocomotionStateMachine>();
+                var interaction=ladderInteraction=playerMotor.gameObject.AddComponent<FlameBlame.Ladder.PlayerLadderInteraction>();
+                locomotion=playerMotor.gameObject.AddComponent<PlayerLocomotionStateMachine>();
                 interaction.view=playerLook.GetComponentInChildren<Camera>().transform;
                 interaction.hose=hose; interaction.jet=jet; interaction.motor=playerMotor; interaction.locomotion=locomotion;
                 interaction.Initialize(); locomotion.interaction=interaction; locomotion.view=interaction.view; locomotion.feedback=cameraFeedback;
                 locomotion.Initialize(ladders); playerMotor.Locomotion=locomotion;
+                locomotion.PlayerFellOffLadder += OnFellOffLadder;
             }
+            hudContext = new HudContextPublisher(events, hose, ladderInteraction, locomotion);
             playerShock = new PlayerShockReceiver(playerMotor.transform, events, chaosSettings);
             hoseImpacts = new HoseImpactSystem(hose.Points, chaosSettings);
             npcs = FindObjectsByType<NpcActor>(FindObjectsSortMode.None);
@@ -119,7 +126,12 @@ namespace FlameBlame.Core
             for (int i = 0; i < cables.Length; i++) cables[i].Tick(Time.time, effects);
             playerShock.Tick(electricity);
             presenter.Tick();
-            if(entryGate==null || entryGate.Entered) game.Tick(Time.deltaTime, fire.ActiveCount, ledger.Total);
+            hudContext.Tick();
+            bool entered = entryGate == null || entryGate.Entered;
+            if (entered && !roundStarted) { roundStarted = true; events.RaiseRoundStarted(Mathf.RoundToInt(chaosSettings.roundSeconds)); }
+            if (entered) game.Tick(Time.deltaTime, fire.ActiveCount, ledger.Total);
+            int second = Mathf.CeilToInt(game.Remaining);
+            if (entered && second != lastSecond) { lastSecond = second; events.RaiseTimerTick(second); }
         }
 
         void FixedUpdate()
@@ -129,9 +141,12 @@ namespace FlameBlame.Core
             hoseImpacts.Tick(hose.Points, Time.fixedDeltaTime,hose.Segments,hose.ReelChanged);
         }
 
+        void OnFellOffLadder() { events.RaiseHardImpact(0.6f); }
+
         void OnPhase(GamePhase phase)
         {
             if (phase != GamePhase.Result) return;
+            events.RaiseRoundEnded(game.Ending);
             ledger.Closed = true;
             if(gameAudio!=null) gameAudio.Finish();
             input.enabled = false;
@@ -148,6 +163,8 @@ namespace FlameBlame.Core
         void OnDestroy()
         {
             presenter?.Dispose();
+            hudContext?.Dispose();
+            if (locomotion != null) locomotion.PlayerFellOffLadder -= OnFellOffLadder;
             ledger?.Dispose();
             if (game != null) game.Changed -= OnPhase;
             Time.timeScale = 1f;

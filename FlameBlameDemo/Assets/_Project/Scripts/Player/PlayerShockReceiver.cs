@@ -21,7 +21,7 @@ namespace FlameBlame.Player
             events.RaiseRecoil((away + Vector3.up * 0.35f) * settings.shockStrength);
             events.RaiseShake(1f);
             events.RaisePlayerShocked();
-            events.RaiseDamageReported(new DamageReport("Пожежник", "мокра електротерапія", settings.playerShockDamage));
+            events.RaiseDamageReported(new DamageReport("Пожежник", "мокра електротерапія", settings.playerShockDamage, player.position + Vector3.up * 1.2f));
         }
     }
 }

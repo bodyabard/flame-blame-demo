@@ -62,7 +62,7 @@ namespace FlameBlame.Npc
             if (!state.IsCharred && exposure >= charExposure)
             {
                 state.React(NpcState.Charred, reactionSeconds);
-                events.RaiseDamageReported(new DamageReport(displayName, "засмага без SPF", charredCost));
+                events.RaiseDamageReported(new DamageReport(displayName, "засмага без SPF", charredCost, transform.position));
             }
             if (Time.time >= nextShock && electricity.IsLive(transform.position - Vector3.up * feetOffset, out Vector3 source))
             {
@@ -71,7 +71,7 @@ namespace FlameBlame.Npc
                 Vector3 direction = Vector3.ProjectOnPlane(transform.position - source, Vector3.up).normalized;
                 body.AddForce((direction + Vector3.up * 0.6f) * settings.shockStrength, ForceMode.VelocityChange);
                 events.RaiseNpcShocked(transform.position);
-                events.RaiseDamageReported(new DamageReport(displayName, "рахунок за електрику", settings.npcShockDamage));
+                events.RaiseDamageReported(new DamageReport(displayName, "рахунок за електрику", settings.npcShockDamage, transform.position));
             }
             Color color = state.State == NpcState.Shocked ? Color.yellow : state.IsCharred ? new Color(0.09f, 0.07f, 0.06f) : originalColor;
             bodyRenderer.GetPropertyBlock(block);
@@ -103,7 +103,7 @@ namespace FlameBlame.Npc
             body.AddForceAtPosition((-normal + Vector3.up * 0.15f) * washForce * amount, point, ForceMode.Impulse);
             if (Time.time < nextWashScore) return;
             nextWashScore = Time.time + 5f;
-            events.RaiseDamageReported(new DamageReport(displayName, "душ із доставкою", washedCost));
+            events.RaiseDamageReported(new DamageReport(displayName, "душ із доставкою", washedCost, transform.position));
         }
     }
 }

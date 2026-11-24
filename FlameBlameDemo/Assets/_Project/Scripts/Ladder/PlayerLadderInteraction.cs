@@ -12,6 +12,7 @@ namespace FlameBlame.Ladder
         public PlayerMotor motor;
         public PlayerLocomotionStateMachine locomotion;
         public LadderStateMachine Carried {get;private set;}
+        public bool HasFocus => focus!=null;
         LadderStateMachine focus;
         readonly Collider[] overlaps=new Collider[32];
         Collider playerCollider;
@@ -86,11 +87,6 @@ namespace FlameBlame.Ladder
             bool clear=count<overlaps.Length;
             for(int i=0;i<count;i++) if(overlaps[i]!=playerCollider && overlaps[i].GetComponentInParent<LadderStateMachine>()!=ladder) clear=false;
             return wall && ground && floor.normal.y>.9f && LadderRules.ValidAngle(t.angle) && LadderRules.ValidWall(wallNormal,t.wallTolerance) && clear;
-        }
-        void OnGUI()
-        {
-            string hint=Carried!=null ? "F — поставити / ЛКМ — кинути" : locomotion!=null && locomotion.State==PlayerLocomotionState.Climb ? "W/S — рух за поглядом\nВідвести погляд / Space — відстрибнути" : focus!=null ? "F — взяти драбину" : "";
-            if(hint.Length>0) GUI.Label(new Rect(Screen.width*.5f-180,Screen.height*.7f,420,55),hint);
         }
     }
 }

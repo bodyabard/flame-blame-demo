@@ -44,7 +44,7 @@ namespace FlameBlame.Fire
         {
             int loss = Mathf.Min(RemainingValue, Mathf.Max(0, amount));
             RemainingValue -= loss;
-            events.RaiseDamageReported(new DamageReport(cachedLabel, reason, loss));
+            events.RaiseDamageReported(new DamageReport(cachedLabel, reason, loss, transform.position));
         }
         void OnDestroy()
         {

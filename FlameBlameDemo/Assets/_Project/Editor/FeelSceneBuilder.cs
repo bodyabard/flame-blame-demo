@@ -42,7 +42,7 @@ namespace FlameBlame.EditorTools
             var tuning=AssetDatabase.LoadAssetAtPath<VisualTuning>(Root+"/Settings/VisualTuning.asset");
             var camera=Camera.main;var hose=Object.FindFirstObjectByType<HoseController>();
             var feedback=Object.FindFirstObjectByType<CameraFeedback>();Ref(feedback,"tuning",tuning);Ref(feedback,"motor",camera.GetComponentInParent<CharacterController>());Ref(feedback,"hose",hose);
-            Hands(camera.transform,hose,tuning);Npcs(camera.transform,tuning);Hud(hose,tuning);Water();Audio(hose,tuning);
+            Hands(camera.transform,hose,tuning);Npcs(camera.transform,tuning);Water();Audio(hose,tuning);
         }
         static void Hands(Transform camera,HoseController hose,VisualTuning tuning)
         {
@@ -101,23 +101,6 @@ namespace FlameBlame.EditorTools
         static Image Panel(Transform parent,string name,Vector2 pos,Vector2 size,Color color)
         {
             var go=new GameObject(name,typeof(RectTransform),typeof(Image));go.transform.SetParent(parent,false);var rect=go.GetComponent<RectTransform>();rect.anchorMin=rect.anchorMax=new Vector2(.5f,.5f);rect.anchoredPosition=pos;rect.sizeDelta=size;var image=go.GetComponent<Image>();image.color=color;image.raycastTarget=false;return image;
-        }
-        static void Hud(HoseController hose,VisualTuning tuning)
-        {
-            var hud=Object.FindFirstObjectByType<ScorePresenter>();var font=Font();
-            foreach(var label in hud.GetComponentsInChildren<TextMeshProUGUI>(true)){label.font=font;label.fontSharedMaterial=font.material;}
-            foreach(string name in new[]{"ScoreCard","TimerCard","Pressure"})Clear(hud.transform,name);
-            Panel(hud.transform,"ScoreCard",new Vector2(-390,300),new Vector2(455,65),tuning.hudPanel).transform.SetAsFirstSibling();
-            Panel(hud.transform,"TimerCard",new Vector2(460,300),new Vector2(310,65),tuning.hudPanel).transform.SetAsFirstSibling();
-            var panel=Panel(hud.transform,"Pressure",new Vector2(450,-210),new Vector2(290,120),tuning.hudPanel);
-            var fill=Panel(panel.transform,"Flow",new Vector2(0,-35),new Vector2(250,12),tuning.hudAccent);fill.sprite=Disc();fill.type=Image.Type.Filled;fill.fillMethod=Image.FillMethod.Horizontal;
-            var dial=Panel(panel.transform,"Dial",new Vector2(-95,6),new Vector2(55,55),new Color(.1f,.09f,.07f));
-            dial.sprite=Disc();
-            var needle=Panel(dial.transform,"Needle",Vector2.zero,new Vector2(4,24),tuning.hudAccent).rectTransform;needle.pivot=new Vector2(.5f,.1f);
-            var textGo=new GameObject("PressureLabel",typeof(RectTransform));textGo.transform.SetParent(panel.transform,false);var text=textGo.AddComponent<TextMeshProUGUI>();text.font=font;text.fontSize=25;text.text="ТИСК  0%";text.alignment=TextAlignmentOptions.Center;text.rectTransform.sizeDelta=new Vector2(220,55);text.rectTransform.anchoredPosition=new Vector2(30,5);
-            var gauge=panel.gameObject.AddComponent<PressureGauge>();Ref(gauge,"hose",hose);Ref(gauge,"tuning",tuning);Ref(gauge,"needle",needle);Ref(gauge,"fill",fill);Ref(gauge,"label",text);
-            panel.transform.SetAsFirstSibling();
-            var result=hud.transform.Find("Result").GetComponent<Image>();result.color=tuning.hudPanel;
         }
         static void Audio(HoseController hose,VisualTuning tuning)
         {

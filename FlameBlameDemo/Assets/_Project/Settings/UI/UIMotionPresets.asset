@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe68ce9cceff86c4c9c36ccbee533d70, type: 3}
+  m_Name: UIMotionPresets
+  m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.UI.UIMotionPresets
+  bannerIn: 0.35
+  bannerHold: 1.2
+  bannerOut: 0.25
+  ruleBannerDelay: 1.8
+  ruleBannerHold: 3.5
+  slideIn: 0.4
+  slideStagger: 0.06
+  slideEase: 2
+  bannerEase: 2
+  counterDuration: 0.4
+  punch: 0.12
+  bigPunch: 0.24
+  punchDuration: 0.35
+  bigHitThreshold: 400
+  bigShakePixels: 9
+  coinSpinDuration: 0.45
+  flashDuration: 0.4
+  popupIn: 0.25
+  popupSeconds: 0.9
+  popupRise: 60
+  burstSpin: 70
+  popupEase: 2
+  tickScale: 0.04
+  pulseScale: 0.1
+  pulseSeconds: 15
+  shakeSeconds: 5
+  timerShakePixels: 4
+  gaugeFrequency: 3.2
+  gaugeDamping: 0.38
+  dropThreshold: 0.35
+  dropCooldown: 1
+  dropShakePixels: 7
+  highPressureTremor: 0.8
+  flipDuration: 0.25
+  modeBannerHold: 0.8
+  modePunch: 0.18
+  hintFade: 0.15
+  hintStagger: 0.05
+  promptIn: 0.2
+  breatheScale: 0.03
+  breathePeriod: 1.2
+  squash: 0.85
+  squashDuration: 0.18
+  shockFlash: 0.75
+  shockFlashSeconds: 0.6
+  shockShakeSeconds: 0.3
+  shockShakePixels: 14
+  impactShakeSeconds: 0.25
+  impactShakePixels: 6
+  resultDim: 0.3
+  dimAlpha: 0.7
+  panelDrop: 0.75
+  rowDelay: 0.35
+  rowFirstDelay: 0.8
+  rowCount: 0.6
+  hoverScale: 1.06
+  dropEase: 4

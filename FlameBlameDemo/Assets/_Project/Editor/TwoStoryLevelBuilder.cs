@@ -91,7 +91,6 @@ namespace FlameBlame.EditorTools
             var trigger=gate.AddComponent<BoxCollider>(); trigger.isTrigger=true; trigger.size=new Vector3(.35f,settings.windowHeight,settings.windowWidth);
             var entry=gate.AddComponent<WindowEntryGate>();
             var boot=new SerializedObject(Object.FindFirstObjectByType<GameBootstrap>()); boot.FindProperty("entryGate").objectReferenceValue=entry; boot.ApplyModifiedPropertiesWithoutUndo();
-            var score=new SerializedObject(Object.FindFirstObjectByType<FlameBlame.UI.ScorePresenter>()); score.FindProperty("entryGate").objectReferenceValue=entry; score.ApplyModifiedPropertiesWithoutUndo();
             foreach(var asset in new[]{"Assets/Settings/PC_RPAsset.asset","Assets/Settings/Mobile_RPAsset.asset"}) {var rp=AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>(asset); if(rp!=null) {rp.shadowDistance=35; EditorUtility.SetDirty(rp);}}
             AssetDatabase.SaveAssets(); EditorSceneManager.MarkSceneDirty(scene); EditorSceneManager.SaveScene(scene);
             Physics.SyncTransforms();

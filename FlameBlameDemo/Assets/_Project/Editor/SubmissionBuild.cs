@@ -62,7 +62,7 @@ namespace FlameBlame.EditorTools
             var root = Object.FindFirstObjectByType<GameBootstrap>();
             if (root == null) throw new InvalidOperationException("Main requires GameBootstrap.");
             var data = new SerializedObject(root);
-            foreach (string field in new[] { "input", "hose", "hoseRenderer", "jet", "playerLook", "playerMotor", "cameraFeedback", "gameAudio", "hands", "chaosSettings", "scorePresenter", "effectsRoot", "flameTemplate", "steamTemplate", "splashTemplate", "sparkTemplate", "puddleTemplate" })
+            foreach (string field in new[] { "input", "hose", "hoseRenderer", "jet", "playerLook", "playerMotor", "cameraFeedback", "gameAudio", "hands", "chaosSettings", "hud", "effectsRoot", "flameTemplate", "steamTemplate", "splashTemplate", "sparkTemplate", "puddleTemplate" })
                 if (data.FindProperty(field).objectReferenceValue == null) throw new InvalidOperationException("Missing Main reference: " + field);
             int capacity = 240 + Count(data, "flameTemplate") * 16 + Count(data, "steamTemplate") * 6 + Count(data, "splashTemplate") * 8 + Count(data, "sparkTemplate") * 4;
             if (capacity > 1000) throw new InvalidOperationException("Authored particle capacity exceeds 1000: " + capacity);

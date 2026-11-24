@@ -93,8 +93,6 @@ namespace FlameBlame.EditorTools
             emitterData.ApplyModifiedPropertiesWithoutUndo();
             var jetParticles = (ParticleSystem)emitterData.FindProperty("jet").objectReferenceValue;
             var jetMain = jetParticles.main; jetMain.maxParticles = 400;
-            var presenter = BuildUI(root, BuildFont());
-            Ref(bootstrap, "scorePresenter", presenter);
             EditorUtility.SetDirty(bootstrap);
         }
 
@@ -197,44 +195,6 @@ namespace FlameBlame.EditorTools
             var rect = label.rectTransform; rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
             rect.anchoredPosition = position; rect.sizeDelta = size;
             return label;
-        }
-        static ScorePresenter BuildUI(Transform parent, TMP_FontAsset font)
-        {
-            var go = new GameObject("ChaosHUD", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
-            go.transform.SetParent(parent, false);
-            go.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
-            var scaler = go.GetComponent<CanvasScaler>(); scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = new Vector2(1280f, 720f);
-            var score = Label("Damage", go.transform, font, "ЗБИТКИ  $0", new Vector2(-390f, 300f), new Vector2(440f, 55f), 32f);
-            var timer = Label("Timer", go.transform, font, "ЧАС  105 с", new Vector2(460f, 300f), new Vector2(300f, 55f), 32f);
-            var hints = Label("Controls", go.transform, font, "WASD — рух | Миша — огляд | ЛКМ — вода | E — кинути / взяти\nВода + кабель = електротерапія. Жовті калюжі небезпечні!",
-                new Vector2(0f, -300f), new Vector2(1200f, 75f), 21f);
-            hints.alignment = TextAlignmentOptions.Center;
-            var popup = Label("PopupTemplate", go.transform, font, "", new Vector2(-270f, 210f), new Vector2(700f, 40f), 22f);
-            var flash = new GameObject("ShockFlash", typeof(RectTransform), typeof(Image)); flash.transform.SetParent(go.transform, false);
-            var flashImage = flash.GetComponent<Image>(); flashImage.color = Color.clear; flashImage.raycastTarget = false;
-            Stretch(flash.GetComponent<RectTransform>());
-            var result = new GameObject("Result", typeof(RectTransform), typeof(Image)); result.transform.SetParent(go.transform, false);
-            result.GetComponent<Image>().color = new Color(0.045f, 0.04f, 0.07f, 0.96f); Stretch(result.GetComponent<RectTransform>());
-            var summary = Label("Summary", result.transform, font, "ПІДСУМОК ХАОСУ", new Vector2(0f, 80f), new Vector2(700f, 280f), 40f);
-            summary.alignment = TextAlignmentOptions.Center;
-            var reason = Label("Reason", result.transform, font, "", new Vector2(0f, -100f), new Vector2(1000f, 60f), 26f); reason.alignment = TextAlignmentOptions.Center;
-            var buttonObj = new GameObject("Again", typeof(RectTransform), typeof(Image), typeof(Button)); buttonObj.transform.SetParent(result.transform, false);
-            buttonObj.GetComponent<RectTransform>().sizeDelta = new Vector2(280f, 70f);
-            buttonObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -210f);
-            buttonObj.GetComponent<Image>().color = new Color(0.75f, 0.22f, 0.08f);
-            var buttonLabel = Label("Label", buttonObj.transform, font, "ЩЕ РАЗ", Vector2.zero, new Vector2(260f, 65f), 30f); buttonLabel.alignment = TextAlignmentOptions.Center;
-            var presenter = go.AddComponent<ScorePresenter>();
-            Ref(presenter, "scoreLabel", score); Ref(presenter, "timerLabel", timer); Ref(presenter, "summaryLabel", summary);
-            Ref(presenter, "reasonLabel", reason); Ref(presenter, "popupTemplate", popup); Ref(presenter, "resultPanel", result);
-            Ref(presenter, "restartButton", buttonObj.GetComponent<Button>()); Ref(presenter, "shockFlash", flashImage);
-            result.SetActive(false); popup.gameObject.SetActive(false);
-            if (Object.FindFirstObjectByType<EventSystem>() == null)
-            {
-                var system = new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
-                system.transform.SetParent(parent, false);
-            }
-            return presenter;
         }
         static void Stretch(RectTransform rect)
         {

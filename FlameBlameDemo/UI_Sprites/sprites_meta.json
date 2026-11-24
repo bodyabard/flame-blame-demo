@@ -1,0 +1,186 @@
+{
+ "panel_fill": {
+  "size": [
+   128,
+   128
+  ],
+  "border_LBRT": [
+   36,
+   36,
+   36,
+   36
+  ]
+ },
+ "panel_outline": {
+  "size": [
+   128,
+   128
+  ],
+  "border_LBRT": [
+   36,
+   36,
+   36,
+   36
+  ]
+ },
+ "pill_fill": {
+  "size": [
+   128,
+   64
+  ],
+  "border_LBRT": [
+   34,
+   0,
+   34,
+   0
+  ]
+ },
+ "pill_outline": {
+  "size": [
+   128,
+   64
+  ],
+  "border_LBRT": [
+   34,
+   0,
+   34,
+   0
+  ]
+ },
+ "panel_gloss": {
+  "size": [
+   128,
+   128
+  ],
+  "border_LBRT": [
+   36,
+   36,
+   36,
+   36
+  ]
+ },
+ "panel_shadow": {
+  "size": [
+   160,
+   160
+  ],
+  "border_LBRT": [
+   52,
+   52,
+   52,
+   52
+  ]
+ },
+ "circle_fill": {
+  "size": [
+   256,
+   256
+  ],
+  "border_LBRT": null
+ },
+ "circle_outline": {
+  "size": [
+   256,
+   256
+  ],
+  "border_LBRT": null
+ },
+ "gauge_ring": {
+  "size": [
+   256,
+   256
+  ],
+  "border_LBRT": null,
+  "note": "Image Type Filled, Radial 360"
+ },
+ "gauge_needle": {
+  "size": [
+   32,
+   128
+  ],
+  "pivot": [
+   0.5,
+   0.06
+  ]
+ },
+ "icon_water": {
+  "size": [
+   128,
+   128
+  ],
+  "border_LBRT": null
+ },
+ "icon_fire": {
+  "size": [
+   128,
+   128
+  ],
+  "border_LBRT": null
+ },
+ "icon_jet": {
+  "size": [
+   128,
+   128
+  ],
+  "border_LBRT": null
+ },
+ "icon_clock": {
+  "size": [
+   128,
+   128
+  ],
+  "border_LBRT": null
+ },
+ "icon_coin": {
+  "size": [
+   128,
+   128
+  ],
+  "border_LBRT": null
+ },
+ "icon_bolt": {
+  "size": [
+   128,
+   128
+  ],
+  "border_LBRT": null
+ },
+ "icon_ladder": {
+  "size": [
+   128,
+   128
+  ],
+  "border_LBRT": null
+ },
+ "keycap_fill": {
+  "size": [
+   96,
+   96
+  ],
+  "border_LBRT": [
+   28,
+   28,
+   28,
+   28
+  ]
+ },
+ "keycap_outline": {
+  "size": [
+   96,
+   96
+  ],
+  "border_LBRT": [
+   28,
+   28,
+   28,
+   28
+  ]
+ },
+ "burst": {
+  "size": [
+   256,
+   256
+  ],
+  "border_LBRT": null
+ }
+}

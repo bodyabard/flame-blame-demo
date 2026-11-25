@@ -27,11 +27,19 @@ namespace FlameBlame.Npc
         float phaseTime, tilt, mumbleAt;
         bool dropped;
         Vector3 holdLocal;
+        Transform player;
+        BoxCollider atticVolume;
+        bool noticedPlayer;
+        float noticeTime = -1f;
 
         public bool Dropped => dropped;
 
-        public void Initialize()
+        public void Initialize(Transform playerTransform, BoxCollider entryVolume)
         {
+            player = playerTransform;
+            atticVolume = entryVolume;
+            npc.IgnoreWaterPush = true;
+            npc.Face(fireTarget, tuning.turnDegreesPerSecond);
             holdLocal = transform.InverseTransformPoint(holdPoint.position);
             canBody.isKinematic = true;
             // The visible jet and receiver query must follow the same straight path.
@@ -49,7 +57,18 @@ namespace FlameBlame.Npc
 
         void Update()
         {
-            if (tuning == null || dropped) return;
+            if (tuning == null) return;
+            if (!noticedPlayer && player != null && atticVolume != null)
+            {
+                if (noticeTime < 0f && atticVolume.bounds.Contains(player.position))
+                    noticeTime = Time.time + tuning.noticeDelay;
+                if (noticeTime >= 0f && Time.time >= noticeTime)
+                {
+                    noticedPlayer = true;
+                    npc.Face(player, tuning.turnDegreesPerSecond);
+                }
+            }
+            if (dropped) return;
             if (npc.State == NpcState.Washed || npc.State == NpcState.Shocked) { Drop(); return; }
 
             float dt = Time.deltaTime;

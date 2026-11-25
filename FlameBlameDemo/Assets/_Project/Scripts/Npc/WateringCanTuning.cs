@@ -20,6 +20,10 @@ namespace FlameBlame.Npc
         public float shakeHz = 11f;
         public float shakeMetres = 0.05f;
 
+        [Header("Notice player in attic")]
+        [Min(0f)] public float noticeDelay = 0.65f;
+        [Min(1f)] public float turnDegreesPerSecond = 150f;
+
         [Header("Water")]
         [Tooltip("Water units per second delivered to what the stream hits. The hose does ~1 per second at full pressure.")]
         [Range(0f, 0.2f)] public float waterPerSecond = 0.035f;

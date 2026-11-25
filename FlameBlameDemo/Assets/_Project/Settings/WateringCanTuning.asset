@@ -22,6 +22,8 @@ MonoBehaviour:
   shakeDegrees: 14
   shakeHz: 11
   shakeMetres: 0.05
+  noticeDelay: 0.65
+  turnDegreesPerSecond: 150
   waterPerSecond: 0.035
   range: 3.2
   radius: 0.1

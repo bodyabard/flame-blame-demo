@@ -33,6 +33,15 @@ namespace FlameBlame.Npc
         bool toonMaterial;
         float exposure, nextShock, nextWashScore;
         public NpcState State => state.State;
+        public bool IgnoreWaterPush { get; set; }
+        Transform facingTarget;
+        float turnSpeed;
+
+        public void Face(Transform target, float degreesPerSecond)
+        {
+            facingTarget = target;
+            turnSpeed = degreesPerSecond;
+        }
 
         public void Initialize(IGameEvents gameEvents)
         {
@@ -92,15 +101,21 @@ namespace FlameBlame.Npc
             if (visual != null)
             {
                 float wobble = state.State == NpcState.Idle ? 2f : state.State == NpcState.Shocked ? 18f : 9f;
-                Vector3 facing=audience!=null ? audience.position-transform.position : Vector3.forward;
-                visual.localRotation = Quaternion.Euler(0f, Mathf.Atan2(facing.x,facing.z)*Mathf.Rad2Deg, Mathf.Sin(Time.time * 14f) * wobble);
+                Transform target = facingTarget != null ? facingTarget : audience;
+                Vector3 facing=target!=null ? target.position-transform.position : Vector3.forward;
+                facing = transform.InverseTransformDirection(facing);
+                float yaw = Mathf.Atan2(facing.x, facing.z) * Mathf.Rad2Deg;
+                if (facingTarget != null)
+                    yaw = Mathf.MoveTowardsAngle(visual.localEulerAngles.y, yaw, turnSpeed * dt);
+                visual.localRotation = Quaternion.Euler(0f, yaw, Mathf.Sin(Time.time * 14f) * wobble);
             }
         }
         public void ReceiveWater(Vector3 point, Vector3 normal, float amount)
         {
             if (events == null) return;
             state.React(NpcState.Washed, reactionSeconds);
-            body.AddForceAtPosition((-normal + Vector3.up * 0.15f) * washForce * amount, point, ForceMode.Impulse);
+            if (!IgnoreWaterPush)
+                body.AddForceAtPosition((-normal + Vector3.up * 0.15f) * washForce * amount, point, ForceMode.Impulse);
             if (Time.time < nextWashScore) return;
             nextWashScore = Time.time + 5f;
             events.RaiseDamageReported(new DamageReport(displayName, "душ із доставкою", washedCost, transform.position));

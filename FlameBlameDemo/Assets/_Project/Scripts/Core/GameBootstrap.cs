@@ -116,7 +116,8 @@ namespace FlameBlame.Core
             foreach (var flammable in flammables)
                 flammable.Initialize(fire, events);
             if(scenario!=null) scenario.Initialize(events,fire,hose,playerMotor.transform,playerLook.GetComponentInChildren<Camera>());
-            foreach(var can in FindObjectsByType<WateringCanNpc>(FindObjectsSortMode.None)) can.Initialize();
+            foreach(var can in FindObjectsByType<WateringCanNpc>(FindObjectsSortMode.None))
+                can.Initialize(playerMotor.transform, scenario != null ? scenario.atticVolume : null);
             if(photo!=null) photo.Initialize(playerLook, playerMotor, cameraFeedback, hose, jet, hands);
         }
 

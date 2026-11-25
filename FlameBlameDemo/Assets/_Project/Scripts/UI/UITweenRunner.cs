@@ -49,6 +49,9 @@ namespace FlameBlame.UI
 
         public void Step(float target, float dt, float frequency, float dampingRatio)
         {
+            if (float.IsNaN(target) || float.IsInfinity(target)) return;
+            if (float.IsNaN(Value) || float.IsInfinity(Value) || float.IsNaN(Velocity) || float.IsInfinity(Velocity)) { Value = target; Velocity = 0f; }
+            dt = Mathf.Clamp(dt, 0f, 0.05f);   // a long editor hitch must not blow up the integrator
             float w = 2f * Mathf.PI * frequency;
             int steps = Mathf.Clamp(Mathf.CeilToInt(dt * 240f), 1, 40);
             float h = dt / steps;

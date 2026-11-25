@@ -22,7 +22,11 @@ namespace FlameBlame.UI
             services.Events.PressureChanged += OnPressure;
         }
 
-        void OnPressure(float pressure) { target = Mathf.Clamp(pressure, 0f, 1.2f); }
+        void OnPressure(float pressure)
+        {
+            if (float.IsNaN(pressure) || float.IsInfinity(pressure)) return;
+            target = Mathf.Clamp(pressure, 0f, 1.2f);
+        }
 
         public void Tick(float dt)
         {

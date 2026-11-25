@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db5002e57f647042be86edac2b73ff4, type: 3}
+  m_Name: ShowcaseShots
+  m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Feedback.ShowcaseShots
+  shots:
+  - name: 01_Hero
+    position: {x: -14, y: 5.2, z: -13}
+    eulerAngles: {x: 4, y: 35, z: 0}
+    fieldOfView: 60
+    setup: 386
+    settleSeconds: 7
+    notes: Street, fire engine, long house, smoke from the windows, ladder under
+      the window.
+  - name: 02_FirstPerson_Room
+    position: {x: -0.4, y: 4.8, z: 3.45}
+    eulerAngles: {x: 9, y: -22, z: 0}
+    fieldOfView: 70
+    setup: 261
+    settleSeconds: 4
+    notes: Hands with the nozzle, jet into the fire, puddles, panicking neighbours.
+  - name: 03_Thrust_Hatch
+    position: {x: -0.2, y: 5, z: 3.2}
+    eulerAngles: {x: -52, y: 0, z: 0}
+    fieldOfView: 72
+    setup: 265
+    settleSeconds: 1.2
+    notes: Flying up through the ceiling hatch; broken ladder hangs from the rim.
+  - name: 04_Attic
+    position: {x: 1.6, y: 7.7, z: 4.9}
+    eulerAngles: {x: 9.5, y: 215, z: 0}
+    fieldOfView: 66
+    setup: 7
+    settleSeconds: 5
+    notes: Pillar, the watering-can neighbour, burning boxes, player's jet.
+  - name: 05_Chaos
+    position: {x: -1.6, y: 4.9, z: 4}
+    eulerAngles: {x: 8, y: 22, z: 0}
+    fieldOfView: 72
+    setup: 369
+    settleSeconds: 1.6
+    notes: Dropped nozzle whipping, props flying, shock sparks.
+  formats:
+  - name: 1200x627
+    width: 1200
+    height: 627
+  - name: 1080x1350
+    width: 1080
+    height: 1350
+  - name: 1920x1080
+    width: 1920
+    height: 1080

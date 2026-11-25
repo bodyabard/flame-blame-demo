@@ -37,6 +37,7 @@ namespace FlameBlame.Core
         [SerializeField] int maxActiveFires = 16;
         [SerializeField] ChaosSettings chaosSettings;
         [SerializeField] HudRoot hud;
+        [SerializeField] PhotoMode photo;
         [SerializeField] ParticleSystem sparkTemplate;
 
         GameEvents events;
@@ -115,6 +116,8 @@ namespace FlameBlame.Core
             foreach (var flammable in flammables)
                 flammable.Initialize(fire, events);
             if(scenario!=null) scenario.Initialize(events,fire,hose,playerMotor.transform,playerLook.GetComponentInChildren<Camera>());
+            foreach(var can in FindObjectsByType<WateringCanNpc>(FindObjectsSortMode.None)) can.Initialize();
+            if(photo!=null) photo.Initialize(playerLook, playerMotor, cameraFeedback, hose, jet, hands);
         }
 
         void Update()

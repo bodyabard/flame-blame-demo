@@ -213,10 +213,8 @@ namespace FlameBlame.EditorTools
             clips.arraySize = 3;
             for (int i = 0; i < 3; i++)
                 clips.GetArrayElementAtIndex(i).objectReferenceValue = AssetDatabase.LoadAssetAtPath<AudioClip>(Root + "Audio/Generated/CanMumble" + (i + 1) + ".wav");
-            // keep the can and its stream from hitting the player layer / hose layer
-            so.FindProperty("hitMask").FindPropertyRelative("m_Bits").intValue = ~((1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Hose")));
             so.ApplyModifiedPropertiesWithoutUndo();
-            report.Add($"Watering-can NPC at {npcPos} behind the pillar; stream {tuning.waterPerSecond:F3} water/s (hose ~1.0), burning objects regain 7 heat/s.");
+            report.Add($"Watering-can NPC at {npcPos} behind the pillar; decorative downward drops only, no water delivery.");
         }
 
         // ------------------------------------------------------------------ procedural audio (CC0, generated here)

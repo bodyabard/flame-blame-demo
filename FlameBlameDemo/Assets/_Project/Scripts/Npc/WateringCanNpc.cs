@@ -1,11 +1,9 @@
-using FlameBlame.Water;
 using UnityEngine;
 
 namespace FlameBlame.Npc
 {
     /// Comic loop: the NPC pours a thin stream on the fire, then shakes the empty can, forever.
-    /// The stream really delivers water through IWaterReceiver, just far too little to win.
-    /// If the player washes the NPC away the can falls to the floor.
+    /// Water drops are decorative only; this actor stays at his attic post.
     public sealed class WateringCanNpc : MonoBehaviour
     {
         enum Phase { Pour, Empty }
@@ -20,9 +18,6 @@ namespace FlameBlame.Npc
         [SerializeField] Rigidbody canBody;         // kinematic until dropped
         [SerializeField] AudioSource gurgle, voice;
         [SerializeField] AudioClip[] mumbles;
-        [SerializeField] LayerMask hitMask = ~0;
-
-        readonly RaycastHit[] hits = new RaycastHit[6];
         Phase phase;
         float phaseTime, tilt, mumbleAt;
         bool dropped;
@@ -39,13 +34,18 @@ namespace FlameBlame.Npc
             player = playerTransform;
             atticVolume = entryVolume;
             npc.IgnoreWaterPush = true;
+            npc.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             npc.Face(fireTarget, tuning.turnDegreesPerSecond);
             holdLocal = transform.InverseTransformPoint(holdPoint.position);
             canBody.isKinematic = true;
-            // The visible jet and receiver query must follow the same straight path.
             var main = stream.main;
-            main.gravityModifier = 0f;
+            main.gravityModifier = tuning.dropGravity;
             main.startSpeed = tuning.streamSpeed;
+            main.startLifetime = tuning.dropLifetime;
+            var collision = stream.collision;
+            collision.enabled = false;
+            var triggers = stream.trigger;
+            triggers.enabled = false;
             ScheduleMumble();
             tilt = tuning.restTilt;
         }
@@ -94,11 +94,11 @@ namespace FlameBlame.Npc
             Vector3 shake = pouring ? Vector3.zero
                 : new Vector3(Mathf.Sin(Time.time * 37f), Mathf.Sin(Time.time * 29f), Mathf.Cos(Time.time * 31f)) * tuning.shakeMetres;
             can.SetPositionAndRotation(origin + shake, face * Quaternion.Euler(tilt, 0f, 0f));
+            spout.rotation = Quaternion.LookRotation(Vector3.down, Vector3.forward);
 
             var emission = stream.emission;
             emission.rateOverTime = pouring ? tuning.particleRate : 0f;
             if (!stream.isPlaying) stream.Play();
-            if (pouring) Pour();
 
             gurgle.volume = Mathf.MoveTowards(gurgle.volume, pouring ? tuning.gurgleVolume : 0f, dt * 2f);
             if (Time.time >= mumbleAt && mumbles != null && mumbles.Length > 0)
@@ -106,27 +106,6 @@ namespace FlameBlame.Npc
                 voice.PlayOneShot(mumbles[Random.Range(0, mumbles.Length)], tuning.mumbleVolume);
                 ScheduleMumble();
             }
-        }
-
-        void Pour()
-        {
-            Vector3 from = spout.position;
-            Vector3 dir = (fireTarget.position - from).normalized;
-            spout.rotation = Quaternion.LookRotation(dir);
-            int count = Physics.SphereCastNonAlloc(from, tuning.radius, dir, hits, tuning.range, hitMask, QueryTriggerInteraction.Ignore);
-            float nearest = float.MaxValue;
-            int best = -1;
-            for (int i = 0; i < count; i++)
-            {
-                if (hits[i].collider.transform.IsChildOf(transform) || hits[i].collider.transform.IsChildOf(can)) continue;
-                if (hits[i].distance < nearest) { nearest = hits[i].distance; best = i; }
-            }
-            var main = stream.main;
-            main.startLifetime = (best < 0 ? tuning.range : nearest) / Mathf.Max(0.01f, tuning.streamSpeed);
-            if (best < 0) return;
-            var receiver = hits[best].collider.GetComponentInParent<IWaterReceiver>();
-            if (receiver != null && !ReferenceEquals(receiver, npc))
-                receiver.ReceiveWater(hits[best].point, hits[best].normal, tuning.waterPerSecond * Time.deltaTime);
         }
 
         void Drop()

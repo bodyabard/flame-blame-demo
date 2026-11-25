@@ -24,11 +24,10 @@ MonoBehaviour:
   shakeMetres: 0.05
   noticeDelay: 0.65
   turnDegreesPerSecond: 150
-  waterPerSecond: 0.035
-  range: 3.2
-  radius: 0.1
   particleRate: 28
   streamSpeed: 2.4
+  dropGravity: 1
+  dropLifetime: 0.35
   mumbleInterval: {x: 6, y: 11}
   gurgleVolume: 0.22
   mumbleVolume: 0.35

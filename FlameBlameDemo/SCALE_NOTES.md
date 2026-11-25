@@ -110,3 +110,5 @@ Main uses 92 simulation points at 0.22636232 m; usable capacity reach is approxi
 - **Watering can:** stream delivers 0.035 water/s (hose ~1.0 at full pressure, so ~3.5%); burning scenario objects regain 7 heat/s, so the can alone can never finish a fire.
 
 - Point 7 follow-up: watering-can stream speed 2.4 m/s in WateringCanTuning; straight particle trajectory follows the water query and lifetime ends at the nearest obstruction (maximum range 3.2 m).
+
+- Supersedes earlier watering-can delivery notes: attic NPC drops are decorative only (no water delivered). Downward speed 2.4 m/s, gravity multiplier 1, lifetime 0.35 s. NPC Rigidbody is frozen; only its visual turns toward the player.

@@ -24,13 +24,11 @@ namespace FlameBlame.Npc
         [Min(0f)] public float noticeDelay = 0.65f;
         [Min(1f)] public float turnDegreesPerSecond = 150f;
 
-        [Header("Water")]
-        [Tooltip("Water units per second delivered to what the stream hits. The hose does ~1 per second at full pressure.")]
-        [Range(0f, 0.2f)] public float waterPerSecond = 0.035f;
-        [Min(0.5f)] public float range = 3.2f;
-        [Min(0.02f)] public float radius = 0.1f;
+        [Header("Decorative drops")]
         public int particleRate = 28;
         [Min(0.1f)] public float streamSpeed = 2.4f;
+        [Min(0f)] public float dropGravity = 1f;
+        [Min(0.01f)] public float dropLifetime = 0.35f;
 
         [Header("Voice")]
         public Vector2 mumbleInterval = new Vector2(6f, 11f);

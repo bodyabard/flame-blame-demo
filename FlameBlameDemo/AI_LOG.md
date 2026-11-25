@@ -64,3 +64,6 @@ Phase 14a final verification: WebGL build succeeded (Logs/phase14-final.log); 32
 ## 2026-11-25 - attic NPC water resistance and greeting
 - Codex disabled both NPC wash impulse and generic jet force for watering-can actors while preserving Washed reactions and the dropped can. Added delayed player tracking on attic-volume entry (0.65 s, 150 degrees/s, ScriptableObject tuning); NPC initially faces its fire target.
 - Verification: Rider solution build succeeded with no reported problems; changed source/settings pass git diff --check. Play Mode greeting and force behavior require visual verification.
+
+## 2026-11-25 - decorative attic watering can
+- At user request, removed NPC water queries and IWaterReceiver delivery. Drops now fall downward with gravity, with particle collision/trigger modules disabled; lifetime and gravity are tunable. Froze the watering-can NPC Rigidbody to prevent drift from all physical impulses while retaining delayed visual turning and reactions.

@@ -50,7 +50,12 @@ namespace FlameBlame.Feedback
         void Update()
         {
             pulse=Mathf.MoveTowards(pulse,0,Time.deltaTime*4);
-            if(wind!=null) wind.volume=Mathf.MoveTowards(wind.volume,motor.Speed/hose.JetTuning.maxAirSpeed*.15f,Time.deltaTime);
+            if(wind!=null)
+            {
+                // The noisy wind loop belongs to flight only; walking or dragging the hose must stay silent.
+                bool flying=motor.Locomotion!=null && motor.Locomotion.State==PlayerLocomotionState.Jet;
+                wind.volume=Mathf.MoveTowards(wind.volume,flying ? motor.Speed/hose.JetTuning.maxAirSpeed*.15f : 0f,Time.deltaTime);
+            }
         }
         void OnDestroy()
         {

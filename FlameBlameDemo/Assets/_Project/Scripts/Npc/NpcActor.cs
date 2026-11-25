@@ -33,6 +33,7 @@ namespace FlameBlame.Npc
         bool toonMaterial;
         float exposure, nextShock, nextWashScore;
         public NpcState State => state.State;
+        public Transform Visual => visual;
         public bool IgnoreWaterPush { get; set; }
         Transform facingTarget;
         float turnSpeed;

@@ -21,7 +21,7 @@ namespace FlameBlame.Npc
         Phase phase;
         float phaseTime, tilt, mumbleAt;
         bool dropped;
-        Vector3 holdLocal;
+        Quaternion heldRotation;
         Transform player;
         BoxCollider atticVolume;
         bool noticedPlayer;
@@ -36,7 +36,9 @@ namespace FlameBlame.Npc
             npc.IgnoreWaterPush = true;
             npc.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             npc.Face(fireTarget, tuning.turnDegreesPerSecond);
-            holdLocal = transform.InverseTransformPoint(holdPoint.position);
+            holdPoint.SetParent(npc.Visual, true);
+            can.SetParent(holdPoint, true);
+            heldRotation = can.localRotation;
             canBody.isKinematic = true;
             var main = stream.main;
             main.gravityModifier = tuning.dropGravity;
@@ -81,19 +83,14 @@ namespace FlameBlame.Npc
                 pouring = phase == Phase.Pour;
             }
 
-            Vector3 origin = transform.TransformPoint(holdLocal);
-            Vector3 toFire = fireTarget.position - origin;
-            Vector3 flat = Vector3.ProjectOnPlane(toFire, Vector3.up);
-            if (flat.sqrMagnitude < 0.01f) flat = transform.forward;
-            Quaternion face = Quaternion.LookRotation(flat.normalized, Vector3.up);
-
             float target = pouring ? tuning.pourTilt + Mathf.Sin(Time.time * tuning.wobbleHz * 6.283f) * tuning.wobbleDegrees
                                    : tuning.restTilt + Mathf.Sin(Time.time * tuning.shakeHz * 6.283f) * tuning.shakeDegrees;
             tilt = Mathf.Lerp(tilt, target, 1f - Mathf.Exp(-dt / Mathf.Max(0.01f, tuning.blendSeconds)));
 
             Vector3 shake = pouring ? Vector3.zero
                 : new Vector3(Mathf.Sin(Time.time * 37f), Mathf.Sin(Time.time * 29f), Mathf.Cos(Time.time * 31f)) * tuning.shakeMetres;
-            can.SetPositionAndRotation(origin + shake, face * Quaternion.Euler(tilt, 0f, 0f));
+            can.localPosition = shake;
+            can.localRotation = heldRotation * Quaternion.Euler(tilt, 0f, 0f);
             spout.rotation = Quaternion.LookRotation(Vector3.down, Vector3.forward);
 
             var emission = stream.emission;

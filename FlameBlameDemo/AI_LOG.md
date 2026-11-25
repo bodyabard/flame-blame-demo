@@ -67,3 +67,7 @@ Phase 14a final verification: WebGL build succeeded (Logs/phase14-final.log); 32
 
 ## 2026-11-25 - decorative attic watering can
 - At user request, removed NPC water queries and IWaterReceiver delivery. Drops now fall downward with gravity, with particle collision/trigger modules disabled; lifetime and gravity are tunable. Froze the watering-can NPC Rigidbody to prevent drift from all physical impulses while retaining delayed visual turning and reactions.
+
+## 2026-11-25 - attach watering can to NPC visual
+- Reparented Main's WateringCan_NPC under the character visual's CanHold, preserving its world pose. Changed the pour/shake animation to local transforms so it follows the NPC turning; updated the builder and runtime attachment for existing scenes. Drop still detaches the can.
+- Verification: Rider solution build passed without reported problems; targeted git diff --check passed. Visual verification remains in Play Mode.

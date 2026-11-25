@@ -148,10 +148,10 @@ namespace FlameBlame.EditorTools
             Vector3 toFire = Vector3.ProjectOnPlane(fireTarget.position - npcPos, Vector3.up).normalized;
             Vector3 hold = npcPos + toFire * 0.5f + Vector3.up * 0.2f;
             var holdPoint = new GameObject("CanHold").transform;
-            holdPoint.SetParent(npcObject.transform, true); holdPoint.position = hold;
+            holdPoint.SetParent(npc.Visual, true); holdPoint.position = hold;
 
             var canRoot = new GameObject("WateringCan_NPC");
-            canRoot.transform.SetParent(parent, false);
+            canRoot.transform.SetParent(holdPoint, false);
             canRoot.transform.SetPositionAndRotation(hold, Quaternion.LookRotation(toFire));
             var body = canRoot.AddComponent<Rigidbody>();
             body.mass = 0.6f; body.isKinematic = true;

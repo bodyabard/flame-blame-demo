@@ -154,10 +154,10 @@ namespace FlameBlame.EditorTools
             scenario.floor2.members=lower.ToArray();
             // Assign zone membership without moving existing room hierarchies.
             foreach(var f in lower) {var zone=f.gameObject.GetComponent<FireZone>(); if(zone==null) zone=f.gameObject.AddComponent<FireZone>(); zone.id=FireZoneId.Floor2;}
-            scenario.floor1=Zone(root.transform,"Floor1",FireZoneId.Floor1);
+            // Phase 15: no outdoor fire zone any more; everything burns inside the house.
             var source=lower.Find(f=>new SerializedObject(f).FindProperty("profile").objectReferenceValue is FireMaterialProfile fp && fp.canBurn);
             var profile=(FireMaterialProfile)new SerializedObject(source).FindProperty("profile").objectReferenceValue;
-            scenario.floor1.members=new[]{BurningBox(scenario.floor1.transform,"Porch crate",new Vector3(-3.5f,.55f,1.8f),Vector3.one,wall,profile,true)};
+            // (porch crate removed in phase 15)
             scenario.attic=Zone(root.transform,"Attic",FireZoneId.Attic);
             float y=6.4f, w=p.roomWidth, l=p.roomLength;
             Box(root.transform,"Attic floor",new Vector3(0,y-.1f,0),new Vector3(w,.2f,l),wall);

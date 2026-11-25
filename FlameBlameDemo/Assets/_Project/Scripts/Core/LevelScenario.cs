@@ -11,7 +11,8 @@ namespace FlameBlame.Core
     {
         public Transform reel, hydrant, ladderTarget, atticTarget;
         public BoxCollider atticVolume;
-        public FireZone floor1, floor2, attic;
+        public FireZone floor2, attic;
+        [Tooltip("Extra chimney-style smoke points (living-room windows); shown while the 2nd floor burns.")] public Transform[] smokeVents;
         public TMP_Text objective, marker, interaction;
         public AudioSource supplyAudio;
         public AudioClip couplingClick;
@@ -21,7 +22,7 @@ namespace FlameBlame.Core
         float interactionRange => tuning.interactionRange;
         float connectionSeconds => tuning.connectionSeconds;
         public Vector3 truckPosition=new Vector3(-11,0,-4);
-        readonly string[] goals={"Візьми шланг з машини", "Постав драбину під вікно 2-го поверху", "Підключи шланг до пожежного крана", "Загаси пожежу на 1-му та 2-му поверсі", "Злети на горище на реактивній тязі", "Загаси пожежу на горищі", "ПЕРЕМОГА!"};
+        readonly string[] goals={"Візьми шланг з машини", "Постав драбину під вікно 2-го поверху", "Залізь у вікно й підключи шланг до пожежного крана в будинку", "Загаси пожежу на 2-му поверсі", "Злети на горище через люк на реактивній тязі", "Загаси пожежу на горищі", "ПЕРЕМОГА!"};
         IGameEvents events;
         ObjectiveSequence sequence;
         FireSystem fire;
@@ -74,7 +75,7 @@ namespace FlameBlame.Core
         public void BeginConnection() {if(hose.Acquired && !hose.Connected && connection<0) connection=connectionSeconds;}
         void OnExtinguished(FireNode node)
         {
-            if(hose.Connected && floor1.Cleared && floor2.Cleared && !lowerCleared)
+            if(hose.Connected && floor2.Cleared && !lowerCleared)
             { lowerCleared=true; events.RaiseScenarioSignal(ScenarioSignal.LowerFiresOut); }
             if(sequence.Current==5 && attic.Cleared) events.RaiseScenarioSignal(ScenarioSignal.AtticFiresOut);
         }
@@ -85,8 +86,11 @@ namespace FlameBlame.Core
             if(Time.time>=nextSmoke)
             {
                 nextSmoke=Time.time+tuning.smokeInterval;
-                if(!floor1.Cleared) events.RaiseSteamCreated(floor1.members[0].Node.Position+Vector3.up);
-                if(!floor2.Cleared) events.RaiseSteamCreated(ladderTarget.position);
+                if(!floor2.Cleared)
+                {
+                    events.RaiseSteamCreated(ladderTarget.position);
+                    if(smokeVents!=null) for(int i=0;i<smokeVents.Length;i++) events.RaiseSteamCreated(smokeVents[i].position);
+                }
                 if(sequence.Current<4 || !attic.Cleared) events.RaiseSteamCreated(atticTarget.position);
             }
             HasStarted |= Input.GetAxisRaw("Horizontal")!=0 || Input.GetAxisRaw("Vertical")!=0 || Input.GetKeyDown(KeyCode.F) || Input.GetMouseButtonDown(0);
@@ -117,7 +121,7 @@ namespace FlameBlame.Core
         void UpdateMarker()
         {
             if(marker==null) return;
-            Transform target=sequence.Current==0 ? reel : sequence.Current==1 ? ladderTarget : sequence.Current==2 ? hydrant : sequence.Current>=4 ? atticTarget : floor1.transform;
+            Transform target=sequence.Current==0 ? reel : sequence.Current==1 ? ladderTarget : sequence.Current==2 ? hydrant : sequence.Current>=4 ? atticTarget : floor2.transform;
             bool visible=(target.position-player.position).sqrMagnitude>=9;
             marker.gameObject.SetActive(visible);
             if(!visible) return;

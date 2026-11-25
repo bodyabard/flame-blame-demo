@@ -57,3 +57,6 @@ Phase 14a final verification: WebGL build succeeded (Logs/phase14-final.log); 32
 - Claude diagnosed that the scene is a stack of builder outputs (prefab-instance hydrant, doubled shells) and wrote one idempotent in-place Editor tool that doubles the house, adds the attic hatch, pillar and indoor fire cabinet, removes outdoor fire and retunes the hose length from the route.
 - Claude wrote the comic watering-can NPC (looping pour/empty cycle, real but tiny water delivery through `IWaterReceiver`, can drops when washed away) and procedurally synthesized its gurgle and mumble sounds.
 - Claude added the darker flammable palette with early charring, matte floors, F12 photo mode / F11 HUD toggle and a batch showcase capture tool that sets up fires, ladder, spray, whip and renders three social formats with and without HUD.
+
+## 2026-11-25 - point 7 watering-can follow-up
+- Codex audited the existing attic NPC wiring, 3.5% water delivery, reactions, dropped can and procedural audio. Aligned the particle direction with the IWaterReceiver cast and limited particle lifetime to the nearest obstacle; stream speed is tunable in WateringCanTuning.

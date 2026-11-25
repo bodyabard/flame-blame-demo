@@ -26,6 +26,7 @@ MonoBehaviour:
   range: 3.2
   radius: 0.1
   particleRate: 28
+  streamSpeed: 2.4
   mumbleInterval: {x: 6, y: 11}
   gurgleVolume: 0.22
   mumbleVolume: 0.35

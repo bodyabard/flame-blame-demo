@@ -34,6 +34,10 @@ namespace FlameBlame.Npc
         {
             holdLocal = transform.InverseTransformPoint(holdPoint.position);
             canBody.isKinematic = true;
+            // The visible jet and receiver query must follow the same straight path.
+            var main = stream.main;
+            main.gravityModifier = 0f;
+            main.startSpeed = tuning.streamSpeed;
             ScheduleMumble();
             tilt = tuning.restTilt;
         }
@@ -89,6 +93,7 @@ namespace FlameBlame.Npc
         {
             Vector3 from = spout.position;
             Vector3 dir = (fireTarget.position - from).normalized;
+            spout.rotation = Quaternion.LookRotation(dir);
             int count = Physics.SphereCastNonAlloc(from, tuning.radius, dir, hits, tuning.range, hitMask, QueryTriggerInteraction.Ignore);
             float nearest = float.MaxValue;
             int best = -1;
@@ -97,6 +102,8 @@ namespace FlameBlame.Npc
                 if (hits[i].collider.transform.IsChildOf(transform) || hits[i].collider.transform.IsChildOf(can)) continue;
                 if (hits[i].distance < nearest) { nearest = hits[i].distance; best = i; }
             }
+            var main = stream.main;
+            main.startLifetime = (best < 0 ? tuning.range : nearest) / Mathf.Max(0.01f, tuning.streamSpeed);
             if (best < 0) return;
             var receiver = hits[best].collider.GetComponentInParent<IWaterReceiver>();
             if (receiver != null && !ReferenceEquals(receiver, npc))

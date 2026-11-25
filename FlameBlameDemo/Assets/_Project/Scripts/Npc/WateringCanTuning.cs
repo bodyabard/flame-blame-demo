@@ -26,6 +26,7 @@ namespace FlameBlame.Npc
         [Min(0.5f)] public float range = 3.2f;
         [Min(0.02f)] public float radius = 0.1f;
         public int particleRate = 28;
+        [Min(0.1f)] public float streamSpeed = 2.4f;
 
         [Header("Voice")]
         public Vector2 mumbleInterval = new Vector2(6f, 11f);

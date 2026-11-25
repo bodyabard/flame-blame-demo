@@ -24,7 +24,17 @@ namespace FlameBlame.Fire
         public bool ZoneActive { get; set; } = true;
         public bool IsBurning => State == FireState.Burning;
         public float Heat01 => Profile.ignitionThreshold <= 0f ? 0f : Mathf.Clamp01(Heat / Profile.ignitionThreshold);
-        public float Charred01 => Profile.burnDuration <= 0f ? 0f : 1f - Mathf.Clamp01(FuelLeft / Profile.burnDuration);
+        public float Charred01
+        {
+            get
+            {
+                if (State == FireState.Charred) return 1f;
+                float burned = Mathf.Max(0f, Profile.burnDuration - FuelLeft);
+                float progress = 1f - Mathf.Exp(-burned / Mathf.Max(0.1f, Profile.charSeconds));
+                if (State == FireState.Burning) progress = Mathf.Max(progress, Profile.ignitionChar);
+                return Mathf.Clamp01(progress);
+            }
+        }
 
         public FireNode(FireMaterialProfile profile, Vector3 position, object owner = null)
         {

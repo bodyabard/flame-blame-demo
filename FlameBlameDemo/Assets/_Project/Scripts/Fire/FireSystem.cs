@@ -64,6 +64,7 @@ namespace FlameBlame.Fire
                 {
                     case FireState.Burning:
                         n.FuelLeft -= dt;
+                        if (n.Profile.reheatPerSecond > 0f) n.Heat = Mathf.Min(n.Profile.ignitionThreshold, n.Heat + n.Profile.reheatPerSecond * dt);
                         Spread(n, dt);
                         if (n.FuelLeft <= 0f) BurnOut(n);
                         n.Dirty = true;

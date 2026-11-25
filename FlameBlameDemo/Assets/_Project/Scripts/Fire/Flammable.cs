@@ -88,7 +88,7 @@ namespace FlameBlame.Fire
         void ApplyVisuals(FireNode n)
         {
             float charred = n.Charred01;
-            float glow = n.IsBurning ? 1f : n.Heat01 * 0.6f;
+            float glow = n.IsBurning ? 0.22f : n.Heat01 * 0.3f;   // a faint warm rim only: the dark body must stay readable under the flames
             Color emission = profile.glowColor * (glow * profile.glowIntensity);
 
             for (int i = 0; i < renderers.Length; i++)

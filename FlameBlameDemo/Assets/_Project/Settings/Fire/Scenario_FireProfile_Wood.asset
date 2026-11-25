@@ -19,6 +19,9 @@ MonoBehaviour:
   burnDuration: 300
   spreadHeatPerSecond: 40
   spreadRadius: 0.8
+  charSeconds: 18
+  ignitionChar: 0.35
+  reheatPerSecond: 7
   waterCooling: 70
   charColor: {r: 0.06, g: 0.05, b: 0.04, a: 1}
   glowColor: {r: 1, g: 0.35, b: 0.05, a: 1}

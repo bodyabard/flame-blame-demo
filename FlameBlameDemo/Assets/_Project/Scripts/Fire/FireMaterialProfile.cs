@@ -17,6 +17,11 @@ namespace FlameBlame.Fire
         [Tooltip("Heat per second given to neighbours at zero distance.")] public float spreadHeatPerSecond = 40f;
         public float spreadRadius = 1.6f;
 
+        [Header("Burning look")]
+        [Tooltip("Seconds of burning for the char to reach ~63%. Independent of fuel, so long fires darken at the same pace.")] public float charSeconds = 18f;
+        [Tooltip("Char level a burning object shows the instant it ignites, so flames always sit on a dark body.")] [Range(0f, 1f)] public float ignitionChar = 0.35f;
+        [Tooltip("Heat per second a burning object regains; weak water sources cannot overcome it.")] public float reheatPerSecond = 0f;
+
         [Header("Water")]
         [Tooltip("Heat removed per unit of water.")] public float waterCooling = 100f;
 

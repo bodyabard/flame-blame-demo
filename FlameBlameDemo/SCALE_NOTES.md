@@ -100,3 +100,11 @@ Main uses 92 simulation points at 0.22636232 m; usable capacity reach is approxi
 | SparkCable | (0.09, 0.07, 1.67) | 0,03 | 0,05 |
 | Table | (1.67, 0.83, 0.94) | 0,39 | 0,55 |
 | WateringCan | (0.45, 0.48, 0.16) | 0,23 | 0,32 |
+
+## Phase 15 — level fixes
+- **House length:** facade/long axis doubled from 5.8 m to 11.7 m (z -2.9..8.8). Floor heights, doors and windows unchanged (ScaleProfile). The old room (window, z -2.8..2.8) is now the cabinet room; a second 5.6 x 5.0 m living room (z 3.0..8.6) holds the furniture, NPCs, cable and the fire. Doorway between them: 1.3 x 2.2 m, no door. Facade windows every 2.9 m (second floor z=0 real, 2.9 and 5.8 dark/boarded; ground floor z=1.3, 4.2, 7.1).
+- **Fire cabinet:** red wall cabinet on the east wall of the window room (anchor at (2.2, 4.30, -0.12)); replaces the street hydrant. Hose route cabinet -> hatch -> farthest attic corner = 12.8 m; with 15% slack: **72 segments** (was 92), usable reach ~15.0 m at 0.2264 m segments.
+- **Attic hatch:** 1.2 x 1.4 m opening (2.0 x capsule diameter 0.6 m) centred at (-0.2, 4.0) in the ceiling (y 6.2-6.4) and the attic floor (top y 6.5). Rounded rim colliders (capsule r 0.08). Goal trigger 1.8 x 1.4 x 2.0 m above the opening, marker at the hatch.
+- **Attic:** z -3.0..8.8, side walls 1.6 m, gable roof 28 degrees (ridge y 9.5), central pillar 0.3 x 2.8 m with cross beam, matte floor (`Attic_Floor_Toon`).
+- **Flammable palette:** value (HSV V) lowered 35-43% versus the walls, stored in `EnvironmentPalette` group *Flammables* (brick, cherry, chocolate, mustard, olive). Char starts at 35% the instant an object ignites and follows `charSeconds` (18 s) independent of fuel.
+- **Watering can:** stream delivers 0.035 water/s (hose ~1.0 at full pressure, so ~3.5%); burning scenario objects regain 7 heat/s, so the can alone can never finish a fire.

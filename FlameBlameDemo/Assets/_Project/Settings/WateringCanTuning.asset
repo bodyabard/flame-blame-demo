@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe6980ae631312e4d9d6b73bd4f8c0d9, type: 3}
+  m_Name: WateringCanTuning
+  m_EditorClassIdentifier: FlameBlame.Runtime::FlameBlame.Npc.WateringCanTuning
+  pourSeconds: 6
+  emptySeconds: 1.8
+  blendSeconds: 0.35
+  pourTilt: 52
+  restTilt: 8
+  wobbleDegrees: 4
+  wobbleHz: 3
+  shakeDegrees: 14
+  shakeHz: 11
+  shakeMetres: 0.05
+  waterPerSecond: 0.035
+  range: 3.2
+  radius: 0.1
+  particleRate: 28
+  mumbleInterval: {x: 6, y: 11}
+  gurgleVolume: 0.22
+  mumbleVolume: 0.35
+  dropImpulse: 2.2

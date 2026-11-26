@@ -12,6 +12,7 @@ namespace FlameBlame.UI
         readonly PromptView view;
         PromptKind kind;
         float clock;
+        KeyCode keyCode = KeyCode.F;
 
         public PromptPresenter(HudServices services, PromptView view)
         {
@@ -37,6 +38,9 @@ namespace FlameBlame.UI
             if(next==PromptKind.PickHose) text="взяти шланг";
             else if(next==PromptKind.ConnectHose) text="підключити до крана";
             view.label.SetText(text);
+            bool hosePrompt = next == PromptKind.PickHose || next == PromptKind.ConnectHose;
+            keyCode = hosePrompt ? KeyCode.R : KeyCode.F;          // hose actions use R so they never share a key with the ladder
+            view.keyLabel.SetText(hosePrompt ? "R" : "F");
             float pillW = view.label.GetPreferredValues(text).x + PillPadding;
             view.pill.sizeDelta = new Vector2(pillW, PillHeight);
             float total = KeySize + Gap + pillW;
@@ -53,7 +57,7 @@ namespace FlameBlame.UI
             clock += dt;
             float period = Mathf.Max(0.1f, services.Motion.breathePeriod);
             view.breathe.localScale = Vector3.one * (1f + Mathf.Sin(clock / period * 2f * Mathf.PI) * services.Motion.breatheScale);
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(keyCode))
                 services.Tween.Scale(view.keycap, new Vector3(1f, services.Motion.squash, 1f), Vector3.one,
                     services.Motion.squashDuration, Ease.OutBack);
         }

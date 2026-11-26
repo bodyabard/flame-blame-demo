@@ -93,7 +93,7 @@ namespace FlameBlame.Core
                 }
                 if(sequence.Current<4 || !attic.Cleared) events.RaiseSteamCreated(atticTarget.position);
             }
-            HasStarted |= Input.GetAxisRaw("Horizontal")!=0 || Input.GetAxisRaw("Vertical")!=0 || Input.GetKeyDown(KeyCode.F) || Input.GetMouseButtonDown(0);
+            HasStarted |= Input.GetAxisRaw("Horizontal")!=0 || Input.GetAxisRaw("Vertical")!=0 || Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.R) || Input.GetMouseButtonDown(0);
             bool nearReel=(player.position-reel.position).sqrMagnitude<interactionRange*interactionRange;
             bool nearHydrant=(player.position-hydrant.position).sqrMagnitude<interactionRange*interactionRange;
             bool canPickup=!hose.Acquired && nearReel;
@@ -101,8 +101,8 @@ namespace FlameBlame.Core
             if(hose.Acquired && !hose.Connected && Input.GetMouseButtonDown(0) && supplyAudio!=null && couplingClick!=null) supplyAudio.PlayOneShot(couplingClick,.25f);
             SupplyPrompt=canPickup ? PromptKind.PickHose : canConnect ? PromptKind.ConnectHose : PromptKind.None;
             if(interaction!=null) interaction.SetText(connection>=0 ? "Підключення…" : "");
-            if(Input.GetKeyDown(KeyCode.F) && canPickup) pickup.Interact(interactor);
-            else if(Input.GetKeyDown(KeyCode.F) && canConnect) connector.Interact(interactor);
+            if(Input.GetKeyDown(KeyCode.R) && canPickup) pickup.Interact(interactor);
+            else if(Input.GetKeyDown(KeyCode.R) && canConnect) connector.Interact(interactor);
             if(connection>=0)
             {
                 if(!nearHydrant) connection=-1;

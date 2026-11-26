@@ -20,8 +20,8 @@ namespace FlameBlame.UI
             /* Dropped    */ new[] { new Hint("E", "взяти брандспойт", KeyCode.E) },
             /* Carrying   */ new[] { new Hint("F", "поставити", KeyCode.F), new Hint("ЛКМ", "кинути", KeyCode.Mouse0) },
             /* Climbing   */ new[] { new Hint("W S", "рух", KeyCode.W), new Hint("Space", "відстрибнути", KeyCode.Space) },
-            /* Stowed     */ new[] { new Hint("F", "взяти шланг з машини", KeyCode.F) },
-            /* Unconnected */ new[] { new Hint("F", "підключити до крана", KeyCode.F), new Hint("E", "кинути / взяти", KeyCode.E) },
+            /* Stowed     */ new[] { new Hint("R", "взяти шланг з машини", KeyCode.R) },
+            /* Unconnected */ new[] { new Hint("R", "підключити до крана", KeyCode.R), new Hint("E", "кинути / взяти", KeyCode.E) },
         };
 
         const float KeyHeight = 64f, KeyMinWidth = 64f, Gap = 34f, Inner = 12f;

@@ -7,7 +7,13 @@ namespace FlameBlame.Core
     public sealed class GameEvents : IGameEvents
     {
         public event Action<ScenarioSignal> ScenarioSignaled;
+        public event Action DiaryOpened;
+        public event Action DiaryRead;
+        public event Action LoopBroken;
         public event Action<int> ObjectiveChanged;
+        public void RaiseDiaryOpened() => DiaryOpened?.Invoke();
+        public void RaiseDiaryRead() => DiaryRead?.Invoke();
+        public void RaiseLoopBroken() => LoopBroken?.Invoke();
         public void RaiseScenarioSignal(ScenarioSignal signal) => ScenarioSignaled?.Invoke(signal);
         public void RaiseObjectiveChanged(int current) => ObjectiveChanged?.Invoke(current);
         public event Action<FireNode> FireIgnited;

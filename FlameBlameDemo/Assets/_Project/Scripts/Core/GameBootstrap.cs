@@ -40,6 +40,8 @@ namespace FlameBlame.Core
         [SerializeField] PhotoMode photo;
         [SerializeField] ParticleSystem sparkTemplate;
 
+        [SerializeField] LoopRevealController loop;
+        LoopSession session;
         GameEvents events;
         FireSystem fire;
         EffectFactory effects;
@@ -118,15 +120,22 @@ namespace FlameBlame.Core
             if(scenario!=null) scenario.Initialize(events,fire,hose,playerMotor.transform,playerLook.GetComponentInChildren<Camera>());
             foreach(var can in FindObjectsByType<WateringCanNpc>(FindObjectsSortMode.None))
                 can.Initialize(playerMotor.transform, scenario != null ? scenario.atticVolume : null);
+            if(loop!=null)
+            {
+                session=FindFirstObjectByType<LoopSession>();
+                if(session==null) { session=new GameObject("Loop Session").AddComponent<LoopSession>(); DontDestroyOnLoad(session.gameObject); }
+                loop.Initialize(events,session,fire,scenario,hose,hoseRenderer,gameAudio,hud,playerLook.GetComponentInChildren<Camera>(),new Behaviour[]{input,playerLook,playerMotor,hose,jet,hands,photo},jet);
+            }
             if(photo!=null) photo.Initialize(playerLook, playerMotor, cameraFeedback, hose, jet, hands);
         }
 
         void Update()
         {
             if (game.Phase != GamePhase.Playing) return;
+            if(loop!=null) { loop.Tick(); hudContext.DiaryFocused=loop.BookFocused; if(loop.Paused) return; }
             visualBudget.Tick(Time.unscaledDeltaTime);
             for (int i = 0; i < flammables.Length; i++) flammables[i].SyncPosition();
-            if(scenario==null || scenario.HasStarted) fire.Tick(Time.deltaTime);
+            if(scenario==null || scenario.HasStarted || loop!=null && loop.Revealed) fire.Tick(Time.deltaTime);
             effects.Tick(Time.time);
             puddles.Tick(Time.time);
             electricity.Tick();
@@ -136,18 +145,18 @@ namespace FlameBlame.Core
             hudContext.Tick();
             scenario?.Tick();
             bool entered = scenario!=null ? scenario.HasStarted : entryGate == null || entryGate.Entered;
-            if (entered && !roundStarted) { roundStarted = true; events.RaiseRoundStarted(Mathf.RoundToInt(scenario!=null ? scenario.roundSeconds : chaosSettings.roundSeconds)); }
-            if (entered) game.Tick(Time.deltaTime, scenario!=null ? 1 : fire.ActiveCount, ledger.Total);
+            if (entered && !roundStarted && (loop==null || !loop.Revealed)) { roundStarted = true; events.RaiseRoundStarted(Mathf.RoundToInt(scenario!=null ? scenario.roundSeconds : chaosSettings.roundSeconds)); }
+            if (entered && (loop==null || !loop.Revealed)) game.Tick(Time.deltaTime, scenario!=null ? 1 : fire.ActiveCount, ledger.Total);
             if(scenario!=null && scenario.Complete) game.Finish(RoundEnding.FiresOut);
             int second = Mathf.CeilToInt(game.Remaining);
-            if (entered && second != lastSecond) { lastSecond = second; events.RaiseTimerTick(second); }
+            if (entered && (loop==null || !loop.Revealed) && second != lastSecond) { lastSecond = second; events.RaiseTimerTick(second); }
         }
 
         void FixedUpdate()
         {
             if (game == null || game.Phase != GamePhase.Playing) return;
             for (int i = 0; i < npcs.Length; i++) npcs[i].Tick(Time.fixedDeltaTime, fire, electricity, chaosSettings);
-            hoseImpacts.Tick(hose.Points, Time.fixedDeltaTime,hose.Segments,hose.ReelChanged);
+            if(!hose.LoopDetached) hoseImpacts.Tick(hose.Points, Time.fixedDeltaTime,hose.Segments,hose.ReelChanged);
         }
 
         void OnFellOffLadder() { events.RaiseHardImpact(0.6f); }

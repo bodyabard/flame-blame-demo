@@ -47,7 +47,7 @@ namespace FlameBlame.Feedback
 
         void OnIgnited(FireNode node)
         {
-            if (flames.ContainsKey(node)) return;
+            if (node.Zone==FireZoneId.Ending || flames.ContainsKey(node)) return;
             var flame = effects.Spawn(EffectKind.Flame, node.Position, node.Profile.flameScale);
             if (flame != null) flames[node] = flame;
         }

@@ -7,6 +7,7 @@ if (-not (Test-Path -LiteralPath $entry)) { throw "Build $Target first; missing 
 $licenseFolder = Join-Path $outputFolder 'Licenses'
 New-Item -ItemType Directory -Force $licenseFolder | Out-Null
 $notices = @{
+    'Caveat-OFL.txt' = 'Assets/_Project/Art/Fonts/Caveat-OFL.txt'
     'RussoOne-OFL.txt' = 'Assets/_Project/Art/Fonts/RussoOne-OFL.txt'
     'LiberationSans-OFL.txt' = 'Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt'
     'Unity-TMP-License.md' = 'Assets/TextMesh Pro/Unity-LICENSE.md'

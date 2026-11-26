@@ -1,0 +1,10 @@
+{
+    "target": "WebGL",
+    "result": "Succeeded",
+    "unity": "6000.3.24f1",
+    "output": "I:\\Work\\flame-blame-demo\\FlameBlameDemo\\Builds\\WebGL",
+    "bytes": 14607836,
+    "seconds": 571.7154501,
+    "errors": 0,
+    "warnings": 1
+}

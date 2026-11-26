@@ -37,6 +37,7 @@ namespace FlameBlame.UI
             string text = next == PromptKind.PickLadder ? "взяти драбину" : "поставити";
             if(next==PromptKind.PickHose) text="взяти шланг";
             else if(next==PromptKind.ConnectHose) text="підключити до крана";
+            if(next==PromptKind.ReadDiary) text="прочитати";
             view.label.SetText(text);
             bool hosePrompt = next == PromptKind.PickHose || next == PromptKind.ConnectHose;
             keyCode = hosePrompt ? KeyCode.R : KeyCode.F;          // hose actions use R so they never share a key with the ladder

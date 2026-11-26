@@ -8,7 +8,13 @@ namespace FlameBlame.Core
     public interface IGameEvents
     {
         event Action<ScenarioSignal> ScenarioSignaled;
+        event Action DiaryOpened;
+        event Action DiaryRead;
+        event Action LoopBroken;
         event Action<int> ObjectiveChanged;
+        void RaiseDiaryOpened();
+        void RaiseDiaryRead();
+        void RaiseLoopBroken();
         void RaiseScenarioSignal(ScenarioSignal signal);
         void RaiseObjectiveChanged(int current);
         event Action<FireNode> FireIgnited;

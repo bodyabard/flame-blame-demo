@@ -39,7 +39,14 @@ namespace FlameBlame.Core
         int shown=-1, pendingGoal;
         float goalTransition;
         bool lowerCleared;
-        public bool Complete => sequence!=null && sequence.Complete;
+        public bool LoopMode { get; private set; }
+        public void RevealLoop()
+        {
+            LoopMode=true; goalTransition=0; SupplyPrompt=PromptKind.None;
+            objective.SetText("Загаси квітку в останньому будинку");
+            marker.gameObject.SetActive(false); interaction.SetText("");
+        }
+        public bool Complete => !LoopMode && sequence!=null && sequence.Complete;
         public bool HasStarted { get; private set; }
         public PromptKind SupplyPrompt { get; private set; }
         public void Initialize(IGameEvents hub, FireSystem system, HoseController controller, Transform playerTransform, Camera camera)
@@ -75,6 +82,7 @@ namespace FlameBlame.Core
         public void BeginConnection() {if(hose.Acquired && !hose.Connected && connection<0) connection=connectionSeconds;}
         void OnExtinguished(FireNode node)
         {
+            if(LoopMode) return;
             if(hose.Connected && floor2.Cleared && !lowerCleared)
             { lowerCleared=true; events.RaiseScenarioSignal(ScenarioSignal.LowerFiresOut); }
             if(sequence.Current==5 && attic.Cleared) events.RaiseScenarioSignal(ScenarioSignal.AtticFiresOut);
@@ -82,6 +90,7 @@ namespace FlameBlame.Core
         public void Tick()
         {
             if(sequence==null || Complete) return;
+            if(LoopMode) { TickLoopSupply(); return; }
             if(goalTransition>0) {goalTransition-=Time.deltaTime; if(goalTransition<=0 && objective!=null) objective.SetText(goalLabels[pendingGoal]);}
             if(Time.time>=nextSmoke)
             {
@@ -117,6 +126,19 @@ namespace FlameBlame.Core
             if(sequence.Current==4 && atticVolume.bounds.Contains(player.position)) events.RaiseScenarioSignal(ScenarioSignal.AtticEntered);
             if(sequence.Current==5 && attic.Cleared) events.RaiseScenarioSignal(ScenarioSignal.AtticFiresOut);
             UpdateMarker();
+        }
+        void TickLoopSupply()
+        {
+            bool nearReel=(player.position-reel.position).sqrMagnitude<interactionRange*interactionRange;
+            bool nearHydrant=(player.position-hydrant.position).sqrMagnitude<interactionRange*interactionRange;
+            SupplyPrompt=!hose.Acquired && nearReel ? PromptKind.PickHose : hose.Acquired && !hose.Connected && nearHydrant ? PromptKind.ConnectHose : PromptKind.None;
+            if(Input.GetKeyDown(KeyCode.R)) { if(!hose.Acquired && nearReel) TakeHose(); else if(nearHydrant) BeginConnection(); }
+            if(connection>=0)
+            {
+                if(!nearHydrant) connection=-1;
+                else { connection-=Time.deltaTime; if(connection<0) {hose.Connect(); if(backpackCoil!=null) backpackCoil.SetActive(false); if(supplyAudio!=null && couplingClick!=null) supplyAudio.PlayOneShot(couplingClick,.7f);} }
+            }
+            hose.ConnectionProgress=connection>=0 ? 1-connection/connectionSeconds : -1;
         }
         void UpdateMarker()
         {

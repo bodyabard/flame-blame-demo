@@ -95,6 +95,9 @@ namespace FlameBlame.UI
             }
         }
 
+        public ShutterView EndingShutter => shutter;
+        public void HideLoopTimer() { scenarioBanner.Hide(); tween.Scale(timer.root,timer.root.localScale,Vector3.zero,.5f,Ease.InOutSine); }
+
         void Update()
         {
             if (tween == null) return;

@@ -64,8 +64,8 @@ namespace FlameBlame.Hose
         public void Pickup() { if(!Acquired) SupplyState=HoseSupplyState.Stowed; }
         public void Connect() { if(!Acquired) return; SupplyState=HoseSupplyState.Connected; sim.ResetBetween(anchor.position,handPoint.position,Vector3.left); }
         public bool WaterFlowing { get; set; }
-        public bool Held => Acquired && hold != null && hold.IsHeld;
-        public float Pressure => Connected && pressure != null ? pressure.Pressure : 0f;
+        public bool Held => Acquired && (LoopDetached || hold != null && hold.IsHeld);
+        public float Pressure => LoopDetached ? 1f : Connected && pressure != null ? pressure.Pressure : 0f;
         public float NozzlePressure => !Connected ? 0f : Held && Modes!=null && Modes.Current.UsesThrust ? 1f : Pressure;
         public Vector3[] Points => sim.Points;
         public int Segments => sim.Segments;
@@ -86,7 +86,9 @@ namespace FlameBlame.Hose
         }
         void LateUpdate() { SyncNozzle(); if(nozzleRig!=null) nozzleRig.SetVisible(Acquired); }
         // IHoseTether
-        public bool IsTethered => Connected && Held;
+        public bool LoopDetached { get; private set; }
+        public void DetachForLoop() { Pickup(); Connect(); LoopDetached=true; }
+        public bool IsTethered => !LoopDetached && Connected && Held;
         public Vector3 AnchorPosition => anchor.position;
         public float MaxReach => sim.MaxReach;
 
@@ -135,7 +137,7 @@ namespace FlameBlame.Hose
         void Update()
         {
             if (input == null || !Acquired) return;
-            if (!Holstered && input.TogglePressed)
+            if (!LoopDetached && !Holstered && input.TogglePressed)
                 hold.Toggle(Vector3.Distance(handPoint.position, sim.EndPosition), grabDistance);
             Modes.Tick(Held, Connected && input.ModePressed);
             if(jetTuning != null && input is FlameBlame.Player.IPlayerInput playerInput)
@@ -149,7 +151,7 @@ namespace FlameBlame.Hose
 
         void FixedUpdate()
         {
-            if (sim == null || !Connected) return;
+            if (sim == null || !Connected || LoopDetached) return;
             float dt = Time.fixedDeltaTime;
 
             Vector3 whip = Vector3.zero;

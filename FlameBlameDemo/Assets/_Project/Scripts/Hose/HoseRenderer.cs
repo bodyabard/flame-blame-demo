@@ -24,6 +24,12 @@ namespace FlameBlame.Hose
             buffer = new Vector3[hose.Capacity];
         }
 
+        public void HideForLoop()
+        {
+            line.enabled=false; if(tube!=null) tube.enabled=false;
+            var mesh=GetComponent<MeshRenderer>(); if(mesh!=null) mesh.enabled=false; enabled=false;
+        }
+
         void LateUpdate()
         {
             if (hose == null) return;

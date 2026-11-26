@@ -16,6 +16,8 @@ namespace FlameBlame.Feedback
         int fires, effectIndex, voiceIndex;
         float nextSteam, nextSpark, nextVoice;
         bool finished;
+        float loopFade=1f, loopDuration;
+        public void RevealLoop(float duration) { loopDuration=duration; }
         public void Initialize(IGameEvents source)
         {
             events=source;
@@ -57,7 +59,8 @@ namespace FlameBlame.Feedback
             water.volume=Mathf.Lerp(water.volume,pressure*tuning.effectsVolume,blend);
             water.pitch=Mathf.Lerp(.7f,hose.Modes.Current.UsesThrust ? 1.65f : 1.25f,pressure);
             fire.volume=Mathf.Lerp(fire.volume,finished?0:Mathf.Clamp01(fires*.25f)*tuning.effectsVolume,blend);
-            music.volume=tuning.musicVolume*(finished?.45f:1);
+            if(loopDuration>0) loopFade=Mathf.MoveTowards(loopFade,0,Time.unscaledDeltaTime/loopDuration);
+            music.volume=tuning.musicVolume*(finished?.45f:1)*loopFade;
         }
         public void Finish() {finished=true;}
         void OnDestroy()

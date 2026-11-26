@@ -17,6 +17,7 @@ namespace FlameBlame.Core
         HudContext context = (HudContext)(-1);
         PromptKind prompt = (PromptKind)(-1);
         float pressure = -1f;
+        public bool DiaryFocused { get; set; }
 
         public HudContextPublisher(IGameEvents events, HoseController hose,
             PlayerLadderInteraction ladder, PlayerLocomotionStateMachine locomotion)
@@ -40,7 +41,7 @@ namespace FlameBlame.Core
                 : hose.Modes.Current.UsesThrust ? HudContext.Jet : HudContext.Extinguish;
             if (nextContext != context) { context = nextContext; events.RaiseHudContextChanged(context); }
 
-            var nextPrompt = carrying ? PromptKind.PlaceLadder
+            var nextPrompt = DiaryFocused ? PromptKind.ReadDiary : carrying ? PromptKind.PlaceLadder
                 : ladder != null && !climbing && ladder.HasFocus ? PromptKind.PickLadder : scenario!=null ? scenario.SupplyPrompt : PromptKind.None;
             if (nextPrompt != prompt) { prompt = nextPrompt; events.RaisePromptChanged(prompt); }
 

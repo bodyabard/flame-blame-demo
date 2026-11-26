@@ -1,7 +1,7 @@
 using UnityEngine;
 namespace FlameBlame.Fire
 {
-    public enum FireZoneId { Floor1, Floor2, Attic }
+    public enum FireZoneId { Floor1, Floor2, Attic, Ending }
     public sealed class FireZone : MonoBehaviour
     {
         public FireZoneId id;

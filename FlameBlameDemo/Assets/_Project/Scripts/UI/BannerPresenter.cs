@@ -99,6 +99,11 @@ namespace FlameBlame.UI
             }
         }
 
+        public void Hide()
+        {
+            for(int i=0;i<queue.Length;i++) queue[i].Active=false;
+            Locked=true; phase=Phase.Hidden; tween.Cancel(view.root); tween.Cancel(view.group); view.group.alpha=0;
+        }
         public void Dispose() { }
     }
 }

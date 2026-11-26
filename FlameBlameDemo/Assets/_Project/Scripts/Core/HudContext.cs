@@ -4,5 +4,5 @@ namespace FlameBlame.Core
     public enum HudContext { Extinguish, Jet, Dropped, Carrying, Climbing, Stowed, Unconnected }
 
     /// Contextual "press F" prompt shown near the crosshair.
-    public enum PromptKind { None, PickLadder, PlaceLadder, PickHose, ConnectHose }
+    public enum PromptKind { None, PickLadder, PlaceLadder, PickHose, ConnectHose, ReadDiary }
 }

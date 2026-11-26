@@ -65,6 +65,8 @@ namespace FlameBlame.EditorTools
             foreach (string field in new[] { "input", "hose", "hoseRenderer", "jet", "playerLook", "playerMotor", "cameraFeedback", "gameAudio", "hands", "chaosSettings", "hud", "effectsRoot", "flameTemplate", "steamTemplate", "splashTemplate", "sparkTemplate", "puddleTemplate" })
                 if (data.FindProperty(field).objectReferenceValue == null) throw new InvalidOperationException("Missing Main reference: " + field);
             int capacity = 240 + Count(data, "flameTemplate") * 16 + Count(data, "steamTemplate") * 6 + Count(data, "splashTemplate") * 8 + Count(data, "sparkTemplate") * 4;
+            var ending=Object.FindFirstObjectByType<LoopRevealController>();
+            if(ending!=null) foreach(var ps in ending.openHouse.GetComponentsInChildren<ParticleSystem>(true)) capacity+=ps.main.maxParticles;
             if (capacity > 1000) throw new InvalidOperationException("Authored particle capacity exceeds 1000: " + capacity);
             int shadows = 0;
             foreach (var light in Object.FindObjectsByType<Light>(FindObjectsSortMode.None)) if (light.enabled && light.shadows != LightShadows.None) shadows++;

@@ -31,7 +31,7 @@ namespace FlameBlame.Fire
         public bool Ignite(FireNode node)
         {
             if (!node.ZoneActive || node.State != FireState.Idle || !node.Profile.canBurn || node.FuelLeft <= 0f) return false;
-            if (ActiveCount >= MaxActiveFires) return false;
+            if (ActiveCount >= MaxActiveFires && node.Zone!=FireZoneId.Ending) return false;
             node.State = FireState.Burning;
             node.Heat = node.Profile.ignitionThreshold;
             node.Dirty = true;
@@ -63,7 +63,7 @@ namespace FlameBlame.Fire
                 switch (n.State)
                 {
                     case FireState.Burning:
-                        n.FuelLeft -= dt;
+                        if(n.Zone!=FireZoneId.Ending) n.FuelLeft -= dt;
                         if (n.Profile.reheatPerSecond > 0f) n.Heat = Mathf.Min(n.Profile.ignitionThreshold, n.Heat + n.Profile.reheatPerSecond * dt);
                         Spread(n, dt);
                         if (n.FuelLeft <= 0f) BurnOut(n);

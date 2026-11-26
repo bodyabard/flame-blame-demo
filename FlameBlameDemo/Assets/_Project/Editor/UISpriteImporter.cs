@@ -10,7 +10,8 @@ namespace FlameBlame.EditorTools
     public static class UISpriteImporter
     {
         public const string SpritesFolder = "Assets/_Project/Art/UI/Sprites";
-        const string MetaPath = "UI_Sprites/sprites_meta.json";
+        static readonly string[] MetaPaths = { "UI_Sprites/sprites_meta.json", "UI_Sprites/sprites_meta_v2.json" };
+        static readonly string[] RepeatSprites = { "shutter_slat_tile", "hazard_tile" };
 
         [MenuItem("Tools/FlameBlame/Import UI Sprites")]
         public static void Import()
@@ -30,7 +31,7 @@ namespace FlameBlame.EditorTools
                 importer.textureType = TextureImporterType.Sprite;
                 importer.spriteImportMode = SpriteImportMode.Single;
                 importer.mipmapEnabled = false;
-                importer.wrapMode = TextureWrapMode.Clamp;
+                importer.wrapMode = System.Array.IndexOf(RepeatSprites, name) >= 0 ? TextureWrapMode.Repeat : TextureWrapMode.Clamp;
                 importer.filterMode = FilterMode.Bilinear;
                 importer.textureCompression = TextureImporterCompression.Uncompressed;
                 importer.alphaIsTransparency = true;
@@ -53,16 +54,18 @@ namespace FlameBlame.EditorTools
             Debug.Log("[FlameBlame] UI sprites imported with 9-slice borders.");
         }
 
-        /// sprites_meta.json stores borders as [L, B, R, T], same order as TextureImporter.spriteBorder (x=L, y=B, z=R, w=T).
+        /// Both meta files store borders as [L, B, R, T], same order as TextureImporter.spriteBorder (x=L, y=B, z=R, w=T).
         static System.Collections.Generic.Dictionary<string, Vector4> ReadBorders()
         {
             var result = new System.Collections.Generic.Dictionary<string, Vector4>();
-            if (!File.Exists(MetaPath)) { Debug.LogWarning("[FlameBlame] " + MetaPath + " not found; sprites keep zero borders."); return result; }
-            string json = File.ReadAllText(MetaPath);
-            var matches = Regex.Matches(json, "\"(\\w+)\"\\s*:\\s*\\{[^{}]*?\"border_LBRT\"\\s*:\\s*\\[\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\s*\\]");
-            foreach (Match m in matches)
-                result[m.Groups[1].Value] = new Vector4(float.Parse(m.Groups[2].Value), float.Parse(m.Groups[3].Value),
-                    float.Parse(m.Groups[4].Value), float.Parse(m.Groups[5].Value));
+            foreach (string metaPath in MetaPaths)
+            {
+                if (!File.Exists(metaPath)) { Debug.LogWarning("[FlameBlame] " + metaPath + " not found."); continue; }
+                var matches = Regex.Matches(File.ReadAllText(metaPath), @"""(\w+)""\s*:\s*\{[^{}]*?""border_LBRT""\s*:\s*\[\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\]");
+                foreach (Match m in matches)
+                    result[m.Groups[1].Value] = new Vector4(float.Parse(m.Groups[2].Value), float.Parse(m.Groups[3].Value),
+                        float.Parse(m.Groups[4].Value), float.Parse(m.Groups[5].Value));
+            }
             return result;
         }
 

@@ -1,0 +1,125 @@
+{
+ "plate_tread": {
+  "size": [
+   192,
+   192
+  ],
+  "border_LBRT": [
+   48,
+   48,
+   48,
+   48
+  ],
+  "image_type": "Tiled"
+ },
+ "plate_tread_small": {
+  "size": [
+   128,
+   128
+  ],
+  "border_LBRT": [
+   32,
+   32,
+   32,
+   32
+  ],
+  "image_type": "Tiled"
+ },
+ "keycap_metal": {
+  "size": [
+   96,
+   96
+  ],
+  "border_LBRT": [
+   30,
+   30,
+   30,
+   30
+  ],
+  "image_type": "Sliced"
+ },
+ "plate_flat": {
+  "size": [
+   128,
+   128
+  ],
+  "border_LBRT": [
+   36,
+   36,
+   36,
+   36
+  ],
+  "image_type": "Sliced"
+ },
+ "plate_sheen": {
+  "size": [
+   128,
+   128
+  ],
+  "border_LBRT": [
+   36,
+   36,
+   36,
+   36
+  ],
+  "image_type": "Sliced"
+ },
+ "shutter_slat_tile": {
+  "size": [
+   64,
+   64
+  ],
+  "border_LBRT": null,
+  "image_type": "Tiled (Wrap Repeat)",
+  "note": "tile vertically & horizontally; one slat = 32 px"
+ },
+ "shutter_bottom_bar": {
+  "size": [
+   256,
+   64
+  ],
+  "border_LBRT": [
+   40,
+   0,
+   40,
+   0
+  ],
+  "image_type": "Sliced"
+ },
+ "shutter_housing": {
+  "size": [
+   256,
+   128
+  ],
+  "border_LBRT": [
+   48,
+   0,
+   48,
+   0
+  ],
+  "image_type": "Sliced"
+ },
+ "shutter_handle": {
+  "size": [
+   128,
+   48
+  ],
+  "border_LBRT": null
+ },
+ "hazard_tile": {
+  "size": [
+   64,
+   64
+  ],
+  "border_LBRT": null,
+  "image_type": "Tiled (Wrap Repeat)",
+  "note": "COLORED, do not tint"
+ },
+ "gauge_bezel": {
+  "size": [
+   256,
+   256
+  ],
+  "border_LBRT": null
+ }
+}

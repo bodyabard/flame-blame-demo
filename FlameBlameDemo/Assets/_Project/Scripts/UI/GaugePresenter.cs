@@ -6,21 +6,35 @@ namespace FlameBlame.UI
     public sealed class GaugePresenter : IHudPresenter
     {
         const float SweepDegrees = 240f;
+        const float IntroSeconds = 1f;
 
         readonly HudServices services;
         readonly GaugeView view;
         Spring spring;
-        float target = 1f, peak = 1f, cooldown, flash, clock;
+        float target, peak, cooldown, flash, clock;
         int shownPercent = -1;
 
         public GaugePresenter(HudServices services, GaugeView view)
         {
             this.services = services; this.view = view;
-            spring.Value = 1f;
+            spring.Value = 0f;       // the hose starts stowed: the dial starts empty
+            target = 0f; peak = 0f;
             // The ring is a full circle sprite: start its fill where the needle starts (120 deg left of up).
             view.ring.rectTransform.localRotation = Quaternion.Euler(0f, 0f, SweepDegrees * 0.5f);
             services.Events.PressureChanged += OnPressure;
+            services.Events.RoundStarted += OnRoundStarted;
         }
+
+        /// Back to a clean state: cancel stray tweens, snap to the authored position, forget old pressure peaks.
+        void ResetToRest()
+        {
+            services.Tween.Cancel(view.root);
+            view.root.anchoredPosition = view.restPosition;
+            view.root.localScale = Vector3.one;
+            peak = target; cooldown = services.Motion.dropCooldown; flash = 0f;
+        }
+
+        void OnRoundStarted(int seconds) { ResetToRest(); }
 
         void OnPressure(float pressure)
         {
@@ -36,7 +50,8 @@ namespace FlameBlame.UI
             spring.Step(target, dt, m.gaugeFrequency, m.gaugeDamping);
 
             peak = Mathf.Max(target, peak - 0.6f * dt);
-            if (peak - target > m.dropThreshold && cooldown <= 0f)
+            // No shake while the plate is still sliding in: the shake would capture a mid-slide position as its rest.
+            if (clock > IntroSeconds && peak - target > m.dropThreshold && cooldown <= 0f)
             {
                 cooldown = m.dropCooldown;
                 flash = 1f;
@@ -62,6 +77,10 @@ namespace FlameBlame.UI
             }
         }
 
-        public void Dispose() { services.Events.PressureChanged -= OnPressure; }
+        public void Dispose()
+        {
+            services.Events.PressureChanged -= OnPressure;
+            services.Events.RoundStarted -= OnRoundStarted;
+        }
     }
 }

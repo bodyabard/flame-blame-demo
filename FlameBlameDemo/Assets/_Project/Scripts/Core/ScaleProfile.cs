@@ -45,5 +45,8 @@ namespace FlameBlame.Core
         [Range(.2f, 1.5f)] public float puddleScale = .6f;
         [Range(.2f, 1.5f)] public float particleScale = .75f;
         [Min(.1f)] public float npcMaxSpeed = 1.4f;
+        [Header("Fire chain (applied by Tools/FlameBlame/Build Fire Chain)")]
+        [Tooltip("Spread radius per material so fire can hop curtain -> furniture -> shelves across the compact room.")]
+        [Min(.1f)] public float spreadRadiusFabric = 2f, spreadRadiusPaper = 1.6f, spreadRadiusWood = 1.6f;
     }
 }

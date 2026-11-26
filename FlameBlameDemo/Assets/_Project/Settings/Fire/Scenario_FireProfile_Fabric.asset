@@ -18,7 +18,7 @@ MonoBehaviour:
   coolRate: 4
   burnDuration: 300
   spreadHeatPerSecond: 60
-  spreadRadius: 0.9
+  spreadRadius: 2
   charSeconds: 18
   ignitionChar: 0.35
   reheatPerSecond: 7

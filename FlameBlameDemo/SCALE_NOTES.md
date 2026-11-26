@@ -112,3 +112,8 @@ Main uses 92 simulation points at 0.22636232 m; usable capacity reach is approxi
 - Point 7 follow-up: watering-can stream speed 2.4 m/s in WateringCanTuning; straight particle trajectory follows the water query and lifetime ends at the nearest obstruction (maximum range 3.2 m).
 
 - Supersedes earlier watering-can delivery notes: attic NPC drops are decorative only (no water delivered). Downward speed 2.4 m/s, gravity multiplier 1, lifetime 0.35 s. NPC Rigidbody is frozen; only its visual turns toward the player.
+
+## Фаза 7b — ланцюжок поширення вогню (`Tools/FlameBlame/Build Fire Chain`)
+Було: штора запалювала лише сусідів у радіусі 0.9 м, до полиць (≈4.7 м) вогонь не доходив (симуляція `FireSystem` на вузлах сцени: нічого, крім штори, не загоралось).
+Зараз: радіуси `spreadRadiusFabric/Paper/Wood` = 2.0 / 1.6 / 1.6 (у `ScaleProfile`, застосовуються до `Scenario_FireProfile_*`); нові горючі «містки»: килимок (під столом), 2 стоси журналів біля полиць; книжки полиць тепер окремі вузли `Books_1/2` (оригінальні декоративні книжки сховані).
+Симуляція (штора горить, води немає): диван/крісло/папери ≈7 с → килимок 8 с → стіл 13 с → журнали 11 с → полиці 14 с, книжки 12 с, ящик 15 с. Усього 16 вузлів = ліміт одночасних вогнів (16), тож додавати ще горючі вузли без підняття ліміту не варто. Темп регулюється радіусами в `ScaleProfile`.

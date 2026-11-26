@@ -14,6 +14,8 @@ namespace FlameBlame.Fire
         public FireState State { get; internal set; } = FireState.Idle;
         public float Heat { get; internal set; }
         public float FuelLeft { get; internal set; }
+        /// Set once a burning node has been put out: it can never catch fire again (neighbours cannot re-ignite it).
+        public bool Doused { get; internal set; }
 
         /// Raised by FireSystem after a tick in which something visible changed.
         public event Action<FireNode> VisualChanged;
@@ -46,7 +48,7 @@ namespace FlameBlame.Fire
 
         internal void AddHeat(float amount)
         {
-            if (State != FireState.Idle || amount <= 0f) return;
+            if (Doused || State != FireState.Idle || amount <= 0f) return;
             Heat = Mathf.Min(Heat + amount, Profile.ignitionThreshold);
             Dirty = true;
         }

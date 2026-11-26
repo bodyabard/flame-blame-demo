@@ -74,6 +74,27 @@ namespace FlameBlame.Tests
         }
 
         [Test]
+        public void ExtinguishedNode_CannotReigniteFromNeighbourFire()
+        {
+            var fire = new FireSystem(new GameEvents());
+            var source = new FireNode(Profile(100f, 1f, 60f), Vector3.zero);
+            var neighbour = new FireNode(Profile(50f, 1f, 60f), new Vector3(1f, 0f, 0f));
+            fire.Register(source); fire.Register(neighbour);
+            fire.Ignite(source);
+            Run(fire, 5f);
+            Assert.AreEqual(FireState.Burning, neighbour.State);
+
+            Assert.IsTrue(fire.ApplyWater(neighbour, 10f));
+            Assert.IsTrue(neighbour.Doused);
+            Run(fire, 30f);                                    // the source keeps burning next to it the whole time
+
+            Assert.AreEqual(FireState.Burning, source.State);
+            Assert.AreEqual(FireState.Idle, neighbour.State);
+            Assert.AreEqual(0f, neighbour.Heat);
+            Assert.IsFalse(fire.Ignite(neighbour));
+        }
+
+        [Test]
         public void Fire_RespectsMaxActiveFires()
         {
             var fire = new FireSystem(new GameEvents(), 2);

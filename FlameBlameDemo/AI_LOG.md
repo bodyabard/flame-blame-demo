@@ -83,3 +83,4 @@ Validation: automated Play Mode walkthrough with screenshots at 1280×720 and 19
 Build result: WebGL succeeded (0 errors, 1 warning; 14,607,836 bytes); licenses packaged in Builds/FlameBlame-WebGL.zip. Reach check selected detached constant-pressure hose (hidden geometry, nozzle kept held); normal gameplay is unchanged before reading.
 - Ланцюжок вогню: AI зміряв оффлайн-симуляцією реального `FireSystem`, що штора не запалює полиці, і підібрав радіуси та «містки» (килимок, журнали, книжки як окремі вузли) так, щоб вогонь доходив за ~15 с.
 - Тяга + перегин: AI повернув вплив тиску на підйомну силу (перегнутий шланг → слабший струмінь і падіння) з вимикачем у JetTuning та оновив тест.
+- Вогонь: AI додав «загашений більше не горить» (FireNode.Doused) і тест, що сусідній вогонь не запалює повторно.

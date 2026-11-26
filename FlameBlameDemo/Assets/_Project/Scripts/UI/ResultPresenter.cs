@@ -4,20 +4,24 @@ using UnityEngine;
 
 namespace FlameBlame.UI
 {
-    /// Result screen: dim, panel drops with a bounce, rows reveal one by one while counting up, button breathes.
+    /// Result screen. Prepare() stages it behind the shutter on RoundEnded; Reveal() plays the reveal when the shutter rises:
+    /// panel drops with a bounce, rows reveal one by one while counting up, button breathes.
     public sealed class ResultPresenter : IHudPresenter
     {
         readonly HudServices services;
         readonly ResultView view;
         readonly DamageLedger ledger;
         readonly GameStateMachine game;
-        readonly RestartSceneCommand restart = new RestartSceneCommand();
         readonly Vector2[] rowRest;
         readonly Vector2 panelRest;
         readonly Action<float> setDamage, setIncidents, setTime;
         readonly UnityEngine.Events.UnityAction onClick;
+        RoundEnding ending;
         bool shown;
         float clock;
+
+        /// Raised when the player presses the restart button; the shutter decides when the scene actually reloads.
+        public event Action RestartRequested;
 
         public ResultPresenter(HudServices services, ResultView view, DamageLedger ledger, GameStateMachine game)
         {
@@ -28,7 +32,7 @@ namespace FlameBlame.UI
             setDamage = v => view.rows[0].value.SetText("${0:0}", v);
             setIncidents = v => view.rows[1].value.SetText("{0:0}", v);
             setTime = v => view.rows[2].value.SetText("{0:0} с", v);
-            onClick = restart.Execute;
+            onClick = () => RestartRequested?.Invoke();
             view.buttonComponent.onClick.AddListener(onClick);
             var feedback = view.button.GetComponent<UIButtonFeedback>();
             if (feedback != null) feedback.Initialize(services.Tween, services.Motion);
@@ -36,12 +40,15 @@ namespace FlameBlame.UI
             services.Events.RoundEnded += OnEnded;
         }
 
-        void OnEnded(RoundEnding ending)
+        void OnEnded(RoundEnding value)
         {
-            var m = services.Motion;
-            var tween = services.Tween;
-            shown = true;
+            ending = value;
             view.root.SetActive(true);
+            view.dim.alpha = 1f;
+            view.panel.anchoredPosition = panelRest + new Vector2(0f, 320f);
+            view.reasonGroup.alpha = 0f;
+            view.button.localScale = Vector3.zero;
+            for (int i = 0; i < view.rows.Length; i++) view.rows[i].group.alpha = 0f;
 
             switch (ending)
             {
@@ -50,10 +57,18 @@ namespace FlameBlame.UI
                 default: view.reason.SetText("Зміна закінчилась. Ремонт — ні."); break;
             }
 
-            tween.Fade(view.dim, 0f, 1f, m.resultDim, Ease.OutCubic);
-            tween.Move(view.panel, panelRest + new Vector2(0f, 1100f), panelRest, m.panelDrop, m.dropEase);
-            view.reasonGroup.alpha = 0f;
-            view.button.localScale = Vector3.zero;
+        }
+
+        public RoundEnding Ending => ending;
+
+        /// Called by the shutter once the bar has risen past the reveal height.
+        public void Reveal()
+        {
+            if (shown) return;
+            var m = services.Motion;
+            var tween = services.Tween;
+            shown = true;
+            tween.Move(view.panel, panelRest + new Vector2(0f, 320f), panelRest, m.panelDrop, m.dropEase);
 
             float delay = m.rowFirstDelay;
             for (int i = 0; i < view.rows.Length; i++)

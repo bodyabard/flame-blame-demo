@@ -80,5 +80,26 @@ namespace FlameBlame.UI
         public float rowCount = 0.6f;
         public float hoverScale = 1.06f;
         public Ease dropEase = Ease.OutBounce;
+
+        [Header("Shutter (result screen)")]
+        public float hudHide = 0.2f;
+        public float lowerDuration = 0.5f;
+        [Range(0.05f, 0.4f)] public float lowerBounceShare = 0.22f;   // tail of the drop spent bouncing on the floor
+        public float lowerBounceHeight = 0.12f;                      // rebound as a share of screen height
+        public float slamShakePixels = 16f;
+        public float slamShakeSeconds = 0.15f;
+        public float closedHold = 0.4f;
+        public float plateIn = 0.3f;
+        public int raiseSteps = 3;
+        public float raiseStepDuration = 0.15f;
+        public float raiseStepPause = 0.065f;
+        public float raiseStepTravel = 0.11f;                         // share of screen height per jerk
+        public float raiseSmoothDuration = 0.55f;
+        public float raiseOvershoot = 0.03f;
+        public float raiseSettle = 0.2f;
+        [Range(0.2f, 0.9f)] public float resultStartHeight = 0.6f;    // reveal starts when the bar passes this share of screen height
+        public float restartLowerDuration = 0.35f;
+        public float restartRaiseDuration = 0.5f;
+        [Range(0.05f, 0.2f)] public float housingHeight = 0.1f;
     }
 }

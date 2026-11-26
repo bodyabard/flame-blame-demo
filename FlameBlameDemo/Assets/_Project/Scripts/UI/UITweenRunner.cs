@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace FlameBlame.UI
 {
-    public enum Ease { Linear, OutCubic, OutBack, OutElastic, OutBounce, InOutSine }
+    public enum Ease { Linear, OutCubic, OutBack, OutElastic, OutBounce, InOutSine, InCubic }
 
     public static class Easing
     {
@@ -33,6 +33,8 @@ namespace FlameBlame.UI
                     if (t < 2.5f / d1) { t -= 2.25f / d1; return n1 * t * t + 0.9375f; }
                     t -= 2.625f / d1; return n1 * t * t + 0.984375f;
                 }
+                case Ease.InCubic:
+                    return t * t * t;
                 case Ease.InOutSine:
                     return -(Mathf.Cos(Mathf.PI * t) - 1f) * 0.5f;
                 default:

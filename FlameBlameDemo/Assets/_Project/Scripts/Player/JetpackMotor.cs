@@ -22,9 +22,12 @@ namespace FlameBlame.Player
             Spool = Mathf.MoveTowards(Spool, flowing ? 1 : 0, dt / Mathf.Max(.01f, flowing ? tuning.spoolUp : tuning.spoolDown));
             Vector3 velocity = Velocity;
             if(grounded && velocity.y < 0) velocity.y = 0;
+            // A kinked hose (low pressure) gives partial or no lift: below stallPressure gravity wins and the player falls.
+            float lift = tuning.kinkAffectsThrust ? Mathf.InverseLerp(tuning.stallPressure, tuning.fullLiftPressure, pressure) : 1f;
             if(flowing)
             {
-                velocity.y=Mathf.MoveTowards(velocity.y,tuning.maxRiseSpeed,tuning.liftResponse*dt);
+                if(lift > 0) velocity.y=Mathf.MoveTowards(velocity.y,tuning.maxRiseSpeed*lift,tuning.liftResponse*dt);
+                else velocity.y-=tuning.gravity*dt;
                 var horizontal=Vector3.MoveTowards(Vector3.ProjectOnPlane(velocity,Vector3.up),
                     Vector3.ClampMagnitude(control,1)*tuning.maxAirSpeed,tuning.steeringResponse*dt);
                 velocity.x=horizontal.x; velocity.z=horizontal.z;

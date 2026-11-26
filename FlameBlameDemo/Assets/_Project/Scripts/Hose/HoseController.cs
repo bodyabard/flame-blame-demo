@@ -66,7 +66,7 @@ namespace FlameBlame.Hose
         public bool WaterFlowing { get; set; }
         public bool Held => Acquired && (LoopDetached || hold != null && hold.IsHeld);
         public float Pressure => LoopDetached ? 1f : Connected && pressure != null ? pressure.Pressure : 0f;
-        public float NozzlePressure => !Connected ? 0f : Held && Modes!=null && Modes.Current.UsesThrust ? 1f : Pressure;
+        public float NozzlePressure => !Connected ? 0f : Held && Modes!=null && Modes.Current.UsesThrust && (jetTuning==null || !jetTuning.kinkAffectsThrust) ? 1f : Pressure;
         public Vector3[] Points => sim.Points;
         public int Segments => sim.Segments;
         public Vector3 NozzlePosition => nozzleRig != null ? nozzleRig.inlet.position : (Holstered ? holster.position : Held ? handPoint.position : sim.EndPosition);

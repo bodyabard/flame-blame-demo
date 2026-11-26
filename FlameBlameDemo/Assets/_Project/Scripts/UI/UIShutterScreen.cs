@@ -50,6 +50,7 @@ namespace FlameBlame.UI
                 SetDrop(1f);
                 BeginGlide();
             }
+            else view.root.SetActive(false);   // rolled-up housing would cover the top HUD during play; shown only when the round ends
         }
 
         // ---- layout ------------------------------------------------------------------
@@ -89,6 +90,9 @@ namespace FlameBlame.UI
                 case RoundEnding.DamageLimit: view.plateLabel.SetText("ЗБИТКІВ ДОСИТЬ!"); break;
                 default: view.plateLabel.SetText("ЧАС ВИЙШОВ!"); break;
             }
+            view.root.SetActive(true);
+            Canvas.ForceUpdateCanvases();
+            SetDrop(drop);
             for (int i = 0; i < view.hudGroups.Length; i++)
                 services.Tween.Fade(view.hudGroups[i], view.hudGroups[i].alpha, 0f, m.hudHide, Ease.OutCubic);
             revealed = false;
@@ -177,6 +181,7 @@ namespace FlameBlame.UI
                     break;
                 default:   // Glide
                     state = State.Open;
+                    view.root.SetActive(false);   // back to gameplay: hide the housing again
                     break;
             }
         }

@@ -34,6 +34,7 @@ namespace FlameBlame.Feedback
         float savedTimeScale = 1f, savedFov;
         CursorLockMode savedCursor;
         bool savedCursorVisible, hudVisible = true, photoHud, capturing;
+        bool showOverlayText = true;   // T toggles the top-left photo-mode text (clean frames for external recorders)
         int formatIndex, shotIndex = -1;
         float yaw, pitch;
         string status = "";
@@ -200,6 +201,7 @@ namespace FlameBlame.Feedback
                 if (Input.GetKeyDown(KeyCode.Period)) GoTo(shotIndex + 1);
             }
             if (Input.GetKeyDown(KeyCode.H)) { photoHud = !photoHud; SetHud(photoHud); }
+            if (Input.GetKeyDown(KeyCode.T)) showOverlayText = !showOverlayText;
             if (Input.GetKeyDown(KeyCode.Return) && shots != null && shots.formats.Count > 0)
             {
                 var f = shots.formats[Mathf.Clamp(formatIndex, 0, shots.formats.Count - 1)];
@@ -210,10 +212,10 @@ namespace FlameBlame.Feedback
 
         void OnGUI()
         {
-            if (!Active || capturing) return;
+            if (!Active || capturing || !showOverlayText) return;
             string format = shots != null && shots.formats.Count > 0 ? shots.formats[Mathf.Clamp(formatIndex, 0, shots.formats.Count - 1)].name : "-";
             GUI.Label(new Rect(12, 12, 700, 24), status + "   |   format " + format + (photoHud ? "   |   HUD on" : "   |   HUD off")
-                + "   |   Enter save, 1-3 format, H HUD, , . bookmarks, F12 exit");
+                + "   |   Enter save, 1-3 format, H HUD, T hide this text, , . bookmarks, F12 exit");
         }
     }
 }

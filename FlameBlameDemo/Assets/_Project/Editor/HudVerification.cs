@@ -81,9 +81,12 @@ namespace FlameBlame.EditorTools
                 new Step { At = 15.12f, Shot = "pressure_drop_a" }, new Step { At = 15.4f, Shot = "pressure_drop_b" },
                 new Step { At = 16.2f, Shot = "09_pressure_low" },
                 new Step { At = 16.5f, Act = () => events.RaiseRoundEnded(RoundEnding.FiresOut) },
-                new Step { At = 16.7f, Shot = "result_a" }, new Step { At = 17.2f, Shot = "result_b" },
-                new Step { At = 18.0f, Shot = "result_c" }, new Step { At = 20.0f, Shot = "10_result" },
-                new Step { At = 20.8f, Shot = "end" },
+                new Step { At = 16.7f, Shot = "shutter_a_falling" }, new Step { At = 17.1f, Shot = "shutter_b_slam" },
+                new Step { At = 17.5f, Shot = "shutter_c_closed_plate" }, new Step { At = 17.95f, Shot = "shutter_d_jerk" },
+                new Step { At = 18.2f, Shot = "shutter_e_jerk" }, new Step { At = 18.6f, Shot = "shutter_f_half" },
+                new Step { At = 18.9f, Shot = "shutter_g_reveal" }, new Step { At = 19.4f, Shot = "result_b" },
+                new Step { At = 20.0f, Shot = "result_c" }, new Step { At = 22.0f, Shot = "10_result" },
+                new Step { At = 22.8f, Shot = "end" },
             };
         }
 

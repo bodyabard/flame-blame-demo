@@ -23,8 +23,7 @@ namespace FlameBlame.UI
         void Apply(bool jet)
         {
             view.icon.sprite = jet ? view.jetSprite : view.waterSprite;
-            view.icon.color = services.Palette.outline;
-            view.pill.SetFill(jet ? services.Palette.jet : services.Palette.water);
+            view.icon.color = jet ? services.Palette.jet : services.Palette.water;
             view.label.SetText(jet ? "ТЯГА" : "ГАСІННЯ");
         }
 

@@ -28,6 +28,7 @@ namespace FlameBlame.UI
         [SerializeField] PopupView popups;
         [SerializeField] CanvasGroup shockVignette;
         [SerializeField] ResultView result;
+        [SerializeField] ShutterView shutter;
 
         // Every glyph the HUD can show, added to the dynamic atlas up front so no hitch or rebuild happens mid-round.
         const string Glyphs = "АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯабвгґдеєжзиіїйклмнопрстуфхцчшщьюя0123456789 .,:;!?-+=$%/()'\"WASDEQFSpaceABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -66,8 +67,21 @@ namespace FlameBlame.UI
             presenters.Add(new HintsPresenter(services, hints));
             presenters.Add(new PromptPresenter(services, prompt));
             presenters.Add(new PopupPresenter(services, popups, canvasSpace, view));
-            presenters.Add(new ImpactPresenter(services, shockVignette, shakeRoot));
-            presenters.Add(new ResultPresenter(services, result, ledger, game));
+            presenters.Add(new ImpactPresenter(services, shockVignette, shakeRoot, GatherPlates()));
+            var resultPresenter = new ResultPresenter(services, result, ledger, game);
+            presenters.Add(resultPresenter);
+            presenters.Add(new UIShutterScreen(services, shutter, resultPresenter));
+        }
+
+        /// Full-size metal plates (damage, timer, objective) whose outline flashes on an electric shock.
+        UIPanelView[] GatherPlates()
+        {
+            var all = GetComponentsInChildren<UIPanelView>(true);
+            int count = 0;
+            for (int i = 0; i < all.Length; i++) if (all[i].PanelRole == UIPanelView.Role.Panel) count++;
+            var plates = new UIPanelView[count];
+            for (int i = 0, n = 0; i < all.Length; i++) if (all[i].PanelRole == UIPanelView.Role.Panel) plates[n++] = all[i];
+            return plates;
         }
 
         void PrewarmGlyphs()

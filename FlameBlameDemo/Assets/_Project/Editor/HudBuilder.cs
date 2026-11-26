@@ -37,13 +37,19 @@ namespace FlameBlame.EditorTools
             if (font == null) throw new System.InvalidOperationException("RussoHUD font asset missing.");
             textMaterial = BuildTextMaterial();
 
-            var panelPrefab = BuildPlatePrefab("UIPanel", UIPanelView.Role.Panel, "panel_fill", "panel_outline", true);
-            var pillPrefab = BuildPlatePrefab("UIPill", UIPanelView.Role.Pill, "pill_fill", "pill_outline", true);
-            var keycapPrefab = BuildPlatePrefab("UIKeycap", UIPanelView.Role.Keycap, "keycap_fill", "keycap_outline", true);
+            // Phase 16: metal skin. The red phase-13 plates are gone.
+            foreach (string old in new[] { "UIPanel", "UIPill" })
+                AssetDatabase.DeleteAsset(Prefabs + "/" + old + ".prefab");
+            var panelPrefab = BuildPlatePrefab("UIMetalPlate", UIPanelView.Role.Panel, "plate_tread", 48f, true);
+            BuildPlatePrefab("UIMetalPlateSmall", UIPanelView.Role.Pill, "plate_tread_small", 32f, true);
+            BuildPlatePrefab("UIMetalPlateFlat", UIPanelView.Role.Panel, "plate_flat", 36f, false);
+            BuildPlatePrefab("UIKeycap", UIPanelView.Role.Keycap, "keycap_metal", 30f, false);
 
             var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+            KeepScenarioWidgets();
             RemoveOldHud();
-            BuildHud(motion, panelPrefab, pillPrefab, keycapPrefab);
+            BuildHud(motion, panelPrefab, null, null);
+            RestoreScenarioWidgets();
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
             AssetDatabase.SaveAssets();
@@ -149,8 +155,8 @@ namespace FlameBlame.EditorTools
 
         // ------------------------------------------------------------------ prefabs
 
-        /// shadow (offset 4,-8) -> fill (tinted) -> gloss -> outline (#2B1410), all raycast-off.
-        static GameObject BuildPlatePrefab(string name, UIPanelView.Role role, string fillSprite, string outlineSprite, bool gloss)
+        /// shadow (offset 4,-8) -> metal fill (tinted; Tiled so the tread repeats instead of stretching) -> sheen -> state outline, all raycast-off.
+        static GameObject BuildPlatePrefab(string name, UIPanelView.Role role, string fillSprite, float border, bool tiled)
         {
             var go = new GameObject(name, typeof(RectTransform));
             var root = (RectTransform)go.transform;
@@ -159,12 +165,15 @@ namespace FlameBlame.EditorTools
             var shadow = NewImage("Shadow", root, "panel_shadow", Color.black, true);
             Stretch(shadow.rectTransform, -16, -16, -16, -16);
             shadow.rectTransform.anchoredPosition += new Vector2(4f, -8f);
-            var fill = NewImage("Fill", root, fillSprite, palette.fill, true);
+            const float treadScale = 1.75f;
+            var fill = NewImage("Fill", root, fillSprite, palette.metalTint, true);
             Stretch(fill.rectTransform);
-            var glossImage = NewImage("Gloss", root, "panel_gloss", Color.white, true);
+            if (tiled) { fill.type = Image.Type.Tiled; fill.pixelsPerUnitMultiplier = treadScale; }
+            var glossImage = NewImage("Sheen", root, "plate_sheen", new Color(1f, 1f, 1f, 0.5f), true);
             Stretch(glossImage.rectTransform);
-            glossImage.enabled = gloss;
-            var outline = NewImage("Outline", root, outlineSprite, palette.outline, true);
+            glossImage.pixelsPerUnitMultiplier = tiled ? 36f * treadScale / border : 1f;   // keep the sheen corners aligned with the tread
+            glossImage.enabled = role != UIPanelView.Role.Keycap;
+            var outline = NewImage("Outline", root, role == UIPanelView.Role.Keycap ? "keycap_outline" : "panel_outline", new Color(1f, 1f, 1f, 0f), true);
             Stretch(outline.rectTransform);
 
             var view = go.AddComponent<UIPanelView>();
@@ -217,8 +226,8 @@ namespace FlameBlame.EditorTools
             palette = AssetDatabase.LoadAssetAtPath<UIPalette>(UiSettings + "/UIPalette.asset");
             font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(Root + "/Settings/RussoHUD.asset");
             textMaterial = AssetDatabase.LoadAssetAtPath<Material>(UiSettings + "/RussoHUD_Outline.mat");
-            panelPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(Prefabs + "/UIPanel.prefab");
-            pillPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(Prefabs + "/UIPill.prefab");
+            panelPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(Prefabs + "/UIMetalPlate.prefab");
+            pillPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(Prefabs + "/UIMetalPlateSmall.prefab");
             keycapPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(Prefabs + "/UIKeycap.prefab");
             var hudRoot = new GameObject("HUD").transform;
             var accent = palette.accent;
@@ -226,6 +235,9 @@ namespace FlameBlame.EditorTools
 
             // ---- static canvas: nothing here is animated, so it never rebuilds with the HUD
             var staticCanvas = NewCanvas("Canvas_Static", hudRoot, 0, false);
+            staticCanvasRoot = staticCanvas.transform;
+            var staticGroup = staticCanvas.gameObject.AddComponent<CanvasGroup>();
+            staticGroup.interactable = false; staticGroup.blocksRaycasts = false;
             var dotRing = NewImage("CrosshairRing", staticCanvas.transform, "circle_fill", new Color(palette.outline.r, palette.outline.g, palette.outline.b, 0.8f));
             Place(dotRing.rectTransform, Mid, Mid, Vector2.zero, new Vector2(14f, 14f));
             var dot = NewImage("CrosshairDot", staticCanvas.transform, "circle_fill", new Color(text.r, text.g, text.b, 0.9f));
@@ -233,6 +245,8 @@ namespace FlameBlame.EditorTools
 
             // ---- animated canvas
             var hudCanvas = NewCanvas("Canvas_Hud", hudRoot, 10, false);
+            var hudGroup = hudCanvas.gameObject.AddComponent<CanvasGroup>();
+            hudGroup.interactable = false; hudGroup.blocksRaycasts = false;
             var shake = NewRect("ShakeRoot", hudCanvas.transform);
             Stretch(shake);
 
@@ -245,7 +259,7 @@ namespace FlameBlame.EditorTools
             var mode = BuildMode(shake, pillPrefab);
             var hints = BuildHints(shake, keycapPrefab);
             var prompt = BuildPrompt(shake, keycapPrefab, pillPrefab);
-            var banner = BuildBanner(shake, pillPrefab);
+            var banner = BuildBanner(shake, panelPrefab);
             var popups = BuildPopupTemplate(shake, pillPrefab);
 
             // ---- overlay canvas: shock vignette and the result screen
@@ -254,7 +268,10 @@ namespace FlameBlame.EditorTools
             Stretch(vignetteImage.rectTransform);
             var vignette = vignetteImage.gameObject.AddComponent<CanvasGroup>();
             vignette.alpha = 0f; vignette.blocksRaycasts = false; vignette.interactable = false;
-            var result = BuildResult(overlay.transform, panelPrefab);
+            var result = BuildResult(overlay.transform, panelPrefab, pillPrefab);
+
+            // ---- shutter canvas: above everything, own canvas so its animation never rebuilds the HUD
+            var shutter = BuildShutter(hudRoot, panelPrefab, new[] { staticGroup, hudGroup });
 
             if (Object.FindFirstObjectByType<EventSystem>() == null)
                 new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
@@ -277,6 +294,7 @@ namespace FlameBlame.EditorTools
             so.FindProperty("popups.template").objectReferenceValue = popups;
             so.FindProperty("popups.count").intValue = 8;
             WriteResult(so.FindProperty("result"), result);
+            WriteShutter(so.FindProperty("shutter"), shutter);
             so.ApplyModifiedPropertiesWithoutUndo();
 
             var bootstrap = Object.FindFirstObjectByType<GameBootstrap>();
@@ -348,18 +366,19 @@ namespace FlameBlame.EditorTools
 
             var dark = new Color(0.12f, 0.06f, 0.05f, 1f);
             var baseFill = NewImage("Base", root, "circle_fill", dark);
-            Stretch(baseFill.rectTransform);
-            var baseOutline = NewImage("BaseOutline", root, "circle_outline", palette.accent);
-            Stretch(baseOutline.rectTransform);
+            Stretch(baseFill.rectTransform, 12, 12, 12, 12);
 
             var track = NewImage("Track", root, "gauge_ring", new Color(1f, 1f, 1f, 0.16f));
-            Stretch(track.rectTransform, 14, 14, 14, 14);
+            Stretch(track.rectTransform, 30, 30, 30, 30);
             track.type = Image.Type.Filled; track.fillMethod = Image.FillMethod.Radial360;
             track.fillOrigin = (int)Image.Origin360.Top; track.fillClockwise = true; track.fillAmount = 240f / 360f;
             track.rectTransform.localRotation = Quaternion.Euler(0f, 0f, 120f);
 
             var ring = NewImage("Ring", root, "gauge_ring", palette.water);
-            Stretch(ring.rectTransform, 14, 14, 14, 14);
+            Stretch(ring.rectTransform, 30, 30, 30, 30);
+
+            var bezel = NewImage("Bezel", root, "gauge_bezel", palette.metalTint);
+            Stretch(bezel.rectTransform);
             ring.type = Image.Type.Filled; ring.fillMethod = Image.FillMethod.Radial360;
             ring.fillOrigin = (int)Image.Origin360.Top; ring.fillClockwise = true; ring.fillAmount = 240f / 360f;
 
@@ -401,10 +420,9 @@ namespace FlameBlame.EditorTools
             var root = (RectTransform)go.transform;
             Vector2 rest = new Vector2(-200f, 392f);
             Place(root, new Vector2(1f, 0f), Mid, rest, new Vector2(236f, 70f));
-            var icon = NewImage("Icon", root, "icon_water", palette.outline);
+            var icon = NewImage("Icon", root, "icon_water", palette.water);
             Place(icon.rectTransform, new Vector2(0f, 0.5f), Mid, new Vector2(40f, 0f), new Vector2(44f, 44f));
-            var label = NewText("Label", root, "ГАСІННЯ", 28f, TextAlignmentOptions.MidlineLeft, palette.outline);
-            label.fontSharedMaterial = font.material;   // dark text on a light pill: no outline
+            var label = NewText("Label", root, "ГАСІННЯ", 28f, TextAlignmentOptions.MidlineLeft, palette.text);
             Place(label.rectTransform, new Vector2(0f, 0.5f), new Vector2(0f, 0.5f), new Vector2(72f, 0f), new Vector2(150f, 50f));
             return new ModeParts { Root = root, Pill = go.GetComponent<UIPanelView>(), Icon = icon, Label = label, Rest = rest, Hidden = new Vector2(0f, -560f) };
         }
@@ -542,16 +560,17 @@ namespace FlameBlame.EditorTools
             public Vector2 Rest;
         }
 
-        static BannerParts BuildBanner(Transform parent, GameObject pillPrefab)
+        static BannerParts BuildBanner(Transform parent, GameObject panelPrefab)
         {
-            var go = Instance(pillPrefab, parent, "Banner");
+            var go = Instance(panelPrefab, parent, "Banner");
             var b = new BannerParts { Root = (RectTransform)go.transform, Rest = new Vector2(0f, -150f) };
             Place(b.Root, new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), b.Rest, new Vector2(1180f, 124f));
             b.Group = go.AddComponent<CanvasGroup>();
             b.Group.interactable = false; b.Group.blocksRaycasts = false;
             b.Pill = go.GetComponent<UIPanelView>();
             b.Label = NewText("Label", b.Root, "ПОЖЕЖА!", 66f, TextAlignmentOptions.Center, palette.text);
-            Stretch(b.Label.rectTransform, 40, 6, 40, 6);
+            AddHazardStrip(b.Root, 48f, 18f, 12f);
+            Stretch(b.Label.rectTransform, 40, 28, 40, 8);
             b.Label.enableAutoSizing = true;
             b.Label.fontSizeMin = 30f;
             b.Label.fontSizeMax = 66f;
@@ -596,7 +615,7 @@ namespace FlameBlame.EditorTools
             public TextMeshProUGUI[] Values = new TextMeshProUGUI[3];
         }
 
-        static ResultParts BuildResult(Transform parent, GameObject panelPrefab)
+        static ResultParts BuildResult(Transform parent, GameObject panelPrefab, GameObject buttonPrefab)
         {
             var r = new ResultParts();
             var root = NewRect("Result", parent);
@@ -649,7 +668,7 @@ namespace FlameBlame.EditorTools
             button.gameObject.AddComponent<UIButtonFeedback>();
             r.Button = button;
 
-            var visual = Instance(panelPrefab, button, "Visual");
+            var visual = Instance(buttonPrefab, button, "Visual");
             r.ButtonVisual = (RectTransform)visual.transform;
             Stretch(r.ButtonVisual);
             foreach (var image in visual.GetComponentsInChildren<Image>(true)) image.raycastTarget = false;
@@ -678,6 +697,163 @@ namespace FlameBlame.EditorTools
                 row.FindPropertyRelative("group").objectReferenceValue = r.RowGroups[i];
                 row.FindPropertyRelative("value").objectReferenceValue = r.Values[i];
             }
+        }
+
+        // ---- hazard strip, shutter, scenario widgets (phase 16) ------------------------------
+
+        /// Thin yellow-black strip along the bottom of a plate. hazard_tile is coloured: never tinted.
+        static void AddHazardStrip(RectTransform plate, float inset, float bottom, float height)
+        {
+            var strip = NewImage("Hazard", plate, "hazard_tile", Color.white);
+            strip.type = Image.Type.Tiled;
+            strip.pixelsPerUnitMultiplier = 64f / height;   // one tile exactly as tall as the strip
+            strip.rectTransform.anchorMin = new Vector2(0f, 0f); strip.rectTransform.anchorMax = new Vector2(1f, 0f);
+            strip.rectTransform.pivot = new Vector2(0.5f, 0f);
+            strip.rectTransform.sizeDelta = new Vector2(-2f * inset, height);
+            strip.rectTransform.anchoredPosition = new Vector2(0f, bottom);
+        }
+
+        sealed class ShutterParts
+        {
+            public GameObject Root;
+            public RectTransform Shake, Curtain, Housing, Slats, Bar, Handle, Hazard, Plate;
+            public TextMeshProUGUI PlateLabel;
+            public CanvasGroup[] Groups;
+            public AudioSource Audio;
+            public AudioClip Rattle, Slam, Latch;
+        }
+
+        const float ShutterOverscan = 40f, BarHeight = 56f, HazardHeight = 12f;
+
+        static ShutterParts BuildShutter(Transform hudRoot, GameObject plateSource, CanvasGroup[] hudGroups)
+        {
+            var s = new ShutterParts { Groups = hudGroups };
+            var canvas = NewCanvas("Canvas_Shutter", hudRoot, 30, false);
+            s.Root = canvas.gameObject;
+
+            s.Shake = NewRect("ShakeRoot", canvas.transform);
+            Stretch(s.Shake, -ShutterOverscan, -ShutterOverscan, -ShutterOverscan, -ShutterOverscan);
+            s.Curtain = NewRect("Curtain", s.Shake);
+            Stretch(s.Curtain, ShutterOverscan, ShutterOverscan, ShutterOverscan, ShutterOverscan);
+
+            Color shutter = palette.shutterTint;
+            var slats = NewImage("Slats", s.Curtain, "shutter_slat_tile", shutter);
+            slats.type = Image.Type.Tiled; slats.pixelsPerUnitMultiplier = 0.7f;
+            s.Slats = TopStrip(slats.rectTransform, 0f);
+
+            var hazard = NewImage("Hazard", s.Curtain, "hazard_tile", Color.white);
+            hazard.type = Image.Type.Tiled; hazard.pixelsPerUnitMultiplier = 64f / HazardHeight;
+            s.Hazard = TopStrip(hazard.rectTransform, HazardHeight);
+
+            var bar = NewImage("BottomBar", s.Curtain, "shutter_bottom_bar", shutter, true);
+            s.Bar = TopStrip(bar.rectTransform, BarHeight);
+            var handle = NewImage("Handle", s.Bar, "shutter_handle", new Color(shutter.r * 1.15f, shutter.g * 1.15f, shutter.b * 1.15f, 1f));
+            Place(handle.rectTransform, Mid, Mid, new Vector2(0f, 2f), new Vector2(120f, 45f));
+            s.Handle = handle.rectTransform;
+
+            // banner plate screwed to the slats: rides up with the curtain
+            var plate = Instance(plateSource, s.Curtain, "BannerPlate");
+            s.Plate = (RectTransform)plate.transform;
+            Place(s.Plate, new Vector2(0.5f, 1f), Mid, Vector2.zero, new Vector2(840f, 190f));
+            s.Plate.localRotation = Quaternion.Euler(0f, 0f, -1.5f);
+            AddHazardStrip(s.Plate, 52f, 20f, 12f);
+            s.PlateLabel = NewText("Label", s.Plate, "ПЕРЕМОГА!", 92f, TextAlignmentOptions.Center, palette.accent);
+            Stretch(s.PlateLabel.rectTransform, 40, 36, 40, 14);
+            s.PlateLabel.enableAutoSizing = true; s.PlateLabel.fontSizeMin = 40f; s.PlateLabel.fontSizeMax = 92f;
+
+            var housing = NewImage("Housing", s.Curtain, "shutter_housing", shutter, true);
+            s.Housing = TopStrip(housing.rectTransform, 108f);
+
+            s.Audio = canvas.gameObject.AddComponent<AudioSource>();
+            s.Audio.playOnAwake = false; s.Audio.spatialBlend = 0f;
+            var mixer = AssetDatabase.LoadAssetAtPath<UnityEngine.Audio.AudioMixer>(Root + "/Audio/FlameBlame.mixer");
+            if (mixer != null)
+            {
+                var groups = mixer.FindMatchingGroups("UI");
+                if (groups.Length == 0) groups = mixer.FindMatchingGroups("Effects");
+                if (groups.Length > 0) s.Audio.outputAudioMixerGroup = groups[0];
+            }
+            ShutterAudioBuilder.EnsureClips();
+            s.Rattle = AssetDatabase.LoadAssetAtPath<AudioClip>(ShutterAudioBuilder.Folder + "/ShutterRattle.wav");
+            s.Slam = AssetDatabase.LoadAssetAtPath<AudioClip>(ShutterAudioBuilder.Folder + "/ShutterSlam.wav");
+            s.Latch = AssetDatabase.LoadAssetAtPath<AudioClip>(ShutterAudioBuilder.Folder + "/ShutterLatch.wav");
+            return s;
+        }
+
+        /// Full-width strip hanging from the top edge of the curtain, 40 px wider than the screen so shakes never show a seam.
+        static RectTransform TopStrip(RectTransform r, float height)
+        {
+            r.anchorMin = new Vector2(0f, 1f); r.anchorMax = new Vector2(1f, 1f); r.pivot = new Vector2(0.5f, 1f);
+            r.sizeDelta = new Vector2(2f * ShutterOverscan, height);
+            r.anchoredPosition = Vector2.zero;
+            return r;
+        }
+
+        static void WriteShutter(SerializedProperty p, ShutterParts s)
+        {
+            p.FindPropertyRelative("root").objectReferenceValue = s.Root;
+            p.FindPropertyRelative("shakeRoot").objectReferenceValue = s.Shake;
+            p.FindPropertyRelative("curtain").objectReferenceValue = s.Curtain;
+            p.FindPropertyRelative("housing").objectReferenceValue = s.Housing;
+            p.FindPropertyRelative("slats").objectReferenceValue = s.Slats;
+            p.FindPropertyRelative("bottomBar").objectReferenceValue = s.Bar;
+            p.FindPropertyRelative("handle").objectReferenceValue = s.Handle;
+            p.FindPropertyRelative("hazard").objectReferenceValue = s.Hazard;
+            p.FindPropertyRelative("plate").objectReferenceValue = s.Plate;
+            p.FindPropertyRelative("plateLabel").objectReferenceValue = s.PlateLabel;
+            p.FindPropertyRelative("audioSource").objectReferenceValue = s.Audio;
+            p.FindPropertyRelative("rattle").objectReferenceValue = s.Rattle;
+            p.FindPropertyRelative("slam").objectReferenceValue = s.Slam;
+            p.FindPropertyRelative("latch").objectReferenceValue = s.Latch;
+            var groups = p.FindPropertyRelative("hudGroups");
+            groups.arraySize = s.Groups.Length;
+            for (int i = 0; i < s.Groups.Length; i++) groups.GetArrayElementAtIndex(i).objectReferenceValue = s.Groups[i];
+        }
+
+        // The objective tracker, world marker and hose prompt belong to the scenario builder, not to the HUD. They live inside the
+        // HUD hierarchy that Build UI recreates, so they are lifted out first and put back (tracker re-skinned) afterwards.
+
+        static Transform staticCanvasRoot;
+        static RectTransform keptPanel, keptObjective, keptMarker, keptInteraction;
+
+        static void KeepScenarioWidgets()
+        {
+            keptPanel = keptObjective = keptMarker = keptInteraction = null;
+            var scenario = Object.FindFirstObjectByType<LevelScenario>();
+            if (scenario == null) return;
+            if (scenario.objective != null)
+            {
+                keptObjective = scenario.objective.rectTransform;
+                var parent = keptObjective.parent as RectTransform;
+                if (parent != null && parent.GetComponent<UIPanelView>() != null) keptPanel = parent;
+            }
+            if (scenario.marker != null) keptMarker = scenario.marker.rectTransform;
+            if (scenario.interaction != null) keptInteraction = scenario.interaction.rectTransform;
+            foreach (var r in new[] { keptPanel != null ? keptPanel : keptObjective, keptMarker, keptInteraction })
+                if (r != null) r.SetParent(null, false);
+        }
+
+        static void RestoreScenarioWidgets()
+        {
+            if (staticCanvasRoot == null) return;
+            var plateSmall = AssetDatabase.LoadAssetAtPath<GameObject>(Prefabs + "/UIMetalPlateSmall.prefab");
+            if (keptObjective != null)
+            {
+                var label = keptObjective.GetComponent<TextMeshProUGUI>();
+                label.font = font; label.fontSharedMaterial = textMaterial; label.color = palette.text; label.fontSize = 30f;
+                var fresh = (RectTransform)Instance(plateSmall, staticCanvasRoot, "Scenario objective panel").transform;
+                Place(fresh, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(25f, -330f), new Vector2(520f, 120f));
+                if (keptPanel != null)
+                {
+                    fresh.anchoredPosition = keptPanel.anchoredPosition; fresh.sizeDelta = keptPanel.sizeDelta;
+                    Object.DestroyImmediate(keptPanel.gameObject);
+                }
+                fresh.SetAsFirstSibling();
+                keptObjective.SetParent(fresh, false);
+            }
+            foreach (var r in new[] { keptMarker, keptInteraction })
+                if (r != null) { r.SetParent(staticCanvasRoot, false); r.SetAsFirstSibling(); }
+            keptPanel = keptObjective = keptMarker = keptInteraction = null;
         }
     }
 }

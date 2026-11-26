@@ -25,7 +25,13 @@ namespace FlameBlame.UI
 
             var m = services.Motion;
             bool urgent = seconds <= m.pulseSeconds;
-            if (urgent) view.panel.SetFill(services.Palette.danger);
+            if (urgent)
+            {
+                var danger = services.Palette.danger;
+                view.label.color = danger;
+                view.iconImage.color = danger;
+                services.Tween.Tint(view.panel.Outline, new Color(danger.r, danger.g, danger.b, 0.95f), new Color(danger.r, danger.g, danger.b, 0.3f), 0.9f, Ease.OutCubic);
+            }
             float scale = urgent ? m.pulseScale : m.tickScale;
             services.Tween.Scale(view.root, Vector3.one * (1f + scale), Vector3.one, 0.2f, Ease.OutCubic);
             if (seconds <= m.shakeSeconds) services.Tween.Shake(view.root, m.timerShakePixels, 0.3f);

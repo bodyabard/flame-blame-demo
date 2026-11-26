@@ -2,16 +2,17 @@ using UnityEngine;
 
 namespace FlameBlame.UI
 {
-    /// Electric shock: yellow vignette plus whole-HUD shake. Ladder falls: a lighter HUD shake.
+    /// Electric shock: yellow vignette, yellow plate outlines and whole-HUD shake. Ladder falls: a lighter HUD shake.
     public sealed class ImpactPresenter : IHudPresenter
     {
         readonly HudServices services;
         readonly CanvasGroup vignette;
         readonly RectTransform shakeRoot;
+        readonly UIPanelView[] plates;
 
-        public ImpactPresenter(HudServices services, CanvasGroup vignette, RectTransform shakeRoot)
+        public ImpactPresenter(HudServices services, CanvasGroup vignette, RectTransform shakeRoot, UIPanelView[] plates)
         {
-            this.services = services; this.vignette = vignette; this.shakeRoot = shakeRoot;
+            this.services = services; this.vignette = vignette; this.shakeRoot = shakeRoot; this.plates = plates;
             vignette.alpha = 0f;
             services.Events.PlayerShocked += OnShock;
             services.Events.HardImpact += OnImpact;
@@ -22,6 +23,9 @@ namespace FlameBlame.UI
             var m = services.Motion;
             services.Tween.Fade(vignette, m.shockFlash, 0f, m.shockFlashSeconds, Ease.OutCubic);
             services.Tween.Shake(shakeRoot, m.shockShakePixels, m.shockShakeSeconds);
+            var shock = services.Palette.shock;
+            for (int i = 0; i < plates.Length; i++)
+                services.Tween.Tint(plates[i].Outline, shock, new Color(shock.r, shock.g, shock.b, 0f), m.shockFlashSeconds, Ease.OutCubic);
         }
 
         void OnImpact(float amount)

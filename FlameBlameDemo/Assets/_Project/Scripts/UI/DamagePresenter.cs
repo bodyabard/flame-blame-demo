@@ -43,7 +43,8 @@ namespace FlameBlame.UI
             services.Tween.Value(view.label, 0, setCounter, shown, total, m.counterDuration, Ease.OutCubic);
             services.Tween.Punch(view.root, big ? m.bigPunch : m.punch, m.punchDuration);
             services.Tween.Value(view.icon, 1, setCoin, 0f, 1f, m.coinSpinDuration, Ease.OutCubic);
-            services.Tween.Tint(view.panel.Fill, services.Palette.accent, view.panel.BaseFill, m.flashDuration, Ease.OutCubic);
+            var flash = services.Palette.accent;
+            services.Tween.Tint(view.panel.Outline, new Color(flash.r, flash.g, flash.b, big ? 1f : 0.7f), new Color(flash.r, flash.g, flash.b, 0f), m.flashDuration, Ease.OutCubic);
             if (big) services.Tween.Shake(view.root, m.bigShakePixels, 0.35f);
         }
 

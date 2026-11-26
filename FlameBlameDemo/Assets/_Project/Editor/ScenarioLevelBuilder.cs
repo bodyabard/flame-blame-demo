@@ -179,7 +179,7 @@ namespace FlameBlame.EditorTools
             foreach(var label in Object.FindObjectsByType<TMP_Text>(FindObjectsInactive.Include,FindObjectsSortMode.None))
                 if(label.name=="Objective" || label.name=="Hose interaction" || label.name=="Objective marker") Object.DestroyImmediate(label.gameObject);
             scenario.objective=Label(canvas.transform,"Objective",new Vector2(25,-180),new Vector2(500,100),26);
-            var panelAsset=AssetDatabase.LoadAssetAtPath<GameObject>(Root+"Prefabs/UI/UIPanel.prefab");
+            var panelAsset=AssetDatabase.LoadAssetAtPath<GameObject>(Root+"Prefabs/UI/UIMetalPlateSmall.prefab");
             var objectivePanel=(GameObject)PrefabUtility.InstantiatePrefab(panelAsset,canvas.transform);
             objectivePanel.name="Scenario objective panel";
             objectivePanel.transform.SetAsFirstSibling();

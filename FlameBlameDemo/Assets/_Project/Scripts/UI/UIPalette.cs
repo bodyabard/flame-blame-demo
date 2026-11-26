@@ -13,6 +13,13 @@ namespace FlameBlame.UI
         public Color water = new Color32(0x6E, 0xC8, 0xFF, 0xFF);
         public Color jet = new Color32(0xFF, 0xAA, 0x3C, 0xFF);
         public Color shock = new Color32(0xFF, 0xE0, 0x3C, 0xFF);
+        [Header("Metal skin (phase 16)")]
+        public Color metalTint = new Color32(0xC4, 0xBC, 0xB2, 0xFF);
+        public Color keycapTint = new Color32(0xEC, 0xE6, 0xDC, 0xFF);
+        public Color shutterTint = new Color32(0x96, 0x96, 0x9B, 0xFF);
+        public Color keyText = new Color32(0x2B, 0x14, 0x10, 0xFF);
+
+        [Header("Signals")]
         public Color danger = new Color32(0xFF, 0x3B, 0x2F, 0xFF);
 
         /// Low pressure is red, mid is amber, healthy pressure is water blue.
